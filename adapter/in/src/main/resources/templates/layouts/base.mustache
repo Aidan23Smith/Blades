@@ -1,0 +1,24 @@
+{{#page}}
+  <!DOCTYPE HTML>
+
+  {{$head}}{{>partials/_header}}{{/head}}
+
+  <body>
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        {{#backUrl}}{{<partials/_back}}{{$backUrl}}{{backUrl}}{{/backUrl}}{{/partials/_back}}{{/backUrl}}
+      </div>
+    </div>
+    <main class="govuk-main-wrapper--l main-content">
+      {{$title}}
+        <h1 class="govuk-heading-l">
+          {{#i18n}}{{groupStem}}.title{{/i18n}}
+        </h1>
+      {{/title}}
+      {{$page}}{{/page}}
+    </main>
+  </div>
+  {{$footer}}{{>partials/_footer}}{{/footer}}
+  </body>
+{{/page}}

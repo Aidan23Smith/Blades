@@ -1,0 +1,24 @@
+version: "3.1"
+
+services:
+  blades-db:
+    image: mongo:5.0
+    restart: no
+    ports:
+      - "127.0.0.1:27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: bladesDB
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+
+  blades-complete:
+    container_name: application
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - blades-db
+    environment:
+      - SPRING_DATA_MONGODB_HOST=bladesDB
+    ports:
+      - "8080:8080"

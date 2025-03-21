@@ -1,0 +1,104 @@
+{{<layouts/base}}
+  {{$page}}
+    {{#characters}}
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">
+            {{name}}
+          </h2>
+          <ul class="govuk-summary-card__actions">
+            <li class="govuk-summary-card__action">
+              <a class="govuk-link" href="/delete/{{owningUserId}}/{{id}}">
+                {{#i18n}}delete{{/i18n}}<span class="govuk-visually-hidden"> {{name}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            {{<partials/_part-row}}
+              {{$part}}name{{/part}}
+              {{$enumPart}}NAME{{/enumPart}}
+              {{$setValue}}{{name}}{{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}alias{{/part}}
+              {{$enumPart}}ALIAS{{/enumPart}}
+              {{$setValue}}
+                {{#alias}}{{alias}}{{/alias}}
+                {{^alias}}{{#i18n}}{{groupStem}}.alias.none{{/i18n}}{{/alias}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}type{{/part}}
+              {{$enumPart}}TYPE{{/enumPart}}
+              {{$setValue}}
+                {{#type}}{{#i18n}}{{groupStem}}.type.{{type}}{{/i18n}}{{/type}}
+                {{^type}}{{#i18n}}{{groupStem}}.alias.none{{/i18n}}{{/type}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}crewName{{/part}}
+              {{$enumPart}}CREW_NAME{{/enumPart}}
+              {{$setValue}}
+                {{#crewName}}{{crewName}}{{/crewName}}
+                {{^crewName}}{{#i18n}}{{groupStem}}.crewName.none{{/i18n}}{{/crewName}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}look{{/part}}
+              {{$enumPart}}LOOK{{/enumPart}}
+              {{$setValue}}
+                {{#look}}{{look}}{{/look}}
+                {{^look}}{{#i18n}}{{groupStem}}.look.none{{/i18n}}{{/look}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}heritage{{/part}}
+              {{$enumPart}}HERITAGE{{/enumPart}}
+              {{$setValue}}
+                {{#heritage}}{{#i18n}}{{groupStem}}.heritage.{{heritage}}{{/i18n}}{{/heritage}}
+                {{^heritage}}{{#i18n}}{{groupStem}}.heritage.none{{/i18n}}{{/heritage}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}background{{/part}}
+              {{$enumPart}}BACKGROUND{{/enumPart}}
+              {{$setValue}}
+                {{#background}}{{#i18n}}{{groupStem}}.background.{{background}}{{/i18n}}{{/background}}
+                {{^background}}{{#i18n}}{{groupStem}}.look.none{{/i18n}}{{/background}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}backgroundDetails{{/part}}
+              {{$enumPart}}BACKGROUND_DETAILS{{/enumPart}}
+              {{$setValue}}
+                {{#backgroundDetails}}{{backgroundDetails}}{{/backgroundDetails}}
+                {{^backgroundDetails}}{{#i18n}}{{groupStem}}.backgroundDetails.none{{/i18n}}{{/backgroundDetails}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}vice{{/part}}
+              {{$enumPart}}VICE{{/enumPart}}
+              {{$setValue}}
+                {{#vice}}{{#i18n}}{{groupStem}}.vice.{{vice}}{{/i18n}}{{/vice}}
+                {{^vice}}{{#i18n}}{{groupStem}}.vice.none{{/i18n}}{{/vice}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$part}}viceDetails{{/part}}
+              {{$enumPart}}VICE_DETAILS{{/enumPart}}
+              {{$setValue}}
+                {{#viceDetails}}{{viceDetails}}{{/viceDetails}}
+                {{^viceDetails}}{{#i18n}}{{groupStem}}.viceDetails.none{{/i18n}}{{/viceDetails}}
+              {{/setValue}}
+            {{/partials/_part-row}}
+          </dl>
+        </div>
+      </div>
+    {{/characters}}
+    <a href=/create-character draggable="false" role="button" class="govuk-button govuk-button--start button-padding" data-module="govuk-button">
+      {{#i18n}}{{groupStem}}.create{{/i18n}}
+    </a>
+  {{/page}}
+{{/layouts/base}}

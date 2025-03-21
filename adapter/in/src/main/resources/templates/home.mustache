@@ -1,0 +1,12 @@
+{{<layouts/base}}
+  {{$page}}
+    <div class="govuk-button-group">
+      <a href="/login" type="submit" class="govuk-button" data-module="govuk-button">
+        {{#i18n}}{{groupStem}}.login{{/i18n}}
+      </a>
+      <a href="/signup" type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        {{#i18n}}{{groupStem}}.signup{{/i18n}}
+      </a>
+    </div>
+  {{/page}}
+{{/layouts/base}}

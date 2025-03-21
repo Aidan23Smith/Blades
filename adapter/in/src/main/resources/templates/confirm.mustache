@@ -1,0 +1,16 @@
+{{<layouts/base}}
+  {{$page}}
+    {{#characterResponse}}
+      <h1 class="govuk-heading-l">Are you sure you want to delete {{name}}?</h1>
+      <form action="/delete/{{owningUserId}}/{{id}}" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <br/>
+        <div class="form-group">
+          <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">
+            Confirm
+          </button>
+        </div>
+      </form>
+    {{/characterResponse}}
+  {{/page}}
+{{/layouts/base}}

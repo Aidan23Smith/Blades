@@ -1,0 +1,18 @@
+package com.blades.converter;
+
+import com.blades.data.CharacterDto;
+import com.blades.model.requests.CreateCharacterRequest;
+
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+public class RequestCharacterConverter {
+
+    public CreateCharacterRequest toCharacterRequest(CharacterDto character, UUID owningUserId) {
+        return new CreateCharacterRequest(owningUserId,
+                                          character.name());
+    }
+
+}

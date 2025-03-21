@@ -1,0 +1,27 @@
+{{<layouts/base}}
+  {{$title}}
+    {{^hasOneQuestion}}
+      <h1 class="govuk-heading-l">
+        {{#i18n}}{{groupStem}}.title '{{#titleArgs}}{{#i18n}}{{.}}{{/i18n}} {{/titleArgs}}'{{/i18n}}
+      </h1>
+    {{/hasOneQuestion}}
+  {{/title}}
+  {{$page}}
+    <form action="{{action}}" method="post" content="application/java">
+      {{#hasQuestions}}
+        <div class="form-group">
+          {{#questions}}
+            {{>partials/_question}}
+          {{/questions}}
+        </div>
+      {{/hasQuestions}}
+      <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+      <br/>
+      <div class="form-group">
+        <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">
+          {{#i18n}}{{#button}}{{.}}{{/button}}{{^button}}submit{{/button}}{{/i18n}}
+        </button>
+      </div>
+    </form>
+  {{/page}}
+{{/layouts/base}}
