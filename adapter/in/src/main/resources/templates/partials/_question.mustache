@@ -8,20 +8,22 @@
     <input class="govuk-input govuk-input--width-20" id="{{questionId}}" name="{{questionId}}" type="{{#type}}{{.}}{{/type}}{{^type}}text{{/type}}">
   {{/isInput}}
   {{#isRadioButton}}
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-      <{{#hasOneQuestion}}h1{{/hasOneQuestion}}{{^hasOneQuestion}}h2{{/hasOneQuestion}} class="govuk-fieldset__heading">
-        {{#i18n}}{{groupStem}}.{{questionId}}.question '{{#questionArgs}}{{#i18n}}{{.}}{{/i18n}} {{/questionArgs}}'{{/i18n}}
-      </{{#hasOneQuestion}}h1{{/hasOneQuestion}}{{^hasOneQuestion}}h2{{/hasOneQuestion}}>
-    </legend>
-    <div class="govuk-radios" data-module="govuk-radios">
-      {{#values}}
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="{{questionId}}" name="{{questionId}}" type="radio" value={{name}}>
-          <label class="govuk-label govuk-radios__label" for="{{questionId}}">
-            {{#i18n}}{{groupStem}}.{{name}}{{/i18n}}
-          </label>
-        </div>
-      {{/values}}
-    </div>
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <{{#hasOneQuestion}}h1{{/hasOneQuestion}}{{^hasOneQuestion}}h2{{/hasOneQuestion}} class="govuk-fieldset__heading">
+          {{#i18n}}{{groupStem}}.{{questionId}}.question '{{#questionArgs}}{{#i18n}}{{.}}{{/i18n}} {{/questionArgs}}'{{/i18n}}
+        </{{#hasOneQuestion}}h1{{/hasOneQuestion}}{{^hasOneQuestion}}h2{{/hasOneQuestion}}>
+      </legend>
+      <div class="govuk-radios" data-module="govuk-radios">
+        {{#values}}
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="{{questionId}}-{{name}}" name="{{questionId}}" type="radio" value={{name}}>
+            <label class="govuk-label govuk-radios__label" for="{{questionId}}-{{name}}">
+              {{#i18n}}{{name}}{{/i18n}}
+            </label>
+          </div>
+        {{/values}}
+      </div>
+    </fieldset>
   {{/isRadioButton}}
 </div>

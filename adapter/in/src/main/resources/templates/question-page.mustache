@@ -9,7 +9,7 @@
   {{$page}}
     <form action="{{action}}" method="post" content="application/java">
       {{#hasQuestions}}
-        <div class="form-group">
+        <div class="govuk-form-group">
           {{#questions}}
             {{>partials/_question}}
           {{/questions}}
@@ -17,11 +17,9 @@
       {{/hasQuestions}}
       <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
       <br/>
-      <div class="form-group">
-        <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">
-          {{#i18n}}{{#button}}{{.}}{{/button}}{{^button}}submit{{/button}}{{/i18n}}
-        </button>
-      </div>
+      <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">
+        {{#i18n}}{{#button}}{{.}}{{/button}}{{^button}}submit{{/button}}{{/i18n}}
+      </button>
     </form>
   {{/page}}
 {{/layouts/base}}

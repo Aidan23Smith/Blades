@@ -2,6 +2,12 @@ package com.blades.data;
 
 public enum CharacterTypeDto {
 
-    LURK
+    CUTTER,
+    HOUND,
+    LEECH,
+    LURK,
+    SLIDE,
+    SPIDER,
+    WHISPER
 
 }

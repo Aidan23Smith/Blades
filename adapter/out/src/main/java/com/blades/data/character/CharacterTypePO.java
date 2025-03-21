@@ -1,5 +1,11 @@
 package com.blades.data.character;
 
 public enum CharacterTypePO {
-    LURK
+    CUTTER,
+    HOUND,
+    LEECH,
+    LURK,
+    SLIDE,
+    SPIDER,
+    WHISPER
 }

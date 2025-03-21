@@ -33,8 +33,8 @@
               {{$part}}type{{/part}}
               {{$enumPart}}TYPE{{/enumPart}}
               {{$setValue}}
-                {{#type}}{{#i18n}}{{groupStem}}.type.{{type}}{{/i18n}}{{/type}}
-                {{^type}}{{#i18n}}{{groupStem}}.alias.none{{/i18n}}{{/type}}
+                {{#type}}{{#i18n}}{{type}}{{/i18n}}{{/type}}
+                {{^type}}{{#i18n}}{{groupStem}}.type.none{{/i18n}}{{/type}}
               {{/setValue}}
             {{/partials/_part-row}}
             {{<partials/_part-row}}
@@ -57,7 +57,7 @@
               {{$part}}heritage{{/part}}
               {{$enumPart}}HERITAGE{{/enumPart}}
               {{$setValue}}
-                {{#heritage}}{{#i18n}}{{groupStem}}.heritage.{{heritage}}{{/i18n}}{{/heritage}}
+                {{#heritage}}{{#i18n}}{{heritage}}{{/i18n}}{{/heritage}}
                 {{^heritage}}{{#i18n}}{{groupStem}}.heritage.none{{/i18n}}{{/heritage}}
               {{/setValue}}
             {{/partials/_part-row}}
@@ -65,7 +65,7 @@
               {{$part}}background{{/part}}
               {{$enumPart}}BACKGROUND{{/enumPart}}
               {{$setValue}}
-                {{#background}}{{#i18n}}{{groupStem}}.background.{{background}}{{/i18n}}{{/background}}
+                {{#background}}{{#i18n}}{{background}}{{/i18n}}{{/background}}
                 {{^background}}{{#i18n}}{{groupStem}}.look.none{{/i18n}}{{/background}}
               {{/setValue}}
             {{/partials/_part-row}}
@@ -81,7 +81,7 @@
               {{$part}}vice{{/part}}
               {{$enumPart}}VICE{{/enumPart}}
               {{$setValue}}
-                {{#vice}}{{#i18n}}{{groupStem}}.vice.{{vice}}{{/i18n}}{{/vice}}
+                {{#vice}}{{#i18n}}{{vice}}{{/i18n}}{{/vice}}
                 {{^vice}}{{#i18n}}{{groupStem}}.vice.none{{/i18n}}{{/vice}}
               {{/setValue}}
             {{/partials/_part-row}}
