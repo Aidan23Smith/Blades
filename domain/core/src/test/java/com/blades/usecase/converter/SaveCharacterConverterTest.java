@@ -34,18 +34,6 @@ class SaveCharacterConverterTest {
     private static final String CHARACTER_BACKGROUND_DETAILS = "Character Background Details";
     private static final String CHARACTER_VICE_STRING = "OBLIGATION";
     private static final String CHARACTER_VICE_DETAILS = "Character Service Details";
-    private static final SaveCharacterRequest EXPECTED_SAVE_CHARACTER_REQUEST = new SaveCharacterRequest(CHARACTER_ID,
-                                                                                                         OWNING_USER_ID,
-                                                                                                         CHARACTER_NAME,
-                                                                                                         CHARACTER_ALIAS,
-                                                                                                         CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                                                                         CREW_NAME,
-                                                                                                         CHARACTER_LOOK,
-                                                                                                         CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                                                                         CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                                                                         CHARACTER_BACKGROUND_DETAILS,
-                                                                                                         CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                                                                         CHARACTER_VICE_DETAILS);
 
 
     private final SaveCharacterConverter converter = new SaveCharacterConverter();
@@ -65,9 +53,22 @@ class SaveCharacterConverterTest {
                                                                     CharacterViceResponse.valueOf(CHARACTER_VICE_STRING),
                                                                     CHARACTER_VICE_DETAILS);
 
+        SaveCharacterRequest expected = new SaveCharacterRequest(CHARACTER_ID,
+                                                                 OWNING_USER_ID,
+                                                                 CHARACTER_NAME,
+                                                                 CHARACTER_ALIAS,
+                                                                 CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
+                                                                 CREW_NAME,
+                                                                 CHARACTER_LOOK,
+                                                                 CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
+                                                                 CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
+                                                                 CHARACTER_BACKGROUND_DETAILS,
+                                                                 CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
+                                                                 CHARACTER_VICE_DETAILS);
+
         SaveCharacterRequest actual = converter.toSaveCharacterRequest(characterResponse);
 
-        assertEquals(EXPECTED_SAVE_CHARACTER_REQUEST, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -75,10 +76,16 @@ class SaveCharacterConverterTest {
         CreateCharacterRequest createCharacterRequest = new CreateCharacterRequest(OWNING_USER_ID,
                                                                                    CHARACTER_NAME);
 
+        SaveCharacterRequest expected = SaveCharacterRequest.builder()
+            .id(CHARACTER_ID)
+            .owningUserId(OWNING_USER_ID)
+            .name(CHARACTER_NAME)
+            .build();
+
         try (MockedStatic<UUID> uuid = Mockito.mockStatic(UUID.class)) {
             uuid.when(UUID::randomUUID).thenReturn(CHARACTER_ID);
             SaveCharacterRequest actual = converter.toSaveCharacterRequest(createCharacterRequest);
-            assertEquals(EXPECTED_SAVE_CHARACTER_REQUEST, actual);
+            assertEquals(expected, actual);
         }
     }
 }

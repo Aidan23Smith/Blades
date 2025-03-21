@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.blades.frontend</groupId>
+    <groupId>com.blades</groupId>
     <artifactId>blades</artifactId>
     <version>${revision}</version>
   </parent>
@@ -71,22 +71,22 @@
     </dependency>
 
     <dependency>
-      <groupId>com.blades.frontend</groupId>
+      <groupId>com.blades</groupId>
       <artifactId>core</artifactId>
       <version>${revision}</version>
     </dependency>
     <dependency>
-      <groupId>com.blades.frontend</groupId>
+      <groupId>com.blades</groupId>
       <artifactId>out</artifactId>
       <version>${revision}</version>
     </dependency>
     <dependency>
-      <groupId>com.blades.frontend</groupId>
+      <groupId>com.blades</groupId>
       <artifactId>api</artifactId>
       <version>${revision}</version>
     </dependency>
     <dependency>
-      <groupId>com.blades.frontend</groupId>
+      <groupId>com.blades</groupId>
       <artifactId>in</artifactId>
       <version>${revision}</version>
     </dependency>

@@ -18,7 +18,7 @@ public class LoginConverter {
 
     public CustomUser toUser(UserPO user) {
         return new CustomUser(User
-                                  .withDefaultPasswordEncoder()
+                                  .withDefaultPasswordEncoder() //todo create new encoder
                                   .username(user.getUsername())
                                   .password(user.getPassword())
                                   .roles("USER")
