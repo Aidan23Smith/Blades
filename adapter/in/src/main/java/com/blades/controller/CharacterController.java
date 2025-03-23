@@ -108,21 +108,23 @@ public class CharacterController {
                                       CsrfToken token) {
         CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
         previousAnswer = (previousAnswer == null) ? getPreviousAnswer(changePart, characterResponse) : previousAnswer;
-        Question question = switch (changePart) {
-            case NAME, ALIAS, CREW_NAME, LOOK, BACKGROUND_DETAILS, VICE_DETAILS -> Input.builder()
-                .questionId("changeElement")
-                .questionArg(characterResponse.name())
-                .questionArg("character.change." + changePart)
-                .previousAnswer(previousAnswer)
-                .errorProperty(errorProperty)
-                .build();
-            case TYPE -> toChangeRadioButton(changePart, characterResponse, previousAnswer, CharacterTypeDto.values(), errorProperty);
-            case HERITAGE -> toChangeRadioButton(changePart, characterResponse, previousAnswer, CharacterHeritageDto.values(), errorProperty);
-            case BACKGROUND -> toChangeRadioButton(changePart, characterResponse, previousAnswer, CharacterBackgroundDto.values(), errorProperty);
-            case VICE -> toChangeRadioButton(changePart, characterResponse, previousAnswer, CharacterViceDto.values(), errorProperty);
+
+        Question.QuestionBuilder builder = switch (changePart) {
+            case NAME, ALIAS, CREW_NAME, LOOK, BACKGROUND_DETAILS, VICE_DETAILS -> Input.builder();
+            case TYPE -> RadioButton.<CharacterTypeDto>builder().values(CharacterTypeDto.values());
+            case HERITAGE -> RadioButton.<CharacterHeritageDto>builder().values(CharacterHeritageDto.values());
+            case BACKGROUND -> RadioButton.<CharacterBackgroundDto>builder().values(CharacterBackgroundDto.values());
+            case VICE -> RadioButton.<CharacterViceDto>builder().values(CharacterViceDto.values());
         };
+
+        builder.questionId("changeElement")
+            .questionArg(characterResponse.name())
+            .questionArg("character.change." + changePart)
+            .previousAnswer(previousAnswer)
+            .errorProperty(errorProperty)
+            .build();
         return pageService.createPage(QuestionPage.builder("character.change")
-                                          .question(question)
+                                          .question(builder.build())
                                           .action("/change/" + changePart + "/" + userId + "/" + id)
                                           .backUrl("/show-characters")
                                           .csrfToken(token.getToken())
@@ -133,7 +135,7 @@ public class CharacterController {
     public ModelAndView editAndRedirect(@PathVariable CharacterPartDto changePart,
                                         @PathVariable UUID userId,
                                         @PathVariable UUID id,
-                                        @RequestParam String changeElement, //todo make accept no changeElement
+                                        @RequestParam(required = false) String changeElement,
                                         HttpServletResponse response,
                                         CsrfToken token) throws IOException {
         if ((changeElement == null) || changeElement.isEmpty()) {
@@ -166,21 +168,6 @@ public class CharacterController {
             case VICE -> characterResponse.vice().map(Enum::name).orElse(null);
             case VICE_DETAILS -> characterResponse.viceDetails().orElse(null);
         };
-    }
-
-    private <T extends Enum<T>> RadioButton<T> toChangeRadioButton(CharacterPartDto changePart,
-                                                                   CharacterResponse characterResponse,
-                                                                   String previousAnswer,
-                                                                   T[] values,
-                                                                   String errorProperty) {
-        return RadioButton.<T>builder()
-            .questionId("changeElement")
-            .values(values)
-            .questionArg(characterResponse.name())
-            .questionArg("character.change." + changePart)
-            .previousAnswer(previousAnswer)
-            .errorProperty(errorProperty)
-            .build();
     }
 
 }
