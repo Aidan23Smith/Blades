@@ -1,5 +1,6 @@
 package com.blades.frontend.page.question;
 
+import com.blades.data.common.Navigation;
 import com.blades.frontend.page.common.Page;
 
 import org.springframework.util.ObjectUtils;
@@ -37,9 +38,11 @@ public class QuestionPage extends Page {
             .toList();
     }
 
-    public static QuestionPageBuilder<?, ?> builder(String groupStem) {
+    public static QuestionPageBuilder<?, ?> builder(String groupStem,
+                                                    Navigation currentPage) {
         return requiredBuilder()
             .templateName("question-page")
+            .currentPage(currentPage)
             .groupStem(groupStem);
     }
 

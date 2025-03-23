@@ -39,6 +39,8 @@ import java.util.UUID;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
+import static com.blades.data.common.Navigation.CHARACTERS;
+
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
@@ -51,7 +53,7 @@ public class CharacterController {
 
     @GetMapping("/create-character")
     public ModelAndView getCreateCharacterPage(CsrfToken token) {
-        return pageService.createPage(QuestionPage.builder("character.create")
+        return pageService.createPage(QuestionPage.builder("character.create", CHARACTERS)
                                           .questions(List.of(
                                               Input.builder().questionId("name").build()
                                           ))
@@ -83,7 +85,7 @@ public class CharacterController {
                                       @PathVariable UUID id,
                                       CsrfToken token) {
         CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
-        return pageService.createPage(QuestionPage.builder("character.delete")
+        return pageService.createPage(QuestionPage.builder("character.delete", CHARACTERS)
                                           .titleArgs(List.of(characterResponse.name()))
                                           .backUrl("/show-characters")
                                           .action("/delete/" + userId + "/" + id)
@@ -123,7 +125,7 @@ public class CharacterController {
             .previousAnswer(previousAnswer)
             .errorProperty(errorProperty)
             .build();
-        return pageService.createPage(QuestionPage.builder("character.change")
+        return pageService.createPage(QuestionPage.builder("character.change", CHARACTERS)
                                           .question(builder.build())
                                           .action("/change/" + changePart + "/" + userId + "/" + id)
                                           .backUrl("/show-characters")

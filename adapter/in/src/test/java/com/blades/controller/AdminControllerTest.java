@@ -26,7 +26,7 @@ class AdminControllerTest {
 
     @Test
     void admin() {
-        Page expected = Page.builder("admin", "admin").build();
+        Page expected = Page.builder("admin", "admin", null).build();
         when(pageService.createPage(expected)).thenReturn(modelAndView);
 
         assertEquals(underTest.admin(), modelAndView);

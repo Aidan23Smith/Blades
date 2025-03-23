@@ -17,7 +17,7 @@ public class AdminController {
 
     @GetMapping("/admin")
     public ModelAndView admin() {
-        return pageService.createPage(Page.builder("admin", "admin").build());
+        return pageService.createPage(Page.builder("admin", "admin", null).build());
     }
 
 }

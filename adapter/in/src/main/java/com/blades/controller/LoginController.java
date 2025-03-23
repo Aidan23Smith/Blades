@@ -32,13 +32,13 @@ public class LoginController {
 
     @GetMapping("/")
     public ModelAndView getHomePage() {
-        return pageService.createPage(Page.builder("home", "home")
+        return pageService.createPage(Page.builder("home", "home", null)
                                           .build());
     }
 
     @GetMapping("/login")
     public ModelAndView getLoginPage(CsrfToken token) {
-        return pageService.createPage(QuestionPage.builder("login")
+        return pageService.createPage(QuestionPage.builder("login", null)
                                           .question(Input.builder().questionId("username").build())
                                           .question(Input.builder().questionId("password").type("password").build())
                                           .action("/login")
@@ -48,7 +48,7 @@ public class LoginController {
 
     @GetMapping("/signup")
     public ModelAndView getSignupPage(CsrfToken token) {
-        return pageService.createPage(QuestionPage.builder("signup")
+        return pageService.createPage(QuestionPage.builder("signup", null)
                                           .question(Input.builder().questionId("username").build())
                                           .question(Input.builder().questionId("password").type("password").build())
                                           .groupStem("signup")

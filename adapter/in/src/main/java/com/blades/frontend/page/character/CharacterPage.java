@@ -1,6 +1,7 @@
 package com.blades.frontend.page.character;
 
 import com.blades.data.character.CharacterDto;
+import com.blades.data.common.Navigation;
 import com.blades.frontend.page.common.Page;
 
 import java.util.List;
@@ -15,7 +16,10 @@ public class CharacterPage extends Page {
     private final List<CharacterDto> characters;
 
     public static CharacterPageBuilder<?, ?> builder() {
-        return requiredBuilder().templateName("show-characters").groupStem("character");
+        return requiredBuilder()
+            .templateName("show-characters")
+            .groupStem("character")
+            .currentPage(Navigation.CHARACTERS);
     }
 
 }

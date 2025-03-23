@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.UUID;
 
+import static com.blades.data.common.Navigation.CHARACTERS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -58,7 +59,7 @@ class CharacterControllerTest {
 
     @Test
     void getCreateCharacterPage() {
-        Page expected = QuestionPage.builder("character.create")
+        Page expected = QuestionPage.builder("character.create", CHARACTERS)
             .questions(List.of(
                 Input.builder().questionId("name").build()
             ))
