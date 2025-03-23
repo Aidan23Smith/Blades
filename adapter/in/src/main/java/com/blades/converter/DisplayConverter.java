@@ -1,10 +1,10 @@
 package com.blades.converter;
 
-import com.blades.data.CharacterBackgroundDto;
-import com.blades.data.CharacterDto;
-import com.blades.data.CharacterHeritageDto;
-import com.blades.data.CharacterTypeDto;
-import com.blades.data.CharacterViceDto;
+import com.blades.data.character.CharacterBackgroundDto;
+import com.blades.data.character.CharacterDto;
+import com.blades.data.character.CharacterHeritageDto;
+import com.blades.data.character.CharacterTypeDto;
+import com.blades.data.character.CharacterViceDto;
 import com.blades.model.response.CharacterResponse;
 
 import org.springframework.stereotype.Service;

@@ -19,17 +19,22 @@ public class QuestionPage extends Page {
     private final String button;
     private final String csrfToken;
 
-    @Override
-    public String getTemplateName() {
-        return "question-page";
-    }
-
     public boolean hasOneQuestion() {
         return hasQuestions() && (questions.size() == 1);
     }
 
     public boolean hasQuestions() {
         return !ObjectUtils.isEmpty(questions);
+    }
+
+    public boolean hasErrors() {
+        return !questionsWithErrors().isEmpty();
+    }
+
+    public List<Question> questionsWithErrors() {
+        return questions.stream()
+            .filter(Question::hasError)
+            .toList();
     }
 
     public static QuestionPageBuilder<?, ?> builder(String groupStem) {

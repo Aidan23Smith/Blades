@@ -2,7 +2,7 @@ package com.blades.controller;
 
 import com.blades.converter.DisplayConverter;
 import com.blades.converter.RequestCharacterConverter;
-import com.blades.data.CharacterDto;
+import com.blades.data.character.CharacterDto;
 import com.blades.frontend.page.character.CharacterPage;
 import com.blades.frontend.page.common.Page;
 import com.blades.frontend.page.question.Input;

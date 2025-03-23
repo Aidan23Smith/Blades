@@ -1,4 +1,4 @@
-package com.blades.data;
+package com.blades.data.character;
 
 public enum CharacterHeritageDto {
     AKROS,

@@ -2,24 +2,24 @@ package com.blades.controller;
 
 import com.blades.converter.DisplayConverter;
 import com.blades.converter.RequestCharacterConverter;
-import com.blades.data.CharacterBackgroundDto;
-import com.blades.data.CharacterDto;
-import com.blades.data.CharacterHeritageDto;
-import com.blades.data.CharacterPartDto;
-import com.blades.data.CharacterTypeDto;
-import com.blades.data.CharacterViceDto;
-import com.blades.model.response.CharacterResponse;
-import com.blades.model.requests.CreateCharacterRequest;
-import com.blades.model.CustomUser;
+import com.blades.data.character.CharacterBackgroundDto;
+import com.blades.data.character.CharacterDto;
+import com.blades.data.character.CharacterHeritageDto;
+import com.blades.data.character.CharacterPartDto;
+import com.blades.data.character.CharacterTypeDto;
+import com.blades.data.character.CharacterViceDto;
 import com.blades.frontend.page.character.CharacterPage;
 import com.blades.frontend.page.question.Input;
 import com.blades.frontend.page.question.Question;
 import com.blades.frontend.page.question.QuestionPage;
 import com.blades.frontend.page.question.RadioButton;
-import com.blades.model.requests.CharacterPartRequest;
-import com.blades.model.requests.UpdateCharacterRequest;
-import com.blades.port.in.CharacterInService;
 import com.blades.frontend.service.PageService;
+import com.blades.model.CustomUser;
+import com.blades.model.requests.CharacterPartRequest;
+import com.blades.model.requests.CreateCharacterRequest;
+import com.blades.model.requests.UpdateCharacterRequest;
+import com.blades.model.response.CharacterResponse;
+import com.blades.port.in.CharacterInService;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -52,12 +52,12 @@ public class CharacterController {
     @GetMapping("/create-character")
     public ModelAndView getCreateCharacterPage(CsrfToken token) {
         return pageService.createPage(QuestionPage.builder("character.create")
-                                       .questions(List.of(
-                                           Input.builder().questionId("name").build()
-                                       ))
-                                       .action("/create-character")
-                                       .backUrl("/show-character")
-                                       .csrfToken(token.getToken()).build());
+                                          .questions(List.of(
+                                              Input.builder().questionId("name").build()
+                                          ))
+                                          .action("/create-character")
+                                          .backUrl("/show-character")
+                                          .csrfToken(token.getToken()).build());
     }
 
     @PostMapping("/create-character")
@@ -74,8 +74,8 @@ public class CharacterController {
     public ModelAndView showCharacter(Authentication authentication) {
         List<CharacterResponse> characterResponses = characterInService.getCharacters(((CustomUser) authentication.getPrincipal()).getUserID());
         return pageService.createPage(CharacterPage.builder()
-                                       .characters(displayConverter.toCharacterDtos(characterResponses))
-                                       .build());
+                                          .characters(displayConverter.toCharacterDtos(characterResponses))
+                                          .build());
     }
 
     @GetMapping("/delete/{userId}/{id}")
@@ -84,11 +84,11 @@ public class CharacterController {
                                       CsrfToken token) {
         CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
         return pageService.createPage(QuestionPage.builder("character.delete")
-                                       .titleArgs(List.of(characterResponse.name()))
-                                       .backUrl("/show-characters")
-                                       .action("/delete/" + userId + "/" + id)
-                                       .csrfToken(token.getToken())
-                                       .build());
+                                          .titleArgs(List.of(characterResponse.name()))
+                                          .backUrl("/show-characters")
+                                          .action("/delete/" + userId + "/" + id)
+                                          .csrfToken(token.getToken())
+                                          .build());
     }
 
     @PostMapping("/delete/{userId}/{id}")
@@ -103,63 +103,84 @@ public class CharacterController {
     public ModelAndView changeDetails(@PathVariable CharacterPartDto changePart,
                                       @PathVariable UUID userId,
                                       @PathVariable UUID id,
+                                      String previousAnswer,
+                                      String errorProperty,
                                       CsrfToken token) {
         CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
+        previousAnswer = (previousAnswer == null) ? getPreviousAnswer(changePart, characterResponse) : previousAnswer;
         Question question = switch (changePart) {
-            case NAME, ALIAS, CREW_NAME, LOOK, BACKGROUND_DETAILS, VICE_DETAILS ->
-                Input.builder()
+            case NAME, ALIAS, CREW_NAME, LOOK, BACKGROUND_DETAILS, VICE_DETAILS -> Input.builder()
                 .questionId("changeElement")
-                .questionArg("character.change." + changePart)
                 .questionArg(characterResponse.name())
-                .build();
-            case TYPE ->
-                RadioButton.<CharacterTypeDto>builder()
-                .questionId("changeElement")
-                .values(CharacterTypeDto.values())
                 .questionArg("character.change." + changePart)
-                .questionArg(characterResponse.name())
+                .previousAnswer(previousAnswer)
+                .errorProperty(errorProperty)
                 .build();
-            case HERITAGE ->
-                RadioButton.<CharacterHeritageDto>builder()
-                    .questionId("changeElement")
-                    .values(CharacterHeritageDto.values())
-                    .questionArg("character.change." + changePart)
-                    .questionArg(characterResponse.name())
-                    .build();
-            case BACKGROUND ->
-                RadioButton.<CharacterBackgroundDto>builder()
-                    .questionId("changeElement")
-                    .values(CharacterBackgroundDto.values())
-                    .questionArg("character.change." + changePart)
-                    .questionArg(characterResponse.name())
-                    .build();
-            case VICE ->
-                RadioButton.<CharacterViceDto>builder()
-                    .questionId("changeElement")
-                    .values(CharacterViceDto.values())
-                    .questionArg("character.change." + changePart)
-                    .questionArg(characterResponse.name())
-                    .build();
+            case TYPE -> toChangeRadioButton(changePart, characterResponse, previousAnswer, CharacterTypeDto.values(), errorProperty);
+            case HERITAGE -> toChangeRadioButton(changePart, characterResponse, previousAnswer, CharacterHeritageDto.values(), errorProperty);
+            case BACKGROUND -> toChangeRadioButton(changePart, characterResponse, previousAnswer, CharacterBackgroundDto.values(), errorProperty);
+            case VICE -> toChangeRadioButton(changePart, characterResponse, previousAnswer, CharacterViceDto.values(), errorProperty);
         };
         return pageService.createPage(QuestionPage.builder("character.change")
-                                       .question(question)
-                                       .action("/change/" + changePart + "/" + userId + "/" + id)
-                                       .backUrl("/show-characters")
-                                       .csrfToken(token.getToken())
-                                       .build());
+                                          .question(question)
+                                          .action("/change/" + changePart + "/" + userId + "/" + id)
+                                          .backUrl("/show-characters")
+                                          .csrfToken(token.getToken())
+                                          .build());
     }
 
     @PostMapping("/change/{changePart}/{userId}/{id}")
-    public void editAndRedirect(@PathVariable CharacterPartDto changePart,
-                                @PathVariable UUID userId,
-                                @PathVariable UUID id,
-                                @RequestParam String changeElement,
-                                HttpServletResponse response) throws IOException {
+    public ModelAndView editAndRedirect(@PathVariable CharacterPartDto changePart,
+                                        @PathVariable UUID userId,
+                                        @PathVariable UUID id,
+                                        @RequestParam String changeElement, //todo make accept no changeElement
+                                        HttpServletResponse response,
+                                        CsrfToken token) throws IOException {
+        if ((changeElement == null) || changeElement.isEmpty()) {
+            return changeDetails(changePart,
+                                 userId,
+                                 id,
+                                 "",
+                                 "no.value." + changePart,
+                                 token);
+        }
+
         characterInService.updateCharacter(new UpdateCharacterRequest(userId,
                                                                       id,
                                                                       CharacterPartRequest.valueOf(changePart.name()),
                                                                       changeElement));
         response.sendRedirect("/show-characters");
+        return null;
+    }
+
+    private String getPreviousAnswer(CharacterPartDto changePart, CharacterResponse characterResponse) {
+        return switch (changePart) {
+            case NAME -> characterResponse.name();
+            case ALIAS -> characterResponse.alias().orElse(null);
+            case TYPE -> characterResponse.type().map(Enum::name).orElse(null);
+            case CREW_NAME -> characterResponse.crewName().orElse(null);
+            case LOOK -> characterResponse.look().orElse(null);
+            case HERITAGE -> characterResponse.heritage().map(Enum::name).orElse(null);
+            case BACKGROUND -> characterResponse.background().map(Enum::name).orElse(null);
+            case BACKGROUND_DETAILS -> characterResponse.backgroundDetails().orElse(null);
+            case VICE -> characterResponse.vice().map(Enum::name).orElse(null);
+            case VICE_DETAILS -> characterResponse.viceDetails().orElse(null);
+        };
+    }
+
+    private <T extends Enum<T>> RadioButton<T> toChangeRadioButton(CharacterPartDto changePart,
+                                                                   CharacterResponse characterResponse,
+                                                                   String previousAnswer,
+                                                                   T[] values,
+                                                                   String errorProperty) {
+        return RadioButton.<T>builder()
+            .questionId("changeElement")
+            .values(values)
+            .questionArg(characterResponse.name())
+            .questionArg("character.change." + changePart)
+            .previousAnswer(previousAnswer)
+            .errorProperty(errorProperty)
+            .build();
     }
 
 }

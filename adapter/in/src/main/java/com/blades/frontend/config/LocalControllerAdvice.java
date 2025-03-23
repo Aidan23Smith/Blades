@@ -33,7 +33,7 @@ public class LocalControllerAdvice {
                 String property = matcher.group(1);
                 Object[] args = (matcher.group(2) == null)
                                 ? new String[]{}
-                                : matcher.group(2).split(" ");
+                                : matcher.group(2).split(";");
 
                 String message;
                 try {

@@ -1,0 +1,18 @@
+<div class="govuk-error-summary" data-module="govuk-error-summary">
+  <div role="alert">
+    <h2 class="govuk-error-summary__title">
+      {{#i18n}}error.summary.heading{{/i18n}}
+    </h2>
+    <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+        {{#questionsWithErrors}}
+          <li>
+            <a href="#{{questionId}}">
+              {{#i18n}}{{groupStem}}.{{questionId}}.question '{{#questionArgs}}{{#i18n}}{{.}}{{/i18n}};{{/questionArgs}}'{{/i18n}}
+            </a>
+          </li>
+        {{/questionsWithErrors}}
+      </ul>
+    </div>
+  </div>
+</div>

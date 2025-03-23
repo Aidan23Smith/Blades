@@ -15,7 +15,7 @@ public class Page {
     private final List<String> titleArgs;
 
     public static PageBuilder<?, ?> builder(String templateName,
-                                      String groupStem) {
+                                            String groupStem) {
         return requiredBuilder().templateName(templateName).groupStem(groupStem);
     }
 

@@ -5,7 +5,7 @@ target/
 .flattened-pom.xml
 
 ### Mongo ###
-data/
+data/*
 
 ### IntelliJ IDEA ###
 .idea/

@@ -14,6 +14,8 @@ public abstract class Question {
 
     private final String questionId;
     @Singular private final List<String> questionArgs;
+    private final String previousAnswer;
+    private final String errorProperty;
 
     public boolean isInput() {
         return getClass().getSimpleName().equals("Input");
@@ -21,6 +23,10 @@ public abstract class Question {
 
     public boolean isRadioButton() {
         return getClass().getSimpleName().equals("RadioButton");
+    }
+
+    public boolean hasError() {
+        return getErrorProperty() != null;
     }
 
 }

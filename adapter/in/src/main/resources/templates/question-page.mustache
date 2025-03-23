@@ -1,4 +1,9 @@
 {{<layouts/base}}
+  {{$preTitle}}
+    {{#hasErrors}}
+      {{>partials/_error-summary}}
+    {{/hasErrors}}
+  {{/preTitle}}
   {{$title}}
     {{^hasOneQuestion}}
       <h1 class="govuk-heading-l">
