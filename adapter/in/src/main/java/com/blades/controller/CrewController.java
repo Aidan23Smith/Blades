@@ -1,10 +1,13 @@
 package com.blades.controller;
 
+import com.blades.converter.CharacterDisplayConverter;
 import com.blades.converter.CrewDisplayConverter;
 import com.blades.converter.RequestCrewConverter;
+import com.blades.data.crew.CharacterIdDto;
 import com.blades.data.crew.CrewDto;
 import com.blades.data.crew.CrewPartDto;
 import com.blades.frontend.page.crew.CrewPage;
+import com.blades.frontend.page.question.Checkbox;
 import com.blades.frontend.page.question.Input;
 import com.blades.frontend.page.question.Question;
 import com.blades.frontend.page.question.QuestionPage;
@@ -13,6 +16,7 @@ import com.blades.model.requests.crew.CreateCrewRequest;
 import com.blades.model.requests.crew.CrewPartRequest;
 import com.blades.model.requests.crew.UpdateCrewRequest;
 import com.blades.model.response.crew.CrewResponse;
+import com.blades.port.in.CharacterInService;
 import com.blades.port.in.CrewInService;
 
 import org.springframework.http.MediaType;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,8 +46,10 @@ public class CrewController {
 
     private final CrewInService crewInService;
     private final PageService pageService;
+    private final CharacterInService characterInService;
     private final RequestCrewConverter requestCrewConverter;
     private final CrewDisplayConverter crewDisplayConverter;
+    private final CharacterDisplayConverter characterDisplayConverter;
 
     @GetMapping("/crew/create-crew")
     public ModelAndView getCreateCrewPage(CsrfToken token) {
@@ -91,6 +98,30 @@ public class CrewController {
         response.sendRedirect("/crew/show-crews");
     }
 
+    @GetMapping("/crew/change/CHARACTER_IDS/{crewId}")
+    public ModelAndView changeCharacters(@PathVariable UUID crewId,
+                                         @RequestParam(required = false) List<UUID> previousAnswer,
+                                         String errorProperty,
+                                         CsrfToken token) {
+        CrewResponse crewResponse = crewInService.getCrew(crewId);
+        previousAnswer = ((previousAnswer == null) || previousAnswer.isEmpty()) ? crewResponse.characterIds() : previousAnswer;
+
+        Checkbox<CharacterIdDto> selectCharacterQuestion = Checkbox.<CharacterIdDto>builder()
+            .values(characterDisplayConverter.toCharacterIdDto(characterInService.getAllCharacters()))
+            .questionId("changeElement")
+            .questionArg(crewResponse.crewName())
+            .questionArg("crew.change.CHARACTER_IDS")
+            .previousAnswers(characterDisplayConverter.toCharacterIdStrings(previousAnswer))
+            .errorProperty(errorProperty)
+            .build();
+        return pageService.createPage(QuestionPage.builder("crew.change", CREWS)
+                                          .question(selectCharacterQuestion)
+                                          .action("/crew/change/CHARACTER_IDS/" + crewId)
+                                          .backUrl("/crew/show-crews")
+                                          .csrfToken(token.getToken())
+                                          .build());
+    }
+
     @GetMapping("/crew/change/{changePart}/{crewId}")
     public ModelAndView changeDetails(@PathVariable CrewPartDto changePart,
                                       @PathVariable UUID crewId,
@@ -102,7 +133,7 @@ public class CrewController {
 
         Question.QuestionBuilder builder = switch (changePart) {
             case CREW_NAME, LAIR, LAIR_DETAILS -> Input.builder();
-            case CHARACTER_IDS -> Input.builder();
+            default -> throw new IllegalStateException("Unexpected value: " + changePart);
         };
 
         builder.questionId("changeElement")
@@ -119,13 +150,19 @@ public class CrewController {
                                           .build());
     }
 
-    @PostMapping("/crew/change/{changePart}/{userId}")
+    @PostMapping("/crew/change/{changePart}/{userId}") //todo make work for CHARACTER_ID
     public ModelAndView editAndRedirect(@PathVariable CrewPartDto changePart,
                                         @PathVariable UUID userId,
                                         @RequestParam(required = false) String changeElement,
                                         HttpServletResponse response,
                                         CsrfToken token) throws IOException {
         if ((changeElement == null) || changeElement.isEmpty()) {
+            if (changePart == CrewPartDto.CHARACTER_IDS) {
+                return changeCharacters(userId,
+                                        Collections.emptyList(),
+                                        "no.value." + changePart,
+                                        token);
+            }
             return changeDetails(changePart,
                                  userId,
                                  "",
@@ -143,9 +180,9 @@ public class CrewController {
     private String getPreviousAnswer(CrewPartDto changePart, CrewResponse crewResponse) {
         return switch (changePart) {
             case CREW_NAME -> crewResponse.crewName();
-            case CHARACTER_IDS -> crewResponse.characterIds().toString();
             case LAIR -> crewResponse.lair().orElse(null);
             case LAIR_DETAILS -> crewResponse.lairDetails().orElse(null);
+            default -> throw new IllegalStateException("Unexpected value: " + changePart);
         };
     }
 

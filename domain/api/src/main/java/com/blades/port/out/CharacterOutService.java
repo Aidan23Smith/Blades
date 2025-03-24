@@ -12,7 +12,11 @@ public interface CharacterOutService {
 
     List<CharacterResponse> getCharacters(UUID userId);
 
+    List<CharacterResponse> getAllCharacters();
+
     CharacterResponse getCharacter(UUID userId, UUID id);
+
+    CharacterResponse getCharacter(UUID id);
 
     void deleteCharacter(UUID userId, UUID id);
 

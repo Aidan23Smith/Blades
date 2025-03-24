@@ -31,8 +31,18 @@ public class CharacterOutServiceImpl implements CharacterOutService {
     }
 
     @Override
+    public List<CharacterResponse> getAllCharacters() {
+        return characterConverter.toCharacterResponses(characterDao.findAll());
+    }
+
+    @Override
     public CharacterResponse getCharacter(UUID userId, UUID id) {
         return characterConverter.toCharacterResponse(characterDao.findByOwningUserIdAndId(userId, id));
+    }
+
+    @Override
+    public CharacterResponse getCharacter(UUID id) {
+        return characterConverter.toCharacterResponse(characterDao.findById(id).orElseThrow(() -> new RuntimeException("Missing character with id: " + id)));
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class RadioButton<T extends OptionValueDto> extends Question {
+public class Checkbox<T extends OptionValueDto> extends Question {
 
     private final T[] values;
 

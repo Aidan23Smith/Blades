@@ -1,10 +1,23 @@
 package com.blades.data.character;
 
-public enum CharacterHeritageDto {
+import com.blades.frontend.page.question.OptionValueDto;
+
+public enum CharacterHeritageDto implements OptionValueDto {
     AKROS,
     THE_DAGGER_ISLES,
     IRUVIA,
     SEVEROS,
     SKOVLAN,
-    TYCHEROS
+    TYCHEROS,
+    ;
+
+    @Override
+    public String getName() {
+        return name();
+    }
+
+    @Override
+    public String getValue() {
+        return name();
+    }
 }

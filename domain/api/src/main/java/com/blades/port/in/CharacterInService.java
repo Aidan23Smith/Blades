@@ -15,8 +15,12 @@ public interface CharacterInService {
 
   List<CharacterResponse> getCharacters(UUID userId);
 
+  List<CharacterResponse> getAllCharacters();
+
   CharacterResponse getCharacter(UUID userId, UUID id);
 
   void deleteCharacter(UUID userId, UUID id);
+
+  String getCharacterName(UUID id);
 
 }

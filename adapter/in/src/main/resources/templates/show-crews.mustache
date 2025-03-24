@@ -24,12 +24,22 @@
               {{$name}}{{crewName}}{{/name}}
             {{/partials/_part-row}}
             {{<partials/_part-row}}
+              {{$change-url}}/crew/change/CHARACTER_IDS/{{crewId}}{{/change-url}}
+              {{$part}}characterIds{{/part}}
+              {{$enumPart}}CHARACTER_IDS{{/enumPart}}
+              {{$setValue}}
+                {{#characterIds}}{{#i18n}}{{characterIds}}{{/i18n}}{{/characterIds}}
+                {{^characterIds}}{{#i18n}}{{groupStem}}.characterIds.none{{/i18n}}{{/characterIds}}
+              {{/setValue}}
+              {{$name}}{{crewName}}{{/name}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
               {{$change-url}}/crew/change/LAIR/{{crewId}}{{/change-url}}
               {{$part}}lair{{/part}}
               {{$enumPart}}LAIR{{/enumPart}}
               {{$setValue}}
-                {{#type}}{{#i18n}}{{lair}}{{/i18n}}{{/type}}
-                {{^type}}{{#i18n}}{{groupStem}}.lair.none{{/i18n}}{{/type}}
+                {{#lair}}{{#i18n}}{{lair}}{{/i18n}}{{/lair}}
+                {{^lair}}{{#i18n}}{{groupStem}}.lair.none{{/i18n}}{{/lair}}
               {{/setValue}}
               {{$name}}{{crewName}}{{/name}}
             {{/partials/_part-row}}

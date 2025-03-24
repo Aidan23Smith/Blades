@@ -1,6 +1,8 @@
 package com.blades.data.character;
 
-public enum CharacterTypeDto {
+import com.blades.frontend.page.question.OptionValueDto;
+
+public enum CharacterTypeDto implements OptionValueDto {
 
     CUTTER,
     HOUND,
@@ -8,6 +10,16 @@ public enum CharacterTypeDto {
     LURK,
     SLIDE,
     SPIDER,
-    WHISPER
+    WHISPER,
+    ;
 
+    @Override
+    public String getName() {
+        return name();
+    }
+
+    @Override
+    public String getValue() {
+        return name();
+    }
 }

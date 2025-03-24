@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record CrewDto(UUID crewId,
                       String crewName,
-                      List<UUID> characterIds,
+                      List<String> characterNames,
                       String lair,
                       String lairDetails) {
 

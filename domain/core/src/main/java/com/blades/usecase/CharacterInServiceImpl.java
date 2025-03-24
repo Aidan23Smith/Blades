@@ -72,6 +72,11 @@ public class CharacterInServiceImpl implements CharacterInService {
     }
 
     @Override
+    public List<CharacterResponse> getAllCharacters() {
+        return characterOutService.getAllCharacters();
+    }
+
+    @Override
     public CharacterResponse getCharacter(UUID userId, UUID id) {
         return characterOutService.getCharacter(userId, id);
     }
@@ -79,5 +84,10 @@ public class CharacterInServiceImpl implements CharacterInService {
     @Override
     public void deleteCharacter(UUID userId, UUID id) {
         characterOutService.deleteCharacter(userId, id);
+    }
+
+    @Override
+    public String getCharacterName(UUID id) {
+        return characterOutService.getCharacter(id).name();
     }
 }
