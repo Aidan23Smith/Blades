@@ -1,7 +1,7 @@
 package com.blades.converter;
 
 import com.blades.data.character.CharacterDto;
-import com.blades.model.requests.CreateCharacterRequest;
+import com.blades.model.requests.character.CreateCharacterRequest;
 
 import org.springframework.stereotype.Service;
 

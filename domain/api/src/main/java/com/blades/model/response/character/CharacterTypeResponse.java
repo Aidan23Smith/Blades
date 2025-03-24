@@ -1,7 +1,6 @@
-package com.blades.model.requests;
+package com.blades.model.response.character;
 
-public enum CharacterTypeRequest {
-
+public enum CharacterTypeResponse {
     CUTTER,
     HOUND,
     LEECH,
@@ -9,5 +8,4 @@ public enum CharacterTypeRequest {
     SLIDE,
     SPIDER,
     WHISPER
-
 }

@@ -1,4 +1,4 @@
-package com.blades.model.response;
+package com.blades.model.response.character;
 
 import java.util.Optional;
 import java.util.UUID;

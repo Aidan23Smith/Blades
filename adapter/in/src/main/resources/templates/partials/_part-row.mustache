@@ -1,4 +1,4 @@
-{{!set part, enumPart, and setValue}}
+{{!set part, change-url, and setValue}}
 <div class="govuk-summary-list__row">
   <dt class="govuk-summary-list__key">
     {{#i18n}}{{groupStem}}.{{$part}}{{/part}}{{/i18n}}
@@ -7,8 +7,8 @@
     {{$setValue}}{{/setValue}}
   </dd>
   <dd class="govuk-summary-list__actions">
-    <a class="govuk-link" href="/change/{{$enumPart}}{{/enumPart}}/{{owningUserId}}/{{id}}">
-      {{#i18n}}change{{/i18n}}<span class="govuk-visually-hidden"> {{#i18n}}{{groupStem}}.{{$type}}{{/type}}{{/i18n}} ({{name}})</span>
+    <a class="govuk-link" href="{{$change-url}}/change/{{$enumPart}}{{/enumPart}}/{{owningUserId}}/{{id}}{{/change-url}}">
+      {{#i18n}}change{{/i18n}}<span class="govuk-visually-hidden"> {{#i18n}}{{groupStem}}.{{$type}}{{/type}}{{/i18n}} ({{$name}}{{name}}{{/name}})</span>
     </a>
   </dd>
 </div>

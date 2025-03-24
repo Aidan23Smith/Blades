@@ -1,4 +1,4 @@
-package com.blades.model.requests;
+package com.blades.model.requests.character;
 
 import java.util.Optional;
 import java.util.UUID;

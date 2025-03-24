@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum Navigation {
 
     CHARACTERS("/show-characters"),
-    CREWS("/show-crews"),
+    CREWS("/crew/show-crews"),
     ;
 
     private final String navigationUrl;

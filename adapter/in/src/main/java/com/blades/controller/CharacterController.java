@@ -1,6 +1,6 @@
 package com.blades.controller;
 
-import com.blades.converter.DisplayConverter;
+import com.blades.converter.CharacterDisplayConverter;
 import com.blades.converter.RequestCharacterConverter;
 import com.blades.data.character.CharacterBackgroundDto;
 import com.blades.data.character.CharacterDto;
@@ -15,10 +15,10 @@ import com.blades.frontend.page.question.QuestionPage;
 import com.blades.frontend.page.question.RadioButton;
 import com.blades.frontend.service.PageService;
 import com.blades.model.CustomUser;
-import com.blades.model.requests.CharacterPartRequest;
-import com.blades.model.requests.CreateCharacterRequest;
-import com.blades.model.requests.UpdateCharacterRequest;
-import com.blades.model.response.CharacterResponse;
+import com.blades.model.requests.character.CharacterPartRequest;
+import com.blades.model.requests.character.CreateCharacterRequest;
+import com.blades.model.requests.character.UpdateCharacterRequest;
+import com.blades.model.response.character.CharacterResponse;
 import com.blades.port.in.CharacterInService;
 
 import org.springframework.http.MediaType;
@@ -49,7 +49,7 @@ public class CharacterController {
     private final CharacterInService characterInService;
     private final PageService pageService;
     private final RequestCharacterConverter requestCharacterConverter;
-    private final DisplayConverter displayConverter;
+    private final CharacterDisplayConverter characterDisplayConverter;
 
     @GetMapping("/create-character")
     public ModelAndView getCreateCharacterPage(CsrfToken token) {
@@ -58,7 +58,7 @@ public class CharacterController {
                                               Input.builder().questionId("name").build()
                                           ))
                                           .action("/create-character")
-                                          .backUrl("/show-character")
+                                          .backUrl("/show-characters")
                                           .csrfToken(token.getToken()).build());
     }
 
@@ -76,7 +76,7 @@ public class CharacterController {
     public ModelAndView showCharacter(Authentication authentication) {
         List<CharacterResponse> characterResponses = characterInService.getCharacters(((CustomUser) authentication.getPrincipal()).getUserID());
         return pageService.createPage(CharacterPage.builder()
-                                          .characters(displayConverter.toCharacterDtos(characterResponses))
+                                          .characters(characterDisplayConverter.toCharacterDtos(characterResponses))
                                           .build());
     }
 

@@ -1,12 +1,10 @@
-package com.blades.model.requests;
+package com.blades.model.response.character;
 
-public enum CharacterHeritageRequest {
-
+public enum CharacterHeritageResponse {
     AKROS,
     THE_DAGGER_ISLES,
     IRUVIA,
     SEVEROS,
     SKOVLAN,
     TYCHEROS
-
 }

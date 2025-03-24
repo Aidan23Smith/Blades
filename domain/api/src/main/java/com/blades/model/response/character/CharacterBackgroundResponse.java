@@ -1,7 +1,6 @@
-package com.blades.model.requests;
+package com.blades.model.response.character;
 
-public enum CharacterBackgroundRequest {
-
+public enum CharacterBackgroundResponse {
     ACADEMIC,
     LABOR,
     LAW,
@@ -9,5 +8,4 @@ public enum CharacterBackgroundRequest {
     MILITARY,
     NOBLE,
     UNDERWORLD,
-
 }

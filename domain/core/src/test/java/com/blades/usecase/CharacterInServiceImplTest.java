@@ -1,14 +1,14 @@
 package com.blades.usecase;
 
-import com.blades.model.requests.CharacterBackgroundRequest;
-import com.blades.model.requests.CharacterHeritageRequest;
-import com.blades.model.requests.CharacterPartRequest;
-import com.blades.model.requests.CharacterTypeRequest;
-import com.blades.model.requests.CharacterViceRequest;
-import com.blades.model.requests.CreateCharacterRequest;
-import com.blades.model.requests.SaveCharacterRequest;
-import com.blades.model.requests.UpdateCharacterRequest;
-import com.blades.model.response.CharacterResponse;
+import com.blades.model.requests.character.CharacterBackgroundRequest;
+import com.blades.model.requests.character.CharacterHeritageRequest;
+import com.blades.model.requests.character.CharacterPartRequest;
+import com.blades.model.requests.character.CharacterTypeRequest;
+import com.blades.model.requests.character.CharacterViceRequest;
+import com.blades.model.requests.character.CreateCharacterRequest;
+import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.requests.character.UpdateCharacterRequest;
+import com.blades.model.response.character.CharacterResponse;
 import com.blades.port.out.CharacterOutService;
 import com.blades.usecase.converter.SaveCharacterConverter;
 

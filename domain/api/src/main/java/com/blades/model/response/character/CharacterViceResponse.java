@@ -1,4 +1,4 @@
-package com.blades.model.response;
+package com.blades.model.response.character;
 
 public enum CharacterViceResponse {
     FAITH,

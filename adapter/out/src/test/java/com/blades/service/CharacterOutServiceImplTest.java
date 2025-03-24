@@ -3,8 +3,8 @@ package com.blades.service;
 import com.blades.converter.CharacterConverter;
 import com.blades.dao.CharacterDao;
 import com.blades.data.character.CharacterPO;
-import com.blades.model.requests.SaveCharacterRequest;
-import com.blades.model.response.CharacterResponse;
+import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.response.character.CharacterResponse;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

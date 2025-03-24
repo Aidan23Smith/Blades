@@ -1,16 +1,16 @@
 package com.blades.usecase.converter;
 
-import com.blades.model.requests.CharacterBackgroundRequest;
-import com.blades.model.requests.CharacterHeritageRequest;
-import com.blades.model.requests.CharacterTypeRequest;
-import com.blades.model.requests.CharacterViceRequest;
-import com.blades.model.requests.CreateCharacterRequest;
-import com.blades.model.requests.SaveCharacterRequest;
-import com.blades.model.response.CharacterBackgroundResponse;
-import com.blades.model.response.CharacterHeritageResponse;
-import com.blades.model.response.CharacterResponse;
-import com.blades.model.response.CharacterTypeResponse;
-import com.blades.model.response.CharacterViceResponse;
+import com.blades.model.requests.character.CharacterBackgroundRequest;
+import com.blades.model.requests.character.CharacterHeritageRequest;
+import com.blades.model.requests.character.CharacterTypeRequest;
+import com.blades.model.requests.character.CharacterViceRequest;
+import com.blades.model.requests.character.CreateCharacterRequest;
+import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.response.character.CharacterBackgroundResponse;
+import com.blades.model.response.character.CharacterHeritageResponse;
+import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.response.character.CharacterTypeResponse;
+import com.blades.model.response.character.CharacterViceResponse;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;

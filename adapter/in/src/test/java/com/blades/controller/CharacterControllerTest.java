@@ -1,6 +1,6 @@
 package com.blades.controller;
 
-import com.blades.converter.DisplayConverter;
+import com.blades.converter.CharacterDisplayConverter;
 import com.blades.converter.RequestCharacterConverter;
 import com.blades.data.character.CharacterDto;
 import com.blades.frontend.page.character.CharacterPage;
@@ -9,7 +9,7 @@ import com.blades.frontend.page.question.Input;
 import com.blades.frontend.page.question.QuestionPage;
 import com.blades.frontend.service.PageService;
 import com.blades.model.CustomUser;
-import com.blades.model.response.CharacterResponse;
+import com.blades.model.response.character.CharacterResponse;
 import com.blades.port.in.CharacterInService;
 
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class CharacterControllerTest {
     @Mock
     private CharacterInService characterInService;
     @Mock
-    private DisplayConverter displayConverter;
+    private CharacterDisplayConverter characterDisplayConverter;
     @Mock
     private PageService pageService;
     @Mock
@@ -88,7 +88,7 @@ class CharacterControllerTest {
         when(authentication.getPrincipal()).thenReturn(customUser);
         when(customUser.getUserID()).thenReturn(userId);
         when(characterInService.getCharacters(userId)).thenReturn(characterResponses);
-        when(displayConverter.toCharacterDtos(characterResponses)).thenReturn(characters);
+        when(characterDisplayConverter.toCharacterDtos(characterResponses)).thenReturn(characters);
 
         Page expected = CharacterPage.builder()
             .characters(characters)

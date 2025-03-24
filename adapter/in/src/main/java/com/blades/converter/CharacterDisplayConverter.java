@@ -5,14 +5,14 @@ import com.blades.data.character.CharacterDto;
 import com.blades.data.character.CharacterHeritageDto;
 import com.blades.data.character.CharacterTypeDto;
 import com.blades.data.character.CharacterViceDto;
-import com.blades.model.response.CharacterResponse;
+import com.blades.model.response.character.CharacterResponse;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class DisplayConverter {
+public class CharacterDisplayConverter {
 
     public List<CharacterDto> toCharacterDtos(List<CharacterResponse> characters) {
         return characters.stream().map(this::toCharacterDto).toList();

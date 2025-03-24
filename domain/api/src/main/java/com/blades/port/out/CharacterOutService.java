@@ -1,7 +1,7 @@
 package com.blades.port.out;
 
-import com.blades.model.requests.SaveCharacterRequest;
-import com.blades.model.response.CharacterResponse;
+import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.response.character.CharacterResponse;
 
 import java.util.List;
 import java.util.UUID;
