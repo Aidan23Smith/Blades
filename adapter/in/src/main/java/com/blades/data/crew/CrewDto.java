@@ -9,4 +9,8 @@ public record CrewDto(UUID crewId,
                       String lair,
                       String lairDetails) {
 
+    public boolean hasCrewMembers() {
+        return !characterNames.isEmpty();
+    }
+
 }

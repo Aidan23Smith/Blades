@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.experimental.Accessors;
 
-@Builder
+@Builder(toBuilder = true)
 @Value
 @Accessors(fluent = true)
 @AllArgsConstructor

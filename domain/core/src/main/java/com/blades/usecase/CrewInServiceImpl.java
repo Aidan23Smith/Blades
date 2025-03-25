@@ -2,6 +2,7 @@ package com.blades.usecase;
 
 import com.blades.model.requests.crew.CreateCrewRequest;
 import com.blades.model.requests.crew.SaveCrewRequest;
+import com.blades.model.requests.crew.UpdateCrewCharactersRequest;
 import com.blades.model.requests.crew.UpdateCrewRequest;
 import com.blades.model.response.crew.CrewResponse;
 import com.blades.port.in.CrewInService;
@@ -38,8 +39,6 @@ public class CrewInServiceImpl implements CrewInService {
         switch (updateCrewRequest.crewPartRequest()) {
             case CREW_NAME -> crewBuilder
                 .crewName(updateCrewRequest.changeElement());
-            case CHARACTER_IDS -> crewBuilder
-                .characterIds(List.of(UUID.fromString(updateCrewRequest.changeElement())));
             case LAIR -> crewBuilder
                 .lair(updateCrewRequest.changeElement());
             case LAIR_DETAILS -> crewBuilder
@@ -47,6 +46,13 @@ public class CrewInServiceImpl implements CrewInService {
         }
 
         crewOutService.saveCrew(crewBuilder.build());
+    }
+
+    @Override
+    public void updateCrewCharacters(UpdateCrewCharactersRequest updateCrewCharactersRequest) {
+        CrewResponse currentCrew = crewOutService.getCrew(updateCrewCharactersRequest.crewId());
+
+        saveCrewWithCharacters(currentCrew, updateCrewCharactersRequest.allCharacterIds());
     }
 
     @Override
@@ -63,4 +69,26 @@ public class CrewInServiceImpl implements CrewInService {
     public void deleteCrew(UUID crewId) {
         crewOutService.deleteCrew(crewId);
     }
+
+    @Override
+    public void removeCharacter(UUID characterId) {
+        crewOutService.getCrews().stream()
+            .filter(crew -> crew.characterIds().contains(characterId))
+            .forEach(crew -> {
+                List<UUID> updatedCharacterIds = crew.characterIds().stream()
+                    .filter(id -> !id.equals(characterId))
+                    .toList();
+
+                saveCrewWithCharacters(crew, updatedCharacterIds);
+            });
+    }
+
+    private void saveCrewWithCharacters(CrewResponse crewResponse, List<UUID> characterIds) {
+        CrewResponse updatedCrew = crewResponse.toBuilder()
+            .characterIds(characterIds)
+            .build();
+
+        crewOutService.saveCrew(crewConverter.toSaveCrewRequest(updatedCrew));
+    }
+
 }

@@ -28,8 +28,14 @@
               {{$part}}characterIds{{/part}}
               {{$enumPart}}CHARACTER_IDS{{/enumPart}}
               {{$setValue}}
-                {{#characterIds}}{{#i18n}}{{characterIds}}{{/i18n}}{{/characterIds}}
-                {{^characterIds}}{{#i18n}}{{groupStem}}.characterIds.none{{/i18n}}{{/characterIds}}
+                {{#hasCrewMembers}}
+                  <ul class="govuk-list govuk-list--bullet">
+                    {{#characterNames}}
+                      <li>{{.}}</li>
+                    {{/characterNames}}
+                  </ul>
+                {{/hasCrewMembers}}
+                {{^hasCrewMembers}}{{#i18n}}{{groupStem}}.characterIds.none{{/i18n}}{{/hasCrewMembers}}
               {{/setValue}}
               {{$name}}{{crewName}}{{/name}}
             {{/partials/_part-row}}

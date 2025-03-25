@@ -20,6 +20,7 @@ import com.blades.model.requests.character.CreateCharacterRequest;
 import com.blades.model.requests.character.UpdateCharacterRequest;
 import com.blades.model.response.character.CharacterResponse;
 import com.blades.port.in.CharacterInService;
+import com.blades.port.in.CrewInService;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -47,6 +48,7 @@ import static com.blades.data.common.Navigation.CHARACTERS;
 public class CharacterController {
 
     private final CharacterInService characterInService;
+    private final CrewInService crewInService;
     private final PageService pageService;
     private final RequestCharacterConverter requestCharacterConverter;
     private final CharacterDisplayConverter characterDisplayConverter;
@@ -98,6 +100,7 @@ public class CharacterController {
                                   @PathVariable UUID id,
                                   HttpServletResponse response) throws IOException {
         characterInService.deleteCharacter(userId, id);
+        crewInService.removeCharacter(id);
         response.sendRedirect("/show-characters");
     }
 
