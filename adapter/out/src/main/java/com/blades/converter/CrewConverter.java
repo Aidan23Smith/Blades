@@ -19,10 +19,10 @@ public class CrewConverter {
 
     public CrewResponse toCrewResponse(CrewPO crew) {
         return new CrewResponse(crew.crewId(),
-                                     crew.crewName(),
-                                     crew.characterIds(),
-                                     crew.lair().orElse(null),
-                                     crew.lairDetails().orElse(null));
+                                crew.crewName(),
+                                crew.characterIds(),
+                                crew.lair().orElse(null),
+                                crew.lairDetails().orElse(null));
     }
 
     public CrewPO toCrewPO(SaveCrewRequest crew) {

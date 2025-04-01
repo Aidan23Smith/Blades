@@ -24,7 +24,7 @@ public class CharacterPO {
     String name;
     String alias;
     CharacterTypePO type;
-    String crewName;
+    UUID crewId;
     String look;
     CharacterHeritagePO heritage;
     CharacterBackgroundPO background;
@@ -40,8 +40,8 @@ public class CharacterPO {
         return Optional.ofNullable(type);
     }
 
-    public Optional<String> crewName() {
-        return Optional.ofNullable(crewName);
+    public Optional<UUID> crewId() {
+        return Optional.ofNullable(crewId);
     }
 
     public Optional<String> look() {

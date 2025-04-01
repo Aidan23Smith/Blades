@@ -33,8 +33,8 @@ class CharacterConverterTest {
     private static final String CHARACTER_NAME_2 = "Character Name 2";
     private static final String CHARACTER_ALIAS_1 = "Character Alias 1";
     private static final String CHARACTER_ALIAS_2 = "Character Alias 2";
-    private static final String CREW_NAME_1 = "Crew Name 1";
-    private static final String CREW_NAME_2 = "Crew Name 2";
+    private static final UUID CREW_ID_1 = UUID.randomUUID();
+    private static final UUID CREW_ID_2 = UUID.randomUUID();
     private static final String LOOK_1 = "Look 1";
     private static final String LOOK_2 = "Look 2";
     private static final String BACKGROUND_DETAILS_1 = "Background Details 1";
@@ -51,7 +51,7 @@ class CharacterConverterTest {
                                                                CHARACTER_NAME_1,
                                                                CHARACTER_ALIAS_1,
                                                                CharacterTypePO.LURK,
-                                                               CREW_NAME_1,
+                                                               CREW_ID_1,
                                                                LOOK_1,
                                                                CharacterHeritagePO.AKROS,
                                                                CharacterBackgroundPO.ACADEMIC,
@@ -63,7 +63,7 @@ class CharacterConverterTest {
                                                                CHARACTER_NAME_2,
                                                                CHARACTER_ALIAS_2,
                                                                CharacterTypePO.LURK,
-                                                               CREW_NAME_2,
+                                                               CREW_ID_2,
                                                                LOOK_2,
                                                                CharacterHeritagePO.IRUVIA,
                                                                CharacterBackgroundPO.LABOR,
@@ -75,7 +75,7 @@ class CharacterConverterTest {
                                                                          CHARACTER_NAME_1,
                                                                          CHARACTER_ALIAS_1,
                                                                          CharacterTypeResponse.LURK,
-                                                                         CREW_NAME_1,
+                                                                         CREW_ID_1,
                                                                          LOOK_1,
                                                                          CharacterHeritageResponse.AKROS,
                                                                          CharacterBackgroundResponse.ACADEMIC,
@@ -87,7 +87,7 @@ class CharacterConverterTest {
                                                                          CHARACTER_NAME_2,
                                                                          CHARACTER_ALIAS_2,
                                                                          CharacterTypeResponse.LURK,
-                                                                         CREW_NAME_2,
+                                                                         CREW_ID_2,
                                                                          LOOK_2,
                                                                          CharacterHeritageResponse.IRUVIA,
                                                                          CharacterBackgroundResponse.LABOR,
@@ -107,7 +107,7 @@ class CharacterConverterTest {
                                                   CHARACTER_NAME_1,
                                                   CHARACTER_ALIAS_1,
                                                   CharacterTypePO.LURK,
-                                                  CREW_NAME_1,
+                                                  CREW_ID_1,
                                                   LOOK_1,
                                                   CharacterHeritagePO.AKROS,
                                                   CharacterBackgroundPO.ACADEMIC,
@@ -119,7 +119,7 @@ class CharacterConverterTest {
                                                            CHARACTER_NAME_1,
                                                            CHARACTER_ALIAS_1,
                                                            CharacterTypeResponse.LURK,
-                                                           CREW_NAME_1,
+                                                           CREW_ID_1,
                                                            LOOK_1,
                                                            CharacterHeritageResponse.AKROS,
                                                            CharacterBackgroundResponse.ACADEMIC,
@@ -139,7 +139,7 @@ class CharacterConverterTest {
                                                                              CHARACTER_NAME_1,
                                                                              CHARACTER_ALIAS_1,
                                                                              CharacterTypeRequest.LURK,
-                                                                             CREW_NAME_1,
+                                                                             CREW_ID_1,
                                                                              LOOK_1,
                                                                              CharacterHeritageRequest.AKROS,
                                                                              CharacterBackgroundRequest.ACADEMIC,
@@ -152,7 +152,7 @@ class CharacterConverterTest {
                                                CHARACTER_NAME_1,
                                                CHARACTER_ALIAS_1,
                                                CharacterTypePO.LURK,
-                                               CREW_NAME_1,
+                                               CREW_ID_1,
                                                LOOK_1,
                                                CharacterHeritagePO.AKROS,
                                                CharacterBackgroundPO.ACADEMIC,

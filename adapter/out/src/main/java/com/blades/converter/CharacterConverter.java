@@ -34,7 +34,7 @@ public class CharacterConverter {
                                          .map(Enum::name)
                                          .map(CharacterTypeResponse::valueOf)
                                          .orElse(null),
-                                     character.crewName().orElse(null),
+                                     character.crewId().orElse(null),
                                      character.look().orElse(null),
                                      character.heritage()
                                          .map(Enum::name)
@@ -61,7 +61,7 @@ public class CharacterConverter {
                                    .map(Enum::name)
                                    .map(CharacterTypePO::valueOf)
                                    .orElse(null),
-                               character.crewName().orElse(null),
+                               character.crewId().orElse(null),
                                character.look().orElse(null),
                                character.heritage()
                                    .map(Enum::name)

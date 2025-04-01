@@ -1,8 +1,7 @@
 package com.blades.port.in;
 
 import com.blades.model.requests.crew.CreateCrewRequest;
-import com.blades.model.requests.crew.UpdateCrewCharactersRequest;
-import com.blades.model.requests.crew.UpdateCrewRequest;
+import com.blades.model.requests.crew.update.UpdateCrewRequest;
 import com.blades.model.response.crew.CrewResponse;
 
 import java.util.List;
@@ -14,8 +13,6 @@ public interface CrewInService {
 
   void updateCrew(UpdateCrewRequest updateCrewRequest);
 
-  void updateCrewCharacters(UpdateCrewCharactersRequest updateCrewCharactersRequest);
-
   List<CrewResponse> getCrews();
 
   CrewResponse getCrew(UUID crewId);
@@ -23,5 +20,7 @@ public interface CrewInService {
   void deleteCrew(UUID crewId);
 
   void removeCharacter(UUID characterId);
+
+  String getCrewName(UUID crewId);
 
 }

@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.experimental.Accessors;
 
-@Builder
+@Builder(toBuilder = true)
 @Value
 @Accessors(fluent = true)
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class CharacterResponse {
     String name;
     String alias;
     CharacterTypeResponse type;
-    String crewName;
+    UUID crewId;
     String look;
     CharacterHeritageResponse heritage;
     CharacterBackgroundResponse background;
@@ -35,8 +35,8 @@ public class CharacterResponse {
         return Optional.ofNullable(type);
     }
 
-    public Optional<String> crewName() {
-        return Optional.ofNullable(crewName);
+    public Optional<UUID> crewId() {
+        return Optional.ofNullable(crewId);
     }
 
     public Optional<String> look() {

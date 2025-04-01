@@ -2,7 +2,7 @@ package com.blades.port.in;
 
 import com.blades.model.response.character.CharacterResponse;
 import com.blades.model.requests.character.CreateCharacterRequest;
-import com.blades.model.requests.character.UpdateCharacterRequest;
+import com.blades.model.requests.character.update.UpdateCharacterRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,5 +22,7 @@ public interface CharacterInService {
   void deleteCharacter(UUID userId, UUID id);
 
   String getCharacterName(UUID id);
+
+  void removeCrew(UUID crewId);
 
 }

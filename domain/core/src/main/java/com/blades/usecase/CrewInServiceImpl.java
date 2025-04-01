@@ -2,8 +2,7 @@ package com.blades.usecase;
 
 import com.blades.model.requests.crew.CreateCrewRequest;
 import com.blades.model.requests.crew.SaveCrewRequest;
-import com.blades.model.requests.crew.UpdateCrewCharactersRequest;
-import com.blades.model.requests.crew.UpdateCrewRequest;
+import com.blades.model.requests.crew.update.UpdateCrewRequest;
 import com.blades.model.response.crew.CrewResponse;
 import com.blades.port.in.CrewInService;
 import com.blades.port.out.CrewOutService;
@@ -29,30 +28,25 @@ public class CrewInServiceImpl implements CrewInService {
     }
 
     @Override
-    public void updateCrew(UpdateCrewRequest updateCrewRequest) {
+    public void updateCrew(UpdateCrewRequest updateCrewRequest) { //todo only save relationship between character and crew in one place
         CrewResponse currentCrew = crewOutService.getCrew(updateCrewRequest.crewId());
 
-        SaveCrewRequest.SaveCrewRequestBuilder crewBuilder = crewConverter
+        SaveCrewRequest.SaveCrewRequestBuilder updatedCrew = crewConverter
             .toSaveCrewRequest(currentCrew)
             .toBuilder();
 
         switch (updateCrewRequest.crewPartRequest()) {
-            case CREW_NAME -> crewBuilder
-                .crewName(updateCrewRequest.changeElement());
-            case LAIR -> crewBuilder
-                .lair(updateCrewRequest.changeElement());
-            case LAIR_DETAILS -> crewBuilder
-                .lairDetails(updateCrewRequest.changeElement());
+            case CREW_NAME -> updatedCrew
+                .crewName(updateCrewRequest.crewUpdateElement().getString());
+            case LAIR -> updatedCrew
+                .lair(updateCrewRequest.crewUpdateElement().getString());
+            case LAIR_DETAILS -> updatedCrew
+                .lairDetails(updateCrewRequest.crewUpdateElement().getString());
+            case CHARACTER_IDS -> updatedCrew
+                .characterIds(updateCrewRequest.crewUpdateElement().getUUIDList());
         }
 
-        crewOutService.saveCrew(crewBuilder.build());
-    }
-
-    @Override
-    public void updateCrewCharacters(UpdateCrewCharactersRequest updateCrewCharactersRequest) {
-        CrewResponse currentCrew = crewOutService.getCrew(updateCrewCharactersRequest.crewId());
-
-        saveCrewWithCharacters(currentCrew, updateCrewCharactersRequest.allCharacterIds());
+        crewOutService.saveCrew(updatedCrew.build());
     }
 
     @Override
@@ -79,16 +73,17 @@ public class CrewInServiceImpl implements CrewInService {
                     .filter(id -> !id.equals(characterId))
                     .toList();
 
-                saveCrewWithCharacters(crew, updatedCharacterIds);
+                CrewResponse updatedCrew = crew.toBuilder()
+                    .characterIds(updatedCharacterIds)
+                    .build();
+
+                crewOutService.saveCrew(crewConverter.toSaveCrewRequest(updatedCrew));
             });
     }
 
-    private void saveCrewWithCharacters(CrewResponse crewResponse, List<UUID> characterIds) {
-        CrewResponse updatedCrew = crewResponse.toBuilder()
-            .characterIds(characterIds)
-            .build();
-
-        crewOutService.saveCrew(crewConverter.toSaveCrewRequest(updatedCrew));
+    @Override
+    public String getCrewName(UUID crewId) {
+        return getCrew(crewId).crewName();
     }
 
 }

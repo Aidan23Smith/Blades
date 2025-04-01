@@ -1,7 +1,7 @@
 package com.blades.controller;
 
-import com.blades.converter.CharacterDisplayConverter;
-import com.blades.converter.RequestCharacterConverter;
+import com.blades.converter.character.CharacterDisplayConverter;
+import com.blades.converter.character.RequestCharacterConverter;
 import com.blades.data.character.CharacterDto;
 import com.blades.frontend.page.character.CharacterPage;
 import com.blades.frontend.page.common.Page;

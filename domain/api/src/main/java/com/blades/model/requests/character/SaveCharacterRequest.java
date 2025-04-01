@@ -21,7 +21,7 @@ public class SaveCharacterRequest {
     String name;
     String alias;
     CharacterTypeRequest type;
-    String crewName;
+    UUID crewId;
     String look;
     CharacterHeritageRequest heritage;
     CharacterBackgroundRequest background;
@@ -37,8 +37,8 @@ public class SaveCharacterRequest {
         return Optional.ofNullable(type);
     }
 
-    public Optional<String> crewName() {
-        return Optional.ofNullable(crewName);
+    public Optional<UUID> crewId() {
+        return Optional.ofNullable(crewId);
     }
 
     public Optional<String> look() {

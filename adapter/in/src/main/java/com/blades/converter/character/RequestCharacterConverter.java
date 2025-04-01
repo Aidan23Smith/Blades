@@ -1,4 +1,4 @@
-package com.blades.converter;
+package com.blades.converter.character;
 
 import com.blades.data.character.CharacterDto;
 import com.blades.model.requests.character.CreateCharacterRequest;

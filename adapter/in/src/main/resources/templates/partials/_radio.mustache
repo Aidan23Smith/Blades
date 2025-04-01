@@ -14,7 +14,7 @@
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" id="{{questionId}}-{{value}}" name="{{questionId}}" type="radio" value={{value}} {{#isSelected}}checked{{/isSelected}}>
         <label class="govuk-label govuk-radios__label" for="{{questionId}}-{{value}}">
-          {{#i18n}}{{value}}{{/i18n}}
+          {{#i18n}}{{name}}{{/i18n}}
         </label>
       </div>
     {{/options}}

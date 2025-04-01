@@ -28,7 +28,7 @@ public class CrewPO {
     String lair;
     String lairDetails;
 
-    public List<UUID> getCharacterIds() {
+    public List<UUID> characterIds() {
         return (characterIds == null) ? emptyList() : characterIds;
     }
 

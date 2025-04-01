@@ -1,4 +1,4 @@
-package com.blades.data.crew;
+package com.blades.data.crew.dto;
 
 import com.blades.frontend.page.question.OptionValueDto;
 

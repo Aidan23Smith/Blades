@@ -25,7 +25,7 @@ public class SaveCharacterConverter {
                       .map(Enum::name)
                       .map(CharacterTypeRequest::valueOf)
                       .orElse(null))
-            .crewName(character.crewName().orElse(null))
+            .crewId(character.crewId().orElse(null))
             .look(character.look().orElse(null))
             .heritage(character.heritage()
                           .map(Enum::name)

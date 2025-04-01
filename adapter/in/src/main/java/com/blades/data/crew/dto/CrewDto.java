@@ -1,4 +1,4 @@
-package com.blades.data.crew;
+package com.blades.data.crew.dto;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.blades.frontend.page.crew;
 
 import com.blades.data.common.Navigation;
-import com.blades.data.crew.CrewDto;
+import com.blades.data.crew.dto.CrewDto;
 import com.blades.frontend.page.common.Page;
 
 import java.util.List;

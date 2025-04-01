@@ -1,4 +1,4 @@
-package com.blades.data.crew;
+package com.blades.data.crew.dto;
 
 public enum CrewPartDto {
 
