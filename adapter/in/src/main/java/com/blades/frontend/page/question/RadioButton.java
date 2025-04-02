@@ -13,7 +13,7 @@ public class RadioButton<T extends OptionValueDto> extends Question {
 
     public List<OptionDto> options() {
         return Arrays.stream(values)
-            .map(option -> new OptionDto(option.getValue(), option.getName(), getPreviousAnswers().contains(option.getName())))
+            .map(option -> new OptionDto(option.getValue(), option.getName(), getPreviousAnswers().contains(option.getValue())))
             .collect(Collectors.toList());
     }
 

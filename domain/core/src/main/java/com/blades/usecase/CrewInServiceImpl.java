@@ -28,7 +28,7 @@ public class CrewInServiceImpl implements CrewInService {
     }
 
     @Override
-    public void updateCrew(UpdateCrewRequest updateCrewRequest) { //todo only save relationship between character and crew in one place
+    public void updateCrew(UpdateCrewRequest updateCrewRequest) {
         CrewResponse currentCrew = crewOutService.getCrew(updateCrewRequest.crewId());
 
         SaveCrewRequest.SaveCrewRequestBuilder updatedCrew = crewConverter
