@@ -1,16 +1,16 @@
 package com.blades.usecase.converter;
 
-import com.blades.model.requests.CharacterBackgroundRequest;
-import com.blades.model.requests.CharacterHeritageRequest;
-import com.blades.model.requests.CharacterTypeRequest;
-import com.blades.model.requests.CharacterViceRequest;
-import com.blades.model.requests.CreateCharacterRequest;
-import com.blades.model.requests.SaveCharacterRequest;
-import com.blades.model.response.CharacterBackgroundResponse;
-import com.blades.model.response.CharacterHeritageResponse;
-import com.blades.model.response.CharacterResponse;
-import com.blades.model.response.CharacterTypeResponse;
-import com.blades.model.response.CharacterViceResponse;
+import com.blades.model.requests.character.CharacterBackgroundRequest;
+import com.blades.model.requests.character.CharacterHeritageRequest;
+import com.blades.model.requests.character.CharacterTypeRequest;
+import com.blades.model.requests.character.CharacterViceRequest;
+import com.blades.model.requests.character.CreateCharacterRequest;
+import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.response.character.CharacterBackgroundResponse;
+import com.blades.model.response.character.CharacterHeritageResponse;
+import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.response.character.CharacterTypeResponse;
+import com.blades.model.response.character.CharacterViceResponse;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -27,7 +27,7 @@ class SaveCharacterConverterTest {
     private static final String CHARACTER_NAME = "Character Name";
     private static final String CHARACTER_ALIAS = "Character alias";
     private static final String CHARACTER_TYPE_STRING = "LURK";
-    private static final String CREW_NAME = "Crew Name";
+    private static final UUID CREW_ID = UUID.randomUUID();
     private static final String CHARACTER_LOOK = "Character Look";
     private static final String CHARACTER_HERITAGE_STRING = "AKROS";
     private static final String CHARACTER_BACKGROUND_STRING = "ACADEMIC";
@@ -45,7 +45,7 @@ class SaveCharacterConverterTest {
                                                                     CHARACTER_NAME,
                                                                     CHARACTER_ALIAS,
                                                                     CharacterTypeResponse.valueOf(CHARACTER_TYPE_STRING),
-                                                                    CREW_NAME,
+                                                                    CREW_ID,
                                                                     CHARACTER_LOOK,
                                                                     CharacterHeritageResponse.valueOf(CHARACTER_HERITAGE_STRING),
                                                                     CharacterBackgroundResponse.valueOf(CHARACTER_BACKGROUND_STRING),
@@ -58,7 +58,7 @@ class SaveCharacterConverterTest {
                                                                  CHARACTER_NAME,
                                                                  CHARACTER_ALIAS,
                                                                  CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                                 CREW_NAME,
+                                                                 CREW_ID,
                                                                  CHARACTER_LOOK,
                                                                  CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
                                                                  CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),

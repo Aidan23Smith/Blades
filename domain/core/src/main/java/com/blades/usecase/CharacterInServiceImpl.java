@@ -1,13 +1,13 @@
 package com.blades.usecase;
 
-import com.blades.model.requests.CharacterBackgroundRequest;
-import com.blades.model.requests.CharacterHeritageRequest;
-import com.blades.model.requests.CharacterTypeRequest;
-import com.blades.model.requests.CharacterViceRequest;
-import com.blades.model.requests.SaveCharacterRequest;
-import com.blades.model.response.CharacterResponse;
-import com.blades.model.requests.CreateCharacterRequest;
-import com.blades.model.requests.UpdateCharacterRequest;
+import com.blades.model.requests.character.CharacterBackgroundRequest;
+import com.blades.model.requests.character.CharacterHeritageRequest;
+import com.blades.model.requests.character.CharacterTypeRequest;
+import com.blades.model.requests.character.CharacterViceRequest;
+import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.requests.character.CreateCharacterRequest;
+import com.blades.model.requests.character.update.UpdateCharacterRequest;
 import com.blades.port.in.CharacterInService;
 import com.blades.port.out.CharacterOutService;
 import com.blades.usecase.converter.SaveCharacterConverter;
@@ -42,25 +42,25 @@ public class CharacterInServiceImpl implements CharacterInService {
 
         switch (updateCharacterRequest.characterPartRequest()) {
             case NAME -> characterBuilder
-                .name(updateCharacterRequest.changeElement());
+                .name(updateCharacterRequest.characterUpdateElement().getString());
             case ALIAS -> characterBuilder
-                .alias(updateCharacterRequest.changeElement());
+                .alias(updateCharacterRequest.characterUpdateElement().getString());
             case TYPE -> characterBuilder
-                .type(CharacterTypeRequest.valueOf(updateCharacterRequest.changeElement()));
+                .type(CharacterTypeRequest.valueOf(updateCharacterRequest.characterUpdateElement().getString()));
             case CREW_NAME -> characterBuilder
-                .crewName(updateCharacterRequest.changeElement());
+                .crewId(updateCharacterRequest.characterUpdateElement().getUUID());
             case LOOK -> characterBuilder
-                .look(updateCharacterRequest.changeElement());
+                .look(updateCharacterRequest.characterUpdateElement().getString());
             case HERITAGE -> characterBuilder
-                .heritage(CharacterHeritageRequest.valueOf(updateCharacterRequest.changeElement()));
+                .heritage(CharacterHeritageRequest.valueOf(updateCharacterRequest.characterUpdateElement().getString()));
             case BACKGROUND -> characterBuilder
-                .background(CharacterBackgroundRequest.valueOf(updateCharacterRequest.changeElement()));
+                .background(CharacterBackgroundRequest.valueOf(updateCharacterRequest.characterUpdateElement().getString()));
             case BACKGROUND_DETAILS -> characterBuilder
-                .backgroundDetails(updateCharacterRequest.changeElement());
+                .backgroundDetails(updateCharacterRequest.characterUpdateElement().getString());
             case VICE -> characterBuilder
-                .vice(CharacterViceRequest.valueOf(updateCharacterRequest.changeElement()));
+                .vice(CharacterViceRequest.valueOf(updateCharacterRequest.characterUpdateElement().getString()));
             case VICE_DETAILS -> characterBuilder
-                .viceDetails(updateCharacterRequest.changeElement());
+                .viceDetails(updateCharacterRequest.characterUpdateElement().getString());
         }
 
         characterOutService.saveCharacter(characterBuilder.build());
@@ -72,6 +72,11 @@ public class CharacterInServiceImpl implements CharacterInService {
     }
 
     @Override
+    public List<CharacterResponse> getAllCharacters() {
+        return characterOutService.getAllCharacters();
+    }
+
+    @Override
     public CharacterResponse getCharacter(UUID userId, UUID id) {
         return characterOutService.getCharacter(userId, id);
     }
@@ -80,4 +85,19 @@ public class CharacterInServiceImpl implements CharacterInService {
     public void deleteCharacter(UUID userId, UUID id) {
         characterOutService.deleteCharacter(userId, id);
     }
+
+    @Override
+    public String getCharacterName(UUID id) {
+        return characterOutService.getCharacter(id).name();
+    }
+
+    @Override
+    public void removeCrew(UUID crewId) {
+        characterOutService.getAllCharacters().stream()
+            .filter(character -> character.crewId().map(crewId::equals).orElse(false))
+            .map(character -> character.toBuilder().crewId(null).build())
+            .map(characterConverter::toSaveCharacterRequest)
+            .forEach(characterOutService::saveCharacter);
+    }
+
 }

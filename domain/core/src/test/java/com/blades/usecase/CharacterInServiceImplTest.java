@@ -1,14 +1,17 @@
 package com.blades.usecase;
 
-import com.blades.model.requests.CharacterBackgroundRequest;
-import com.blades.model.requests.CharacterHeritageRequest;
-import com.blades.model.requests.CharacterPartRequest;
-import com.blades.model.requests.CharacterTypeRequest;
-import com.blades.model.requests.CharacterViceRequest;
-import com.blades.model.requests.CreateCharacterRequest;
-import com.blades.model.requests.SaveCharacterRequest;
-import com.blades.model.requests.UpdateCharacterRequest;
-import com.blades.model.response.CharacterResponse;
+import com.blades.model.requests.character.CharacterBackgroundRequest;
+import com.blades.model.requests.character.CharacterHeritageRequest;
+import com.blades.model.requests.character.CharacterPartRequest;
+import com.blades.model.requests.character.CharacterTypeRequest;
+import com.blades.model.requests.character.CharacterViceRequest;
+import com.blades.model.requests.character.CreateCharacterRequest;
+import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.requests.character.update.UpdateCharacterRequest;
+import com.blades.model.requests.character.update.elements.CharacterUpdateElement;
+import com.blades.model.requests.character.update.elements.CharacterUpdateString;
+import com.blades.model.requests.character.update.elements.CharacterUpdateUUID;
+import com.blades.model.response.character.CharacterResponse;
 import com.blades.port.out.CharacterOutService;
 import com.blades.usecase.converter.SaveCharacterConverter;
 
@@ -33,16 +36,16 @@ class CharacterInServiceImplTest {
 
     private static final UUID USER_ID = UUID.randomUUID();
     private static final UUID CHARACTER_ID = UUID.randomUUID();
-    private static final String CHARACTER_NAME = "Character Name";
-    private static final String CHARACTER_ALIAS = "Character alias";
-    private static final String CHARACTER_TYPE_STRING = "LURK";
-    private static final String CREW_NAME = "Crew Name";
-    private static final String CHARACTER_LOOK = "Character Look";
-    private static final String CHARACTER_HERITAGE_STRING = "AKROS";
-    private static final String CHARACTER_BACKGROUND_STRING = "ACADEMIC";
-    private static final String CHARACTER_BACKGROUND_DETAILS = "Character Background Details";
-    private static final String CHARACTER_VICE_STRING = "OBLIGATION";
-    private static final String CHARACTER_VICE_DETAILS = "Character Service Details";
+    private static final CharacterUpdateElement CHARACTER_NAME = new CharacterUpdateString("Character Name");
+    private static final CharacterUpdateElement CHARACTER_ALIAS =  new CharacterUpdateString("Character alias");
+    private static final CharacterUpdateElement CHARACTER_TYPE_STRING =  new CharacterUpdateString("LURK");
+    private static final CharacterUpdateElement CREW_ID =  new CharacterUpdateUUID(UUID.randomUUID());
+    private static final CharacterUpdateElement CHARACTER_LOOK =  new CharacterUpdateString("Character Look");
+    private static final CharacterUpdateElement CHARACTER_HERITAGE_STRING =  new CharacterUpdateString("AKROS");
+    private static final CharacterUpdateElement CHARACTER_BACKGROUND_STRING =  new CharacterUpdateString("ACADEMIC");
+    private static final CharacterUpdateElement CHARACTER_BACKGROUND_DETAILS =  new CharacterUpdateString("Character Background Details");
+    private static final CharacterUpdateElement CHARACTER_VICE_STRING =  new CharacterUpdateString("OBLIGATION");
+    private static final CharacterUpdateElement CHARACTER_VICE_DETAILS =  new CharacterUpdateString("Character Service Details");
 
     @Mock
     private CharacterOutService characterOutService;
@@ -68,16 +71,16 @@ class CharacterInServiceImplTest {
 
         private static final SaveCharacterRequest EXPECTED_REQUEST = new SaveCharacterRequest(USER_ID,
                                                                                               CHARACTER_ID,
-                                                                                              CHARACTER_NAME,
-                                                                                              CHARACTER_ALIAS,
-                                                                                              CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                                                              CREW_NAME,
-                                                                                              CHARACTER_LOOK,
-                                                                                              CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                                                              CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                                                              CHARACTER_BACKGROUND_DETAILS,
-                                                                                              CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                                                              CHARACTER_VICE_DETAILS);
+                                                                                              CHARACTER_NAME.getString(),
+                                                                                              CHARACTER_ALIAS.getString(),
+                                                                                              CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+                                                                                              CREW_ID.getUUID(),
+                                                                                              CHARACTER_LOOK.getString(),
+                                                                                              CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                                                              CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                                                              CHARACTER_BACKGROUND_DETAILS.getString(),
+                                                                                              CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                                                              CHARACTER_VICE_DETAILS.getString());
 
         CharacterResponse characterResponse = mock(CharacterResponse.class);
 
@@ -92,15 +95,15 @@ class CharacterInServiceImplTest {
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
                                                      null,
-                                                     CHARACTER_ALIAS,
-                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                     CREW_NAME,
-                                                     CHARACTER_LOOK,
-                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                     CHARACTER_BACKGROUND_DETAILS,
-                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CHARACTER_ALIAS.getString(),
+                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+                                                     CREW_ID.getUUID(),
+                                                     CHARACTER_LOOK.getString(),
+                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
+                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,
@@ -117,16 +120,16 @@ class CharacterInServiceImplTest {
             when(characterConverter.toSaveCharacterRequest(characterResponse))
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
-                                                     CHARACTER_NAME,
+                                                     CHARACTER_NAME.getString(),
                                                      null,
-                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                     CREW_NAME,
-                                                     CHARACTER_LOOK,
-                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                     CHARACTER_BACKGROUND_DETAILS,
-                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+                                                     CREW_ID.getUUID(),
+                                                     CHARACTER_LOOK.getString(),
+                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
+                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,
@@ -143,21 +146,21 @@ class CharacterInServiceImplTest {
             when(characterConverter.toSaveCharacterRequest(characterResponse))
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
-                                                     CHARACTER_NAME,
-                                                     CHARACTER_ALIAS,
+                                                     CHARACTER_NAME.getString(),
+                                                     CHARACTER_ALIAS.getString(),
                                                      null,
-                                                     CREW_NAME,
-                                                     CHARACTER_LOOK,
-                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                     CHARACTER_BACKGROUND_DETAILS,
-                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CREW_ID.getUUID(),
+                                                     CHARACTER_LOOK.getString(),
+                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
+                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,
                                                                                        CharacterPartRequest.TYPE,
-                                                                                       "LURK");
+                                                                                       new CharacterUpdateString(CHARACTER_TYPE_STRING.getString()));
 
             underTest.updateCharacter(updateCharacterRequest);
 
@@ -169,21 +172,21 @@ class CharacterInServiceImplTest {
             when(characterConverter.toSaveCharacterRequest(characterResponse))
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
-                                                     CHARACTER_NAME,
-                                                     CHARACTER_ALIAS,
-                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
+                                                     CHARACTER_NAME.getString(),
+                                                     CHARACTER_ALIAS.getString(),
+                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
                                                      null,
-                                                     CHARACTER_LOOK,
-                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                     CHARACTER_BACKGROUND_DETAILS,
-                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CHARACTER_LOOK.getString(),
+                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
+                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,
                                                                                        CharacterPartRequest.CREW_NAME,
-                                                                                       CREW_NAME);
+                                                                                       CREW_ID);
 
             underTest.updateCharacter(updateCharacterRequest);
 
@@ -195,16 +198,16 @@ class CharacterInServiceImplTest {
             when(characterConverter.toSaveCharacterRequest(characterResponse))
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
-                                                     CHARACTER_NAME,
-                                                     CHARACTER_ALIAS,
-                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                     CREW_NAME,
+                                                     CHARACTER_NAME.getString(),
+                                                     CHARACTER_ALIAS.getString(),
+                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+                                                     CREW_ID.getUUID(),
                                                      null,
-                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                     CHARACTER_BACKGROUND_DETAILS,
-                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
+                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,
@@ -221,16 +224,16 @@ class CharacterInServiceImplTest {
             when(characterConverter.toSaveCharacterRequest(characterResponse))
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
-                                                     CHARACTER_NAME,
-                                                     CHARACTER_ALIAS,
-                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                     CREW_NAME,
-                                                     CHARACTER_LOOK,
+                                                     CHARACTER_NAME.getString(),
+                                                     CHARACTER_ALIAS.getString(),
+                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+                                                     CREW_ID.getUUID(),
+                                                     CHARACTER_LOOK.getString(),
                                                      null,
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                     CHARACTER_BACKGROUND_DETAILS,
-                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
+                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,
@@ -247,16 +250,16 @@ class CharacterInServiceImplTest {
             when(characterConverter.toSaveCharacterRequest(characterResponse))
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
-                                                     CHARACTER_NAME,
-                                                     CHARACTER_ALIAS,
-                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                     CREW_NAME,
-                                                     CHARACTER_LOOK,
-                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
+                                                     CHARACTER_NAME.getString(),
+                                                     CHARACTER_ALIAS.getString(),
+                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+                                                     CREW_ID.getUUID(),
+                                                     CHARACTER_LOOK.getString(),
+                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
                                                      null,
-                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,
@@ -273,16 +276,16 @@ class CharacterInServiceImplTest {
             when(characterConverter.toSaveCharacterRequest(characterResponse))
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
-                                                     CHARACTER_NAME,
-                                                     CHARACTER_ALIAS,
-                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                     CREW_NAME,
-                                                     CHARACTER_LOOK,
-                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                     CHARACTER_BACKGROUND_DETAILS,
+                                                     CHARACTER_NAME.getString(),
+                                                     CHARACTER_ALIAS.getString(),
+                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+                                                     CREW_ID.getUUID(),
+                                                     CHARACTER_LOOK.getString(),
+                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
                                                      null,
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,
@@ -299,16 +302,16 @@ class CharacterInServiceImplTest {
             when(characterConverter.toSaveCharacterRequest(characterResponse))
                 .thenReturn(new SaveCharacterRequest(USER_ID,
                                                      CHARACTER_ID,
-                                                     CHARACTER_NAME,
-                                                     CHARACTER_ALIAS,
-                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING),
-                                                     CREW_NAME,
-                                                     CHARACTER_LOOK,
-                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING),
-                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING),
-                                                     CHARACTER_BACKGROUND_DETAILS,
-                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING),
-                                                     CHARACTER_VICE_DETAILS));
+                                                     CHARACTER_NAME.getString(),
+                                                     CHARACTER_ALIAS.getString(),
+                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+                                                     CREW_ID.getUUID(),
+                                                     CHARACTER_LOOK.getString(),
+                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
+                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+                                                     CHARACTER_VICE_DETAILS.getString()));
 
             UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
                                                                                        CHARACTER_ID,

@@ -1,0 +1,22 @@
+<fieldset class="govuk-fieldset">
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+    <{{#hasOneQuestion}}h1{{/hasOneQuestion}}{{^hasOneQuestion}}h2{{/hasOneQuestion}} class="govuk-fieldset__heading">
+      {{#i18n}}{{groupStem}}.{{questionId}}.question '{{#questionArgs}}{{#i18n}}{{.}}{{/i18n}};{{/questionArgs}}'{{/i18n}}
+    </{{#hasOneQuestion}}h1{{/hasOneQuestion}}{{^hasOneQuestion}}h2{{/hasOneQuestion}}>
+  </legend>
+  {{#hasError}}
+    <p id="full-name-input-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> {{#i18n}}{{groupStem}}.{{errorProperty}}{{/i18n}}
+    </p>
+  {{/hasError}}
+  <div class="govuk-radios" data-module="govuk-radios">
+    {{#options}}
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="{{questionId}}-{{value}}" name="{{questionId}}" type="radio" value={{value}} {{#isSelected}}checked{{/isSelected}}>
+        <label class="govuk-label govuk-radios__label" for="{{questionId}}-{{value}}">
+          {{#i18n}}{{name}}{{/i18n}}
+        </label>
+      </div>
+    {{/options}}
+  </div>
+</fieldset>

@@ -13,8 +13,10 @@ import lombok.experimental.SuperBuilder;
 public abstract class Question {
 
     private final String questionId;
-    @Singular private final List<String> questionArgs;
-    private final String previousAnswer;
+    @Singular
+    private final List<String> questionArgs;
+    @Singular
+    private final List<String> previousAnswers;
     private final String errorProperty;
 
     public boolean isInput() {
@@ -25,8 +27,16 @@ public abstract class Question {
         return getClass().getSimpleName().equals("RadioButton");
     }
 
+    public boolean isCheckbox() {
+        return getClass().getSimpleName().equals("Checkbox");
+    }
+
     public boolean hasError() {
         return getErrorProperty() != null;
+    }
+
+    public String getPreviousAnswer() {
+        return ((previousAnswers == null) || previousAnswers.isEmpty()) ? null : previousAnswers.getFirst();
     }
 
 }

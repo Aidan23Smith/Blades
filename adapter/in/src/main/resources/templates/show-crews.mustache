@@ -1,0 +1,70 @@
+{{<layouts/base}}
+  {{$page}}
+    {{#crews}}
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">
+            {{crewName}}
+          </h2>
+          <ul class="govuk-summary-card__actions">
+            <li class="govuk-summary-card__action">
+              <a class="govuk-link" href="/crew/delete/{{crewId}}">
+                {{#i18n}}delete{{/i18n}}<span class="govuk-visually-hidden"> {{crewName}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            {{<partials/_part-row}}
+              {{$change-url}}/crew/change/CREW_NAME/{{crewId}}{{/change-url}}
+              {{$part}}crewName{{/part}}
+              {{$enumPart}}CREW_NAME{{/enumPart}}
+              {{$setValue}}{{crewName}}{{/setValue}}
+              {{$name}}{{crewName}}{{/name}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$change-url}}/crew/change/CHARACTER_IDS/{{crewId}}{{/change-url}}
+              {{$part}}characterIds{{/part}}
+              {{$enumPart}}CHARACTER_IDS{{/enumPart}}
+              {{$setValue}}
+                {{#hasCrewMembers}}
+                  <ul class="govuk-list govuk-list--bullet">
+                    {{#characterNames}}
+                      <li>{{.}}</li>
+                    {{/characterNames}}
+                  </ul>
+                {{/hasCrewMembers}}
+                {{^hasCrewMembers}}{{#i18n}}{{groupStem}}.characterIds.none{{/i18n}}{{/hasCrewMembers}}
+              {{/setValue}}
+              {{$name}}{{crewName}}{{/name}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$change-url}}/crew/change/LAIR/{{crewId}}{{/change-url}}
+              {{$part}}lair{{/part}}
+              {{$enumPart}}LAIR{{/enumPart}}
+              {{$setValue}}
+                {{#lair}}{{#i18n}}{{lair}}{{/i18n}}{{/lair}}
+                {{^lair}}{{#i18n}}{{groupStem}}.lair.none{{/i18n}}{{/lair}}
+              {{/setValue}}
+              {{$name}}{{crewName}}{{/name}}
+            {{/partials/_part-row}}
+            {{<partials/_part-row}}
+              {{$change-url}}/crew/change/LAIR_DETAILS/{{crewId}}{{/change-url}}
+              {{$part}}lairDetails{{/part}}
+              {{$enumPart}}LAIR_DETAILS{{/enumPart}}
+              {{$setValue}}
+                {{#lairDetails}}{{lairDetails}}{{/lairDetails}}
+                {{^lairDetails}}{{#i18n}}{{groupStem}}.lairDetails.none{{/i18n}}{{/lairDetails}}
+              {{/setValue}}
+              {{$name}}{{crewName}}{{/name}}
+            {{/partials/_part-row}}
+          </dl>
+        </div>
+      </div>
+    {{/crews}}
+    <a href=/crew/create-crew draggable="false" role="button" class="govuk-button govuk-button--start button-padding" data-module="govuk-button">
+      {{#i18n}}{{groupStem}}.create{{/i18n}}
+    </a>
+  {{/page}}
+{{/layouts/base}}

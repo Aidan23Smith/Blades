@@ -1,6 +1,8 @@
 package com.blades.data.character;
 
-public enum CharacterViceDto {
+import com.blades.frontend.page.question.OptionValueDto;
+
+public enum CharacterViceDto implements OptionValueDto {
 
     FAITH,
     GAMBLING,
@@ -9,5 +11,15 @@ public enum CharacterViceDto {
     PLEASURE,
     STUPOR,
     WEIRD,
+    ;
 
+    @Override
+    public String getName() {
+        return name();
+    }
+
+    @Override
+    public String getValue() {
+        return name();
+    }
 }

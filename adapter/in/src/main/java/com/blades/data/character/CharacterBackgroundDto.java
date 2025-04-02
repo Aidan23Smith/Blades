@@ -1,6 +1,8 @@
 package com.blades.data.character;
 
-public enum CharacterBackgroundDto {
+import com.blades.frontend.page.question.OptionValueDto;
+
+public enum CharacterBackgroundDto implements OptionValueDto {
     ACADEMIC,
     LABOR,
     LAW,
@@ -8,4 +10,15 @@ public enum CharacterBackgroundDto {
     MILITARY,
     NOBLE,
     UNDERWORLD,
+    ;
+
+    @Override
+    public String getName() {
+        return name();
+    }
+
+    @Override
+    public String getValue() {
+        return name();
+    }
 }

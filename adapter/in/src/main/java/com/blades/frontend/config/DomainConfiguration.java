@@ -13,7 +13,8 @@ public class DomainConfiguration {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames("classpath:properties/common",
                                    "classpath:properties/login",
-                                   "classpath:properties/character");
+                                   "classpath:properties/character",
+                                   "classpath:properties/crew");
         messageSource.setCacheSeconds(10);
         return messageSource;
     }
