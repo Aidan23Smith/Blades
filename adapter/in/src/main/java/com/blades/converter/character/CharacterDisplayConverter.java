@@ -6,6 +6,9 @@ import com.blades.data.character.CharacterHeritageDto;
 import com.blades.data.character.CharacterTypeDto;
 import com.blades.data.character.CharacterViceDto;
 import com.blades.data.character.CrewIdDto;
+import com.blades.data.character.HarmDto;
+import com.blades.data.character.HarmLevelDto;
+import com.blades.data.character.TraumaDto;
 import com.blades.model.response.character.CharacterResponse;
 import com.blades.model.response.crew.CrewResponse;
 import com.blades.port.in.CrewInService;
@@ -51,7 +54,16 @@ public class CharacterDisplayConverter {
                                     .map(Enum::name)
                                     .map(CharacterViceDto::valueOf)
                                     .orElse(null),
-                                character.viceDetails().orElse(null));
+                                character.viceDetails().orElse(null),
+                                character.stress(),
+                                character.traumas().stream()
+                                    .map(Enum::name)
+                                    .map(TraumaDto::valueOf)
+                                    .toList(),
+                                character.harms().stream()
+                                    .map(harm -> new HarmDto(HarmLevelDto.fromInt(harm.level()), harm.detail()))
+                                    .toList(),
+                                character.healingClock());
     }
 
 

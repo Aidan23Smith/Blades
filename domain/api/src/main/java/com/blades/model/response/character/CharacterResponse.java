@@ -1,5 +1,6 @@
 package com.blades.model.response.character;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,6 +27,10 @@ public class CharacterResponse {
     String backgroundDetails;
     CharacterViceResponse vice;
     String viceDetails;
+    int stress;
+    List<TraumaResponse> traumas;
+    List<HarmResponse> harms;
+    int healingClock;
 
     public Optional<String> alias() {
         return Optional.ofNullable(alias);

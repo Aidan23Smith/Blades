@@ -12,7 +12,7 @@ public record CharacterChangeForm(@NotEmpty(message = "no.value.") List<String> 
     }
 
     public String getSingleElement() {
-        return changeElement.isEmpty() ? "" : changeElement.getFirst();
+        return ((changeElement == null) || changeElement.isEmpty()) ? "" : changeElement.getFirst();
     }
 
 }

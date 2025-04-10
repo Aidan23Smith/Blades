@@ -1,11 +1,13 @@
 package com.blades.model.requests.character;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Singular;
 import lombok.Value;
 import lombok.experimental.Accessors;
 
@@ -28,6 +30,12 @@ public class SaveCharacterRequest {
     String backgroundDetails;
     CharacterViceRequest vice;
     String viceDetails;
+    int stress;
+    @Singular
+    List<TraumaRequest> traumas;
+    @Singular
+    List<SaveHarmRequest> harms;
+    int healingClock;
 
     public Optional<String> alias() {
         return Optional.ofNullable(alias);

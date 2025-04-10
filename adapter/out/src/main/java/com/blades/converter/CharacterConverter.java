@@ -6,6 +6,8 @@ import com.blades.data.character.CharacterHeritagePO;
 import com.blades.data.character.CharacterPO;
 import com.blades.data.character.CharacterTypePO;
 import com.blades.data.character.CharacterVicePO;
+import com.blades.data.character.HarmPO;
+import com.blades.data.character.TraumaPO;
 import com.blades.data.crew.CrewPO;
 import com.blades.model.requests.character.SaveCharacterRequest;
 import com.blades.model.response.character.CharacterBackgroundResponse;
@@ -13,6 +15,8 @@ import com.blades.model.response.character.CharacterHeritageResponse;
 import com.blades.model.response.character.CharacterResponse;
 import com.blades.model.response.character.CharacterTypeResponse;
 import com.blades.model.response.character.CharacterViceResponse;
+import com.blades.model.response.character.HarmResponse;
+import com.blades.model.response.character.TraumaResponse;
 
 import org.springframework.stereotype.Service;
 
@@ -57,7 +61,16 @@ public class CharacterConverter {
                                          .map(Enum::name)
                                          .map(CharacterViceResponse::valueOf)
                                          .orElse(null),
-                                     character.viceDetails().orElse(null));
+                                     character.viceDetails().orElse(null),
+                                     character.stress(),
+                                     character.traumas().stream()
+                                         .map(Enum::name)
+                                         .map(TraumaResponse::valueOf)
+                                         .toList(),
+                                     character.harms().stream()
+                                         .map(harm -> new HarmResponse(harm.level(), harm.detail()))
+                                         .toList(),
+                                     character.healingClock());
     }
 
     public CharacterPO toCharacterPO(SaveCharacterRequest character) {
@@ -83,7 +96,16 @@ public class CharacterConverter {
                                    .map(Enum::name)
                                    .map(CharacterVicePO::valueOf)
                                    .orElse(null),
-                               character.viceDetails().orElse(null));
+                               character.viceDetails().orElse(null),
+                               character.stress(),
+                               character.traumas().stream()
+                                   .map(Enum::name)
+                                   .map(TraumaPO::valueOf)
+                                   .toList(),
+                               character.harms().stream()
+                                   .map(harm -> new HarmPO(harm.level(), harm.detail()))
+                                   .toList(),
+                               character.healingClock());
     }
 
     private UUID getCrewId(UUID characterId) {

@@ -5,7 +5,9 @@ import com.blades.model.requests.character.CharacterHeritageRequest;
 import com.blades.model.requests.character.CharacterTypeRequest;
 import com.blades.model.requests.character.CharacterViceRequest;
 import com.blades.model.requests.character.CreateCharacterRequest;
+import com.blades.model.requests.character.SaveHarmRequest;
 import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.requests.character.TraumaRequest;
 import com.blades.model.response.character.CharacterResponse;
 
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.UUID;
 public class SaveCharacterConverter {
 
     public SaveCharacterRequest toSaveCharacterRequest(CharacterResponse character) {
-        return SaveCharacterRequest.builder()
+        return SaveCharacterRequest.builder() //todo remove this builder
             .id(character.id())
             .owningUserId(character.owningUserId())
             .name(character.name())
@@ -41,6 +43,15 @@ public class SaveCharacterConverter {
                       .map(CharacterViceRequest::valueOf)
                       .orElse(null))
             .viceDetails(character.viceDetails().orElse(null))
+            .stress(character.stress())
+            .traumas(character.traumas().stream()
+                         .map(Enum::name)
+                         .map(TraumaRequest::valueOf)
+                         .toList())
+            .harms(character.harms().stream()
+                       .map(harm -> new SaveHarmRequest(harm.level(), harm.detail()))
+                       .toList())
+            .healingClock(character.healingClock())
             .build();
     }
 

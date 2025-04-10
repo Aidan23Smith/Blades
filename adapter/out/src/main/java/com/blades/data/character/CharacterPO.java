@@ -2,6 +2,7 @@ package com.blades.data.character;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,6 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import static java.util.Collections.emptyList;
 
 @Builder
 @NoArgsConstructor
@@ -30,6 +33,10 @@ public class CharacterPO {
     String backgroundDetails;
     CharacterVicePO vice;
     String viceDetails;
+    int stress;
+    List<TraumaPO> traumas;
+    List<HarmPO> harms;
+    int healingClock;
 
     public Optional<String> alias() {
         return Optional.ofNullable(alias);
@@ -61,6 +68,14 @@ public class CharacterPO {
 
     public Optional<String> viceDetails() {
         return Optional.ofNullable(viceDetails);
+    }
+
+    public List<TraumaPO> traumas() {
+        return (traumas == null) ? emptyList() : traumas;
+    }
+
+    public List<HarmPO> harms() {
+        return (harms == null) ? emptyList() : harms;
     }
 
 }

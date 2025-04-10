@@ -1,0 +1,116 @@
+{{<layouts/base}}
+  {{$page}}
+    {{#character}}
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">
+            {{name}}
+          </h2>
+        </div>
+        {{<partials/_character-summary}}
+          {{$noAction}}{{/noAction}}
+        {{/partials/_character-summary}}
+      </div>
+
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                {{#i18n}}{{groupStem}}.stress{{/i18n}}
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{stress}}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <ul class="govuk-summary-card__actions">
+                  <li class="govuk-summary-card__action">
+                    <form action="/play/{{id}}/stress/increase" method="post" content="application/java">
+                      <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+                      <button type="submit" data-prevent-double-click="true" class="govuk-link">
+                        {{#i18n}}increase{{/i18n}}<span class="govuk-visually-hidden"> {{#i18n}}{{groupStem}}.stress{{/i18n}}</span>
+                      </button>
+                    </form>
+                  </li>
+
+                  <li class="govuk-summary-card__action">
+                    <form action="/play/{{id}}/stress/decrease" method="post" content="application/java">
+                      <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+                      <button type="submit" data-prevent-double-click="true" class="govuk-link">
+                        {{#i18n}}decrease{{/i18n}}<span class="govuk-visually-hidden"> {{#i18n}}{{groupStem}}.stress{{/i18n}}</span>
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                {{#i18n}}{{groupStem}}.trauma{{/i18n}}
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{#hasTrauma}}
+                  <ul class="govuk-list govuk-list--bullet">
+                    {{#traumas}}
+                      <li>{{.}}</li>
+                    {{/traumas}}
+                  </ul>
+                {{/hasTrauma}}
+                {{^hasTrauma}}{{#i18n}}{{groupStem}}.traumas.none{{/i18n}}{{/hasTrauma}}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                {{#i18n}}{{groupStem}}.harm{{/i18n}}
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{#hasHarm}}
+                  <ul class="govuk-list govuk-list--bullet">
+<!--                    todo display nicely-->
+                    {{#harms}}
+                      <li>{{.}}</li>
+                    {{/harms}}
+                  </ul>
+                {{/hasHarm}}
+                {{^hasHarm}}{{#i18n}}{{groupStem}}.harm.none{{/i18n}}{{/hasHarm}}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <ul class="govuk-summary-list__actions-list">
+                  <li class="govuk-summary-list__actions-list-item">
+                    <a class="govuk-link" href="/play/{{id}}/harm">
+                      {{#i18n}}add{{/i18n}}<span class="govuk-visually-hidden"> {{name}}</span>
+                    </a>
+                  </li>
+                </ul>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                {{#i18n}}{{groupStem}}.heal{{/i18n}}
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{healingClock}}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <ul class="govuk-summary-list__actions-list">
+                  <li class="govuk-summary-list__actions-list-item">
+                    <a class="govuk-link" href="/play/{{id}}/heal">
+                      {{#i18n}}{{groupStem}}.rollForHealthClocks{{/i18n}}<span class="govuk-visually-hidden"> {{name}}</span>
+                    </a>
+                  </li>
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    {{/character}}
+  {{/page}}
+{{/layouts/base}}

@@ -111,6 +111,7 @@ public class CharacterController {
         response.sendRedirect("/show-characters");
     }
 
+    //todo remove userId from urls
     @GetMapping("/change/{changePart}/{userId}/{id}")
     public ModelAndView changeDetails(@PathVariable CharacterPartDto changePart,
                                       @PathVariable UUID userId,

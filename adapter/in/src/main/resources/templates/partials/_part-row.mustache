@@ -6,9 +6,11 @@
   <dd class="govuk-summary-list__value">
     {{$setValue}}{{/setValue}}
   </dd>
-  <dd class="govuk-summary-list__actions">
-    <a class="govuk-link" href="{{$change-url}}/change/{{$enumPart}}{{/enumPart}}/{{owningUserId}}/{{id}}{{/change-url}}">
-      {{#i18n}}change{{/i18n}}<span class="govuk-visually-hidden"> {{#i18n}}{{groupStem}}.{{$type}}{{/type}}{{/i18n}} ({{$name}}{{name}}{{/name}})</span>
-    </a>
-  </dd>
+  {{$noAction}}
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="{{$change-url}}/change/{{$enumPart}}{{/enumPart}}/{{owningUserId}}/{{id}}{{/change-url}}">
+        {{#i18n}}change{{/i18n}}<span class="govuk-visually-hidden"> {{#i18n}}{{groupStem}}.{{$type}}{{/type}}{{/i18n}} ({{$name}}{{name}}{{/name}})</span>
+      </a>
+    </dd>
+  {{/noAction}}
 </div>
