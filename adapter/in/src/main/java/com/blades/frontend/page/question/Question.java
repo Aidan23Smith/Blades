@@ -1,15 +1,16 @@
 package com.blades.frontend.page.question;
 
-import java.util.List;
+import com.blades.data.error.ErrorDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import java.util.List;
+import java.util.Set;
+
+import lombok.Getter;
 import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
-@Data
-@SuperBuilder(builderMethodName = "requiredBuilder")
+@Getter
+@SuperBuilder(builderMethodName = "superBuilder")
 public abstract class Question {
 
     private final String questionId;
@@ -17,7 +18,7 @@ public abstract class Question {
     private final List<String> questionArgs;
     @Singular
     private final List<String> previousAnswers;
-    private final String errorProperty;
+    private String errorProperty;
 
     public boolean isInput() {
         return getClass().getSimpleName().equals("Input");
@@ -37,6 +38,15 @@ public abstract class Question {
 
     public String getPreviousAnswer() {
         return ((previousAnswers == null) || previousAnswers.isEmpty()) ? null : previousAnswers.getFirst();
+    }
+
+    public Question setError(Set<ErrorDto> allErrors) {
+        errorProperty = allErrors.stream()
+            .filter(error -> error.questionId().equals(questionId))
+            .findFirst()
+            .map(ErrorDto::error)
+            .orElse(null);
+        return this;
     }
 
 }

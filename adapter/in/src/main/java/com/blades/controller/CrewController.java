@@ -1,5 +1,6 @@
 package com.blades.controller;
 
+import com.blades.converter.ErrorConverter;
 import com.blades.converter.crew.CrewDisplayConverter;
 import com.blades.converter.crew.CrewRequestConverter;
 import com.blades.converter.crew.CrewUpdateConverter;
@@ -7,6 +8,7 @@ import com.blades.data.crew.dto.CharacterIdDto;
 import com.blades.data.crew.dto.CrewDto;
 import com.blades.data.crew.dto.CrewPartDto;
 import com.blades.data.crew.form.CrewChangeForm;
+import com.blades.data.error.ErrorDto;
 import com.blades.frontend.page.crew.CrewPage;
 import com.blades.frontend.page.question.Checkbox;
 import com.blades.frontend.page.question.Input;
@@ -34,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,6 +57,7 @@ public class CrewController {
     private final CrewRequestConverter crewRequestConverter;
     private final CrewDisplayConverter crewDisplayConverter;
     private final CrewUpdateConverter crewUpdateConverter;
+    private final ErrorConverter errorConverter;
 
     @GetMapping("/crew/create-crew")
     public ModelAndView getCreateCrewPage(CsrfToken token) {
@@ -107,7 +111,7 @@ public class CrewController {
     public ModelAndView changeDetails(@PathVariable CrewPartDto changePart,
                                       @PathVariable UUID crewId,
                                       CrewChangeForm crewChangeForm,
-                                      String errorProperty,
+                                      Set<ErrorDto> errors,
                                       CsrfToken token) {
         CrewResponse crewResponse = crewInService.getCrew(crewId);
         crewChangeForm = (crewChangeForm.changeElement() == null) ? getPreviousAnswer(changePart, crewResponse) : crewChangeForm;
@@ -123,8 +127,8 @@ public class CrewController {
         builder.questionId("changeElement")
             .questionArg(crewResponse.crewName())
             .questionArg("crew.change." + changePart)
-            .errorProperty(errorProperty)
-            .build();
+            .build()
+            .setError(errors);
         return pageService.createPage(QuestionPage.builder("crew.change", CREWS)
                                           .question(builder.build())
                                           .action("/crew/change/" + changePart + "/" + crewId)
@@ -145,10 +149,7 @@ public class CrewController {
             return changeDetails(changePart,
                                  crewId,
                                  (crewChangeForm.changeElement() == null) ? new CrewChangeForm() : crewChangeForm,
-                                 bindingResult.getAllErrors().stream()
-                                     .map(error -> error.getDefaultMessage() + changePart)
-                                     .toList()
-                                     .getFirst(), //todo generalise errors by including questionId
+                                 errorConverter.toErrorDto(bindingResult),
                                  token);
         }
 

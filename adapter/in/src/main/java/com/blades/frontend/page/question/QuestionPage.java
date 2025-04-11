@@ -16,7 +16,8 @@ import lombok.experimental.SuperBuilder;
 public class QuestionPage extends Page {
 
     private final String action;
-    @Singular private final List<Question> questions;
+    @Singular
+    private final List<Question> questions;
     private final String button;
     private final String csrfToken;
 

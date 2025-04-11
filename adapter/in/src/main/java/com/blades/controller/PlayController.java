@@ -1,5 +1,6 @@
 package com.blades.controller;
 
+import com.blades.converter.ErrorConverter;
 import com.blades.converter.character.CharacterDisplayConverter;
 import com.blades.converter.character.RequestCharacterConverter;
 import com.blades.data.RollForm;
@@ -7,6 +8,7 @@ import com.blades.data.character.HarmLevelDto;
 import com.blades.data.character.TraumaDto;
 import com.blades.data.character.form.CharacterChangeForm;
 import com.blades.data.character.form.HarmForm;
+import com.blades.data.error.ErrorDto;
 import com.blades.frontend.page.play.PlayPage;
 import com.blades.frontend.page.question.Input;
 import com.blades.frontend.page.question.QuestionPage;
@@ -32,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -51,6 +54,7 @@ public class PlayController {
     private final PageService pageService;
     private final CharacterDisplayConverter characterDisplayConverter;
     private final RequestCharacterConverter requestCharacterConverter;
+    private final ErrorConverter errorConverter;
 
     @GetMapping("/play/{characterId}")
     public ModelAndView getPlayPage(@PathVariable UUID characterId,
@@ -144,11 +148,11 @@ public class PlayController {
     @GetMapping("/play/{characterId}/harm")
     public ModelAndView getHarmPage(@PathVariable UUID characterId,
                                     CsrfToken token,
-                                    String errorProperty) {
+                                    Set<ErrorDto> errors) {
         return pageService.createPage(
             QuestionPage.builder("harm", CHARACTERS)
-                .question(Input.builder().questionId("harmDetail").errorProperty(errorProperty).build())
-                .question(RadioButton.builder().questionId("harmLevel").errorProperty(errorProperty).values(HarmLevelDto.values()).build())
+                .question(Input.builder().questionId("harmDetail").build().setError(errors))
+                .question(RadioButton.builder().questionId("harmLevel").values(HarmLevelDto.values()).build().setError(errors))
                 .action("/play/" + characterId + "/harm")
                 .backUrl("/play/" + characterId)
                 .csrfToken(token.getToken())
@@ -163,7 +167,7 @@ public class PlayController {
                                 CsrfToken token,
                                 HttpServletResponse response) throws IOException {
         if (bindingResult.hasErrors()) {
-            return getHarmPage(characterId, token, bindingResult.getAllErrors().getFirst().getDefaultMessage());
+            return getHarmPage(characterId, token, errorConverter.toErrorDto(bindingResult));
         }
         harmService.addHarm(((CustomUser) authentication.getPrincipal()).getUserID(),
                             characterId,

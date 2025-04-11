@@ -1,5 +1,6 @@
 package com.blades.controller;
 
+import com.blades.converter.ErrorConverter;
 import com.blades.converter.character.CharacterDisplayConverter;
 import com.blades.converter.character.CharacterUpdateConverter;
 import com.blades.converter.character.RequestCharacterConverter;
@@ -11,6 +12,7 @@ import com.blades.data.character.CharacterTypeDto;
 import com.blades.data.character.CharacterViceDto;
 import com.blades.data.character.CrewIdDto;
 import com.blades.data.character.form.CharacterChangeForm;
+import com.blades.data.error.ErrorDto;
 import com.blades.frontend.page.character.CharacterPage;
 import com.blades.frontend.page.question.Input;
 import com.blades.frontend.page.question.Question;
@@ -40,6 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -59,6 +62,7 @@ public class CharacterController {
     private final RequestCharacterConverter requestCharacterConverter;
     private final CharacterDisplayConverter characterDisplayConverter;
     private final CharacterUpdateConverter characterUpdateConverter;
+    private final ErrorConverter errorConverter;
 
     @GetMapping("/create-character")
     public ModelAndView getCreateCharacterPage(CsrfToken token) {
@@ -117,7 +121,7 @@ public class CharacterController {
                                       @PathVariable UUID userId,
                                       @PathVariable UUID id,
                                       CharacterChangeForm characterChangeForm,
-                                      String errorProperty,
+                                      Set<ErrorDto> errors,
                                       CsrfToken token) {
         CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
         characterChangeForm = (characterChangeForm.changeElement() == null) ? getPreviousAnswer(changePart, characterResponse) : characterChangeForm;
@@ -135,10 +139,9 @@ public class CharacterController {
 
         builder.questionId("changeElement")
             .questionArg(characterResponse.name())
-            .questionArg("character.change." + changePart)
-            .errorProperty(errorProperty);
+            .questionArg("character.change." + changePart);
         return pageService.createPage(QuestionPage.builder("character.change", CHARACTERS)
-                                          .question(builder.build())
+                                          .question(builder.build().setError(errors))
                                           .action("/change/" + changePart + "/" + userId + "/" + id)
                                           .backUrl("/show-characters")
                                           .csrfToken(token.getToken())
@@ -158,10 +161,7 @@ public class CharacterController {
                                  userId,
                                  id,
                                  (characterChangeForm.changeElement() == null) ? new CharacterChangeForm() : characterChangeForm,
-                                 bindingResult.getAllErrors().stream()
-                                     .map(error -> error.getDefaultMessage() + changePart)
-                                     .toList()
-                                     .getFirst(), //todo generalise errors by including questionId
+                                 errorConverter.toErrorDto(bindingResult),
                                  token);
         }
 
