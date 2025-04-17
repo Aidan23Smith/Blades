@@ -18,7 +18,8 @@ public record CharacterDto(UUID owningUserId,
                            Integer stress,
                            List<TraumaDto> traumas,
                            List<HarmDto> harms,
-                           Integer healingClock) {
+                           Integer healingClock,
+                           List<ArmourDto> armours) {
 
     public boolean hasTrauma() {
         return !traumas.isEmpty();
@@ -26,6 +27,10 @@ public record CharacterDto(UUID owningUserId,
 
     public boolean hasHarm() {
         return !harms.isEmpty();
+    }
+
+    public boolean hasArmour() {
+        return !armours.isEmpty();
     }
 
 }

@@ -31,6 +31,7 @@ public class CharacterResponse {
     List<TraumaResponse> traumas;
     List<HarmResponse> harms;
     int healingClock;
+    List<ArmourResponse> armours;
 
     public Optional<String> alias() {
         return Optional.ofNullable(alias);

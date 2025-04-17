@@ -1,5 +1,6 @@
 package com.blades.usecase;
 
+import com.blades.model.requests.character.ArmourRequest;
 import com.blades.model.requests.character.HarmRequest;
 import com.blades.model.requests.character.SaveCharacterRequest;
 import com.blades.model.requests.character.SaveHarmRequest;
@@ -56,6 +57,17 @@ public class HarmServiceImpl implements HarmService {
 
         characterOutService.saveCharacter(saveCharacterBuilder
                                               .healingClock(healingClock)
+                                              .build());
+    }
+
+    @Override
+    public void updateArmour(UUID userId, UUID id, List<ArmourRequest> armourRequest) {
+        CharacterResponse currentCharacter = characterOutService.getCharacter(userId, id);
+
+        characterOutService.saveCharacter(characterConverter
+                                              .toSaveCharacterRequest(currentCharacter)
+                                              .toBuilder()
+                                              .armours(armourRequest)
                                               .build());
     }
 

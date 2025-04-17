@@ -37,6 +37,7 @@ public class CharacterPO {
     List<TraumaPO> traumas;
     List<HarmPO> harms;
     int healingClock;
+    List<ArmourPO> armours;
 
     public Optional<String> alias() {
         return Optional.ofNullable(alias);
@@ -76,6 +77,10 @@ public class CharacterPO {
 
     public List<HarmPO> harms() {
         return (harms == null) ? emptyList() : harms;
+    }
+
+    public List<ArmourPO> armours() {
+        return (armours == null) ? emptyList() : armours;
     }
 
 }

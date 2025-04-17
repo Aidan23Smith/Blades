@@ -1,5 +1,6 @@
 package com.blades.converter.character;
 
+import com.blades.data.character.ArmourDto;
 import com.blades.data.character.CharacterBackgroundDto;
 import com.blades.data.character.CharacterDto;
 import com.blades.data.character.CharacterHeritageDto;
@@ -63,7 +64,10 @@ public class CharacterDisplayConverter {
                                 character.harms().stream()
                                     .map(harm -> new HarmDto(HarmLevelDto.fromInt(harm.level()), harm.detail()))
                                     .toList(),
-                                character.healingClock());
+                                character.healingClock(),
+                                character.armours().stream()
+                                    .map(armour -> ArmourDto.valueOf(armour.name()))
+                                    .toList());
     }
 
 

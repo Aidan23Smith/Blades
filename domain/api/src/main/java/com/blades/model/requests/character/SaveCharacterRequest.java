@@ -36,6 +36,8 @@ public class SaveCharacterRequest {
     @Singular
     List<SaveHarmRequest> harms;
     int healingClock;
+    @Singular
+    List<ArmourRequest> armours;
 
     public Optional<String> alias() {
         return Optional.ofNullable(alias);

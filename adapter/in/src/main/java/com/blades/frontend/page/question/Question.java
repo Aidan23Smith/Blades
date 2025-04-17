@@ -41,6 +41,9 @@ public abstract class Question {
     }
 
     public Question setError(Set<ErrorDto> allErrors) {
+        if (allErrors == null) {
+            return this;
+        }
         errorProperty = allErrors.stream()
             .filter(error -> error.questionId().equals(questionId))
             .findFirst()

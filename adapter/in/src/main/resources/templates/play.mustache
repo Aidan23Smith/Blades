@@ -108,6 +108,31 @@
                 </ul>
               </dd>
             </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                {{#i18n}}{{groupStem}}.armour{{/i18n}}
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{#hasArmour}}
+                  <ul class="govuk-list govuk-list--bullet">
+                    <!--                    todo display nicely-->
+                    {{#armour}}
+                      <li>{{.}}</li>
+                    {{/armour}}
+                  </ul>
+                {{/hasArmour}}
+                {{^hasArmour}}{{#i18n}}{{groupStem}}.armour.none{{/i18n}}{{/hasArmour}}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <ul class="govuk-summary-list__actions-list">
+                  <li class="govuk-summary-list__actions-list-item">
+                    <a class="govuk-link" href="/play/{{id}}/armour">
+                      {{#i18n}}{{groupStem}}.use{{/i18n}}<span class="govuk-visually-hidden"> {{name}}</span>
+                    </a>
+                  </li>
+                </ul>
+              </dd>
+            </div>
           </dl>
         </div>
       </div>

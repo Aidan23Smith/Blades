@@ -111,8 +111,47 @@ public class CrewController {
     public ModelAndView changeDetails(@PathVariable CrewPartDto changePart,
                                       @PathVariable UUID crewId,
                                       CrewChangeForm crewChangeForm,
-                                      Set<ErrorDto> errors,
                                       CsrfToken token) {
+        return getChangeDetailsPage(changePart,
+                                    crewId,
+                                    crewChangeForm,
+                                    Collections.emptySet(),
+                                    token);
+    }
+
+    @PostMapping(value = "/crew/change/{changePart}/{crewId}", consumes = APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView editAndRedirect(@PathVariable CrewPartDto changePart,
+                                        @PathVariable UUID crewId,
+                                        @Valid CrewChangeForm crewChangeForm,
+                                        BindingResult bindingResult,
+                                        HttpServletResponse response,
+                                        CsrfToken token) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            return getChangeDetailsPage(changePart,
+                                        crewId,
+                                        (crewChangeForm.changeElement() == null) ? new CrewChangeForm() : crewChangeForm,
+                                        errorConverter.toErrorDto(bindingResult),
+                                        token);
+        }
+
+        CrewUpdateElement updateElement = switch (changePart) {
+            case CREW_NAME, LAIR, LAIR_DETAILS -> crewUpdateConverter.toCrewUpdateString(crewChangeForm);
+            case CHARACTER_IDS -> crewUpdateConverter.toCrewUpdateUUIDList(crewChangeForm);
+        };
+        crewInService.updateCrew(new UpdateCrewRequest(crewId,
+                                                       CrewPartRequest.valueOf(changePart.name()),
+                                                       updateElement));
+
+        response.sendRedirect("/crew/show-crews");
+        return null;
+    }
+
+    private ModelAndView getChangeDetailsPage(CrewPartDto changePart,
+                                              UUID crewId,
+                                              CrewChangeForm crewChangeForm,
+                                              Set<ErrorDto> errors,
+                                              CsrfToken token) {
         CrewResponse crewResponse = crewInService.getCrew(crewId);
         crewChangeForm = (crewChangeForm.changeElement() == null) ? getPreviousAnswer(changePart, crewResponse) : crewChangeForm;
 
@@ -135,34 +174,6 @@ public class CrewController {
                                           .backUrl("/crew/show-crews")
                                           .csrfToken(token.getToken())
                                           .build());
-    }
-
-    @PostMapping(value = "/crew/change/{changePart}/{crewId}", consumes = APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView editAndRedirect(@PathVariable CrewPartDto changePart,
-                                        @PathVariable UUID crewId,
-                                        @Valid CrewChangeForm crewChangeForm,
-                                        BindingResult bindingResult,
-                                        HttpServletResponse response,
-                                        CsrfToken token) throws IOException {
-
-        if (bindingResult.hasErrors()) {
-            return changeDetails(changePart,
-                                 crewId,
-                                 (crewChangeForm.changeElement() == null) ? new CrewChangeForm() : crewChangeForm,
-                                 errorConverter.toErrorDto(bindingResult),
-                                 token);
-        }
-
-        CrewUpdateElement updateElement = switch (changePart) {
-            case CREW_NAME, LAIR, LAIR_DETAILS -> crewUpdateConverter.toCrewUpdateString(crewChangeForm);
-            case CHARACTER_IDS -> crewUpdateConverter.toCrewUpdateUUIDList(crewChangeForm);
-        };
-        crewInService.updateCrew(new UpdateCrewRequest(crewId,
-                                                       CrewPartRequest.valueOf(changePart.name()),
-                                                       updateElement));
-
-        response.sendRedirect("/crew/show-crews");
-        return null;
     }
 
     private CrewChangeForm getPreviousAnswer(CrewPartDto changePart, CrewResponse crewResponse) {

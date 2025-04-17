@@ -1,6 +1,7 @@
 package com.blades.converter;
 
 import com.blades.dao.CrewDao;
+import com.blades.data.character.ArmourPO;
 import com.blades.data.character.CharacterBackgroundPO;
 import com.blades.data.character.CharacterHeritagePO;
 import com.blades.data.character.CharacterPO;
@@ -10,6 +11,7 @@ import com.blades.data.character.HarmPO;
 import com.blades.data.character.TraumaPO;
 import com.blades.data.crew.CrewPO;
 import com.blades.model.requests.character.SaveCharacterRequest;
+import com.blades.model.response.character.ArmourResponse;
 import com.blades.model.response.character.CharacterBackgroundResponse;
 import com.blades.model.response.character.CharacterHeritageResponse;
 import com.blades.model.response.character.CharacterResponse;
@@ -70,7 +72,10 @@ public class CharacterConverter {
                                      character.harms().stream()
                                          .map(harm -> new HarmResponse(harm.level(), harm.detail()))
                                          .toList(),
-                                     character.healingClock());
+                                     character.healingClock(),
+                                     character.armours().stream()
+                                         .map(armour -> ArmourResponse.valueOf(armour.name()))
+                                         .toList());
     }
 
     public CharacterPO toCharacterPO(SaveCharacterRequest character) {
@@ -105,7 +110,10 @@ public class CharacterConverter {
                                character.harms().stream()
                                    .map(harm -> new HarmPO(harm.level(), harm.detail()))
                                    .toList(),
-                               character.healingClock());
+                               character.healingClock(),
+                               character.armours().stream()
+                                   .map(armour -> ArmourPO.valueOf(armour.name()))
+                                   .toList());
     }
 
     private UUID getCrewId(UUID characterId) {

@@ -121,31 +121,13 @@ public class CharacterController {
                                       @PathVariable UUID userId,
                                       @PathVariable UUID id,
                                       CharacterChangeForm characterChangeForm,
-                                      Set<ErrorDto> errors,
                                       CsrfToken token) {
-        CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
-        characterChangeForm = (characterChangeForm.changeElement() == null) ? getPreviousAnswer(changePart, characterResponse) : characterChangeForm;
-
-        Question.QuestionBuilder builder = switch (changePart) {
-            case NAME, ALIAS, LOOK, BACKGROUND_DETAILS, VICE_DETAILS -> Input.builder().previousAnswer(characterChangeForm.getSingleElement());
-            case TYPE -> RadioButton.<CharacterTypeDto>builder().values(CharacterTypeDto.values()).previousAnswer(characterChangeForm.getSingleElement());
-            case HERITAGE -> RadioButton.<CharacterHeritageDto>builder().values(CharacterHeritageDto.values()).previousAnswer(characterChangeForm.getSingleElement());
-            case BACKGROUND -> RadioButton.<CharacterBackgroundDto>builder().values(CharacterBackgroundDto.values()).previousAnswer(characterChangeForm.getSingleElement());
-            case VICE -> RadioButton.<CharacterViceDto>builder().values(CharacterViceDto.values()).previousAnswer(characterChangeForm.getSingleElement());
-            case CREW_NAME -> RadioButton.<CrewIdDto>builder()
-                .values(characterDisplayConverter.toCrewIdDto(crewInService.getCrews()))
-                .previousAnswers(characterChangeForm.changeElement());
-        };
-
-        builder.questionId("changeElement")
-            .questionArg(characterResponse.name())
-            .questionArg("character.change." + changePart);
-        return pageService.createPage(QuestionPage.builder("character.change", CHARACTERS)
-                                          .question(builder.build().setError(errors))
-                                          .action("/change/" + changePart + "/" + userId + "/" + id)
-                                          .backUrl("/show-characters")
-                                          .csrfToken(token.getToken())
-                                          .build());
+        return getChangeDetailsPage(changePart,
+                                    userId,
+                                    id,
+                                    characterChangeForm,
+                                    Collections.emptySet(),
+                                    token);
     }
 
     @PostMapping("/change/{changePart}/{userId}/{id}")
@@ -157,12 +139,12 @@ public class CharacterController {
                                         HttpServletResponse response,
                                         CsrfToken token) throws IOException {
         if (bindingResult.hasErrors()) {
-            return changeDetails(changePart,
-                                 userId,
-                                 id,
-                                 (characterChangeForm.changeElement() == null) ? new CharacterChangeForm() : characterChangeForm,
-                                 errorConverter.toErrorDto(bindingResult),
-                                 token);
+            return getChangeDetailsPage(changePart,
+                                        userId,
+                                        id,
+                                        (characterChangeForm.changeElement() == null) ? new CharacterChangeForm() : characterChangeForm,
+                                        errorConverter.toErrorDto(bindingResult),
+                                        token);
         }
 
         CharacterUpdateElement changeElement = switch (changePart) {
@@ -191,6 +173,37 @@ public class CharacterController {
                 case VICE -> characterResponse.vice().map(Enum::name).map(List::of).orElse(Collections.emptyList());
                 case VICE_DETAILS -> characterResponse.viceDetails().map(List::of).orElse(Collections.emptyList());
             });
+    }
+
+    private ModelAndView getChangeDetailsPage(CharacterPartDto changePart,
+                                              UUID userId,
+                                              UUID id,
+                                              CharacterChangeForm characterChangeForm,
+                                              Set<ErrorDto> errors,
+                                              CsrfToken token) {
+        CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
+        characterChangeForm = (characterChangeForm.changeElement() == null) ? getPreviousAnswer(changePart, characterResponse) : characterChangeForm;
+
+        Question.QuestionBuilder builder = switch (changePart) {
+            case NAME, ALIAS, LOOK, BACKGROUND_DETAILS, VICE_DETAILS -> Input.builder().previousAnswer(characterChangeForm.getSingleElement());
+            case TYPE -> RadioButton.<CharacterTypeDto>builder().values(CharacterTypeDto.values()).previousAnswer(characterChangeForm.getSingleElement());
+            case HERITAGE -> RadioButton.<CharacterHeritageDto>builder().values(CharacterHeritageDto.values()).previousAnswer(characterChangeForm.getSingleElement());
+            case BACKGROUND -> RadioButton.<CharacterBackgroundDto>builder().values(CharacterBackgroundDto.values()).previousAnswer(characterChangeForm.getSingleElement());
+            case VICE -> RadioButton.<CharacterViceDto>builder().values(CharacterViceDto.values()).previousAnswer(characterChangeForm.getSingleElement());
+            case CREW_NAME -> RadioButton.<CrewIdDto>builder()
+                .values(characterDisplayConverter.toCrewIdDto(crewInService.getCrews()))
+                .previousAnswers(characterChangeForm.changeElement());
+        };
+
+        builder.questionId("changeElement")
+            .questionArg(characterResponse.name())
+            .questionArg("character.change." + changePart);
+        return pageService.createPage(QuestionPage.builder("character.change", CHARACTERS)
+                                          .question(builder.build().setError(errors))
+                                          .action("/change/" + changePart + "/" + userId + "/" + id)
+                                          .backUrl("/show-characters")
+                                          .csrfToken(token.getToken())
+                                          .build());
     }
 
 }

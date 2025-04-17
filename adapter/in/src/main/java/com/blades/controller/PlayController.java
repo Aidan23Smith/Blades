@@ -4,12 +4,15 @@ import com.blades.converter.ErrorConverter;
 import com.blades.converter.character.CharacterDisplayConverter;
 import com.blades.converter.character.RequestCharacterConverter;
 import com.blades.data.RollForm;
+import com.blades.data.character.ArmourDto;
 import com.blades.data.character.HarmLevelDto;
 import com.blades.data.character.TraumaDto;
 import com.blades.data.character.form.CharacterChangeForm;
 import com.blades.data.character.form.HarmForm;
 import com.blades.data.error.ErrorDto;
+import com.blades.data.character.form.ArmourForm;
 import com.blades.frontend.page.play.PlayPage;
+import com.blades.frontend.page.question.Checkbox;
 import com.blades.frontend.page.question.Input;
 import com.blades.frontend.page.question.QuestionPage;
 import com.blades.frontend.page.question.RadioButton;
@@ -34,6 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
@@ -147,16 +151,10 @@ public class PlayController {
 
     @GetMapping("/play/{characterId}/harm")
     public ModelAndView getHarmPage(@PathVariable UUID characterId,
-                                    CsrfToken token,
-                                    Set<ErrorDto> errors) {
-        return pageService.createPage(
-            QuestionPage.builder("harm", CHARACTERS)
-                .question(Input.builder().questionId("harmDetail").build().setError(errors))
-                .question(RadioButton.builder().questionId("harmLevel").values(HarmLevelDto.values()).build().setError(errors))
-                .action("/play/" + characterId + "/harm")
-                .backUrl("/play/" + characterId)
-                .csrfToken(token.getToken())
-                .build());
+                                    CsrfToken token) {
+        return getHarmPage(characterId,
+                           token,
+                           Collections.emptySet());
     }
 
     @PostMapping("/play/{characterId}/harm")
@@ -176,17 +174,13 @@ public class PlayController {
         return null;
     }
 
+    //todo get a good implementation for previously entered answers
     @GetMapping("/play/{characterId}/heal")
     public ModelAndView getHealPage(@PathVariable UUID characterId,
-                                    CsrfToken token,
-                                    String errorProperty) {
-        return pageService.createPage(
-            QuestionPage.builder("heal", CHARACTERS)
-                .question(Input.builder().questionId("roll").errorProperty(errorProperty).build())
-                .action("/play/" + characterId + "/heal")
-                .backUrl("/play/" + characterId)
-                .csrfToken(token.getToken())
-                .build());
+                                    CsrfToken token) {
+        return getHealPage(characterId,
+                           token,
+                           Collections.emptySet());
     }
 
     @PostMapping("/play/{characterId}/heal")
@@ -197,13 +191,75 @@ public class PlayController {
                                             CsrfToken token,
                                             HttpServletResponse response) throws IOException {
         if (bindingResult.hasErrors()) {
-            return getHealPage(characterId, token, bindingResult.getAllErrors().getFirst().getDefaultMessage());
+            return getHealPage(characterId, token, errorConverter.toErrorDto(bindingResult));
         }
         harmService.rollForHealingClock(((CustomUser) authentication.getPrincipal()).getUserID(),
                                         characterId,
                                         form.roll());
         response.sendRedirect("/play/" + characterId);
         return null;
+    }
+
+    @GetMapping("/play/{characterId}/armour")
+    public ModelAndView getArmourPage(@PathVariable UUID characterId,
+                                      CsrfToken token) {
+        return getArmourPage(characterId,
+                             token,
+                             Collections.emptySet());
+    }
+
+    @PostMapping("/play/{characterId}/armour")
+    public ModelAndView setArmour(@PathVariable UUID characterId,
+                                  @Valid ArmourForm armour,
+                                  BindingResult bindingResult,
+                                  Authentication authentication,
+                                  CsrfToken token,
+                                  HttpServletResponse response) throws IOException {
+        if (bindingResult.hasErrors()) {
+            return getArmourPage(characterId, token, errorConverter.toErrorDto(bindingResult));
+        }
+        harmService.updateArmour(((CustomUser) authentication.getPrincipal()).getUserID(),
+                                 characterId,
+                                 requestCharacterConverter.toArmourRequest(armour.selected()));
+        response.sendRedirect("/play/" + characterId);
+        return null;
+    }
+
+    private ModelAndView getHarmPage(UUID characterId,
+                                     CsrfToken token,
+                                     Set<ErrorDto> errors) {
+        return pageService.createPage(
+            QuestionPage.builder("harm", CHARACTERS)
+                .question(Input.builder().questionId("harmDetail").build().setError(errors))
+                .question(RadioButton.builder().questionId("harmLevel").values(HarmLevelDto.values()).build().setError(errors))
+                .action("/play/" + characterId + "/harm")
+                .backUrl("/play/" + characterId)
+                .csrfToken(token.getToken())
+                .build());
+    }
+
+    private ModelAndView getHealPage(UUID characterId,
+                                     CsrfToken token,
+                                     Set<ErrorDto> errors) {
+        return pageService.createPage(
+            QuestionPage.builder("heal", CHARACTERS)
+                .question(Input.builder().questionId("roll").build().setError(errors))
+                .action("/play/" + characterId + "/heal")
+                .backUrl("/play/" + characterId)
+                .csrfToken(token.getToken())
+                .build());
+    }
+
+    private ModelAndView getArmourPage(UUID characterId,
+                                       CsrfToken token,
+                                       Set<ErrorDto> errors) {
+        return pageService.createPage(
+            QuestionPage.builder("armour", CHARACTERS)
+                .question(Checkbox.<ArmourDto>builder().values(ArmourDto.values()).questionId("selected").build().setError(errors))
+                .action("/play/" + characterId + "/armour")
+                .backUrl("/play/" + characterId)
+                .csrfToken(token.getToken())
+                .build());
     }
 
 }
