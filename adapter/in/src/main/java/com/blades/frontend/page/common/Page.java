@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.Data;
+import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 
 @Data
@@ -15,6 +16,7 @@ public class Page {
     private final String templateName;
     private final String backUrl;
     private final String groupStem;
+    @Singular
     private final List<String> titleArgs;
     private final Navigation currentPage;
 

@@ -1,4 +1,4 @@
-package com.blades.controller.play.stress;
+package com.blades.controller.character.play.stress;
 
 import com.blades.converter.ErrorConverter;
 import com.blades.data.character.form.TraumaForm;
@@ -68,12 +68,12 @@ public class StressController {
                                       CsrfToken token) {
         CharacterResponse characterResponse = characterInService.getCharacter(((CustomUser) authentication.getPrincipal()).getUserID(), characterId);
 
-        return pageService.createPage(TraumaPage.createPage(traumaForm,
-                                                            characterResponse.name(),
-                                                            characterResponse.traumas(),
-                                                            characterId,
-                                                            token.getToken(),
-                                                            Collections.emptySet()));
+        return pageService.createPage(new TraumaPage(traumaForm,
+                                                     characterResponse.name(),
+                                                     characterResponse.traumas(),
+                                                     characterId,
+                                                     token.getToken(),
+                                                     Collections.emptySet()));
     }
 
     @PostMapping("/play/{characterId}/trauma")
@@ -85,12 +85,12 @@ public class StressController {
                                   CsrfToken token) throws IOException {
         if (bindingResult.hasErrors()) {
             CharacterResponse characterResponse = characterInService.getCharacter(((CustomUser) authentication.getPrincipal()).getUserID(), characterId);
-            return pageService.createPage(TraumaPage.createPage(traumaForm,
-                                                                characterResponse.name(),
-                                                                characterResponse.traumas(),
-                                                                characterId,
-                                                                token.getToken(),
-                                                                errorConverter.toErrorDto(bindingResult)));
+            return pageService.createPage(new TraumaPage(traumaForm,
+                                                         characterResponse.name(),
+                                                         characterResponse.traumas(),
+                                                         characterId,
+                                                         token.getToken(),
+                                                         errorConverter.toErrorDto(bindingResult)));
         }
         stressService.setNewTrauma(((CustomUser) authentication.getPrincipal()).getUserID(),
                                    characterId,

@@ -1,5 +1,6 @@
 package com.blades.controller;
 
+import com.blades.controller.admin.AdminController;
 import com.blades.frontend.page.common.Page;
 import com.blades.frontend.service.PageService;
 

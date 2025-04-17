@@ -1,7 +1,6 @@
-package com.blades.controller.play.play;
+package com.blades.controller.character.play.play;
 
 import com.blades.converter.character.CharacterDisplayConverter;
-import com.blades.frontend.page.play.PlayPage;
 import com.blades.frontend.service.PageService;
 import com.blades.model.CustomUser;
 import com.blades.port.in.CharacterInService;
@@ -33,12 +32,8 @@ public class PlayController {
                                     Authentication authentication,
                                     CsrfToken token) {
         return pageService.createPage(
-            PlayPage.builder()
-                .character(characterDisplayConverter.toCharacterDto(
-                    characterInService.getCharacter(((CustomUser) authentication.getPrincipal()).getUserID(),
-                                                    characterId)))
-                .csrfToken(token.getToken())
-                .build());
+            new PlayPage(characterDisplayConverter.toCharacterDto(characterInService.getCharacter(((CustomUser) authentication.getPrincipal()).getUserID(), characterId)),
+                         token.getToken()));
     }
 
 }

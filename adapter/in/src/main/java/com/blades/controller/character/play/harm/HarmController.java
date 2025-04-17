@@ -1,4 +1,4 @@
-package com.blades.controller.play.harm;
+package com.blades.controller.character.play.harm;
 
 import com.blades.converter.ErrorConverter;
 import com.blades.converter.character.RequestCharacterConverter;
@@ -41,9 +41,9 @@ public class HarmController {
     @GetMapping("/play/{characterId}/harm")
     public ModelAndView getHarmPage(@PathVariable UUID characterId,
                                     CsrfToken token) {
-        return pageService.createPage(HarmPage.createPage(characterId,
-                                                          token.getToken(),
-                                                          Collections.emptySet()));
+        return pageService.createPage(new HarmPage(characterId,
+                                                   token.getToken(),
+                                                   Collections.emptySet()));
     }
 
     @PostMapping("/play/{characterId}/harm")
@@ -54,9 +54,9 @@ public class HarmController {
                                 CsrfToken token,
                                 HttpServletResponse response) throws IOException {
         if (bindingResult.hasErrors()) {
-            return pageService.createPage(HarmPage.createPage(characterId,
-                                                              token.getToken(),
-                                                              errorConverter.toErrorDto(bindingResult)));
+            return pageService.createPage(new HarmPage(characterId,
+                                                       token.getToken(),
+                                                       errorConverter.toErrorDto(bindingResult)));
         }
         harmService.addHarm(((CustomUser) authentication.getPrincipal()).getUserID(),
                             characterId,
@@ -68,9 +68,9 @@ public class HarmController {
     @GetMapping("/play/{characterId}/heal")
     public ModelAndView getHealPage(@PathVariable UUID characterId,
                                     CsrfToken token) {
-        return pageService.createPage(HealPage.createPage(characterId,
-                                                          token.getToken(),
-                                                          Collections.emptySet()));
+        return pageService.createPage(new HealPage(characterId,
+                                                   token.getToken(),
+                                                   Collections.emptySet()));
     }
 
     @PostMapping("/play/{characterId}/heal")
@@ -81,9 +81,9 @@ public class HarmController {
                                             CsrfToken token,
                                             HttpServletResponse response) throws IOException {
         if (bindingResult.hasErrors()) {
-            return pageService.createPage(HealPage.createPage(characterId,
-                                                              token.getToken(),
-                                                              errorConverter.toErrorDto(bindingResult)));
+            return pageService.createPage(new HealPage(characterId,
+                                                       token.getToken(),
+                                                       errorConverter.toErrorDto(bindingResult)));
         }
         harmService.rollForHealingClock(((CustomUser) authentication.getPrincipal()).getUserID(),
                                         characterId,
@@ -95,9 +95,9 @@ public class HarmController {
     @GetMapping("/play/{characterId}/armour")
     public ModelAndView getArmourPage(@PathVariable UUID characterId,
                                       CsrfToken token) {
-        return pageService.createPage(ArmourPage.createPage(characterId,
-                                                            token.getToken(),
-                                                            Collections.emptySet()));
+        return pageService.createPage(new ArmourPage(characterId,
+                                                     token.getToken(),
+                                                     Collections.emptySet()));
     }
 
     @PostMapping("/play/{characterId}/armour")
@@ -108,9 +108,9 @@ public class HarmController {
                                   CsrfToken token,
                                   HttpServletResponse response) throws IOException {
         if (bindingResult.hasErrors()) {
-            return pageService.createPage(ArmourPage.createPage(characterId,
-                                                                token.getToken(),
-                                                                errorConverter.toErrorDto(bindingResult)));
+            return pageService.createPage(new ArmourPage(characterId,
+                                                         token.getToken(),
+                                                         errorConverter.toErrorDto(bindingResult)));
         }
         harmService.updateArmour(((CustomUser) authentication.getPrincipal()).getUserID(),
                                  characterId,

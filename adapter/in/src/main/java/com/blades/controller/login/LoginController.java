@@ -1,4 +1,4 @@
-package com.blades.controller;
+package com.blades.controller.login;
 
 import com.blades.converter.UserInConverter;
 import com.blades.data.UserDto;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.validation.constraints.NotEmpty;
 
+//todo update form
 public record CrewChangeForm(@NotEmpty(message = "no.value.") List<String> changeElement) {
 
     public CrewChangeForm() {

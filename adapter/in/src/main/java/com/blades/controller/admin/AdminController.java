@@ -1,6 +1,5 @@
-package com.blades.controller;
+package com.blades.controller.admin;
 
-import com.blades.frontend.page.common.Page;
 import com.blades.frontend.service.PageService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ public class AdminController {
 
     @GetMapping("/admin")
     public ModelAndView admin() {
-        return pageService.createPage(Page.builder("admin", "admin", null).build());
+        return pageService.createPage(new AdminPage());
     }
 
 }
