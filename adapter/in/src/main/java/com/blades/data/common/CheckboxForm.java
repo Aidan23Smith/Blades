@@ -7,10 +7,8 @@ import java.util.List;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
-import lombok.experimental.Accessors;
 
 @AllArgsConstructor
-@Accessors(fluent = true)
 public abstract class CheckboxForm <OPTION extends OptionValueDto> {
 
     @NotEmpty(message = "no.value.")
