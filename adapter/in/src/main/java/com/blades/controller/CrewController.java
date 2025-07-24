@@ -19,7 +19,7 @@ import com.blades.model.requests.crew.CreateCrewRequest;
 import com.blades.model.requests.crew.CrewPartRequest;
 import com.blades.model.requests.crew.update.UpdateCrewRequest;
 import com.blades.model.requests.crew.update.elements.CrewUpdateElement;
-import com.blades.model.response.crew.CrewResponse;
+import com.blades.model.crew.Crew;
 import com.blades.port.in.CharacterInService;
 import com.blades.port.in.CrewInService;
 
@@ -81,18 +81,18 @@ public class CrewController {
 
     @GetMapping("/crew/show-crews")
     public ModelAndView showCrew() {
-        List<CrewResponse> crewResponses = crewInService.getCrews();
+        List<Crew> crewRespons = crewInService.getCrews();
         return pageService.createPage(CrewPage.builder()
-                                          .crews(crewDisplayConverter.toCrewDtos(crewResponses))
+                                          .crews(crewDisplayConverter.toCrewDtos(crewRespons))
                                           .build());
     }
 
     @GetMapping("/crew/delete/{crewId}")
     public ModelAndView confirmDelete(@PathVariable UUID crewId,
                                       CsrfToken token) {
-        CrewResponse crewResponse = crewInService.getCrew(crewId);
+        Crew crew = crewInService.getCrew(crewId);
         return pageService.createPage(QuestionPage.builder("crew.delete", CREWS)
-                                          .titleArgs(List.of(crewResponse.crewName()))
+                                          .titleArgs(List.of(crew.crewName()))
                                           .backUrl("/crew/show-crews")
                                           .action("/crew/delete/" + crewId)
                                           .csrfToken(token.getToken())
@@ -152,8 +152,8 @@ public class CrewController {
                                               CrewChangeForm crewChangeForm,
                                               Set<ErrorDto> errors,
                                               CsrfToken token) {
-        CrewResponse crewResponse = crewInService.getCrew(crewId);
-        crewChangeForm = (crewChangeForm.changeElement() == null) ? getPreviousAnswer(changePart, crewResponse) : crewChangeForm;
+        Crew crew = crewInService.getCrew(crewId);
+        crewChangeForm = (crewChangeForm.changeElement() == null) ? getPreviousAnswer(changePart, crew) : crewChangeForm;
 
         Question.QuestionBuilder builder = switch (changePart) {
             case CREW_NAME, LAIR, LAIR_DETAILS -> Input.builder().previousAnswer(crewChangeForm.changeElement().getFirst());
@@ -164,7 +164,7 @@ public class CrewController {
         };
 
         builder.questionId("changeElement")
-            .questionArg(crewResponse.crewName())
+            .questionArg(crew.crewName())
             .questionArg("crew.change." + changePart)
             .build()
             .setError(errors);
@@ -176,13 +176,13 @@ public class CrewController {
                                           .build());
     }
 
-    private CrewChangeForm getPreviousAnswer(CrewPartDto changePart, CrewResponse crewResponse) {
+    private CrewChangeForm getPreviousAnswer(CrewPartDto changePart, Crew crew) {
         return new CrewChangeForm(
             switch (changePart) {
-                case CREW_NAME -> List.of(crewResponse.crewName());
-                case CHARACTER_IDS -> crewResponse.characterIds().isEmpty() ? Collections.emptyList() : crewResponse.characterIds().stream().map(UUID::toString).toList();
-                case LAIR -> crewResponse.lair().map(List::of).orElse(Collections.emptyList());
-                case LAIR_DETAILS -> crewResponse.lairDetails().map(List::of).orElse(Collections.emptyList());
+                case CREW_NAME -> List.of(crew.crewName());
+                case CHARACTER_IDS -> crew.characterIds().isEmpty() ? Collections.emptyList() : crew.characterIds().stream().map(UUID::toString).toList();
+                case LAIR -> crew.lair().map(List::of).orElse(Collections.emptyList());
+                case LAIR_DETAILS -> crew.lairDetails().map(List::of).orElse(Collections.emptyList());
             });
     }
 

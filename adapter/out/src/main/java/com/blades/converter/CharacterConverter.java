@@ -10,15 +10,14 @@ import com.blades.data.character.CharacterVicePO;
 import com.blades.data.character.HarmPO;
 import com.blades.data.character.TraumaPO;
 import com.blades.data.crew.CrewPO;
-import com.blades.model.requests.character.SaveCharacterRequest;
-import com.blades.model.response.character.ArmourResponse;
-import com.blades.model.response.character.CharacterBackgroundResponse;
-import com.blades.model.response.character.CharacterHeritageResponse;
-import com.blades.model.response.character.CharacterResponse;
-import com.blades.model.response.character.CharacterTypeResponse;
-import com.blades.model.response.character.CharacterViceResponse;
-import com.blades.model.response.character.HarmResponse;
-import com.blades.model.response.character.TraumaResponse;
+import com.blades.model.character.Armour;
+import com.blades.model.character.CharacterBackground;
+import com.blades.model.character.CharacterHeritage;
+import com.blades.model.character.CharacterType;
+import com.blades.model.character.CharacterVice;
+import com.blades.model.character.Harm;
+import com.blades.model.character.Trauma;
+import com.blades.model.character.Character;
 
 import org.springframework.stereotype.Service;
 
@@ -33,52 +32,52 @@ public class CharacterConverter {
 
     private final CrewDao crewDao;
 
-    public List<CharacterResponse> toCharacterResponses(List<CharacterPO> characters) {
+    public List<Character> toCharacterResponses(List<CharacterPO> characters) {
         return characters.stream()
             .map(this::toCharacterResponse)
             .toList();
     }
 
-    public CharacterResponse toCharacterResponse(CharacterPO character) {
-        return new CharacterResponse(character.id(),
-                                     character.owningUserId(),
-                                     character.name(),
-                                     character.alias().orElse(null),
-                                     character.type()
+    public Character toCharacterResponse(CharacterPO character) {
+        return new Character(character.id(),
+                             character.owningUserId(),
+                             character.name(),
+                             character.alias().orElse(null),
+                             character.type()
                                          .map(Enum::name)
-                                         .map(CharacterTypeResponse::valueOf)
+                                         .map(CharacterType::valueOf)
                                          .orElse(null),
-                                     getCrewId(character.id()),
-                                     character.look().orElse(null),
-                                     character.heritage()
+                             getCrewId(character.id()),
+                             character.look().orElse(null),
+                             character.heritage()
                                          .map(Enum::name)
-                                         .map(CharacterHeritageResponse::valueOf)
+                                         .map(CharacterHeritage::valueOf)
                                          .orElse(null),
-                                     character.background()
+                             character.background()
                                          .map(Enum::name)
-                                         .map(CharacterBackgroundResponse::valueOf)
+                                         .map(CharacterBackground::valueOf)
                                          .orElse(null),
-                                     character.backgroundDetails().orElse(null),
-                                     character.vice()
+                             character.backgroundDetails().orElse(null),
+                             character.vice()
                                          .map(Enum::name)
-                                         .map(CharacterViceResponse::valueOf)
+                                         .map(CharacterVice::valueOf)
                                          .orElse(null),
-                                     character.viceDetails().orElse(null),
-                                     character.stress(),
-                                     character.traumas().stream()
+                             character.viceDetails().orElse(null),
+                             character.stress(),
+                             character.traumas().stream()
                                          .map(Enum::name)
-                                         .map(TraumaResponse::valueOf)
+                                         .map(Trauma::valueOf)
                                          .toList(),
-                                     character.harms().stream()
-                                         .map(harm -> new HarmResponse(harm.level(), harm.detail()))
+                             character.harms().stream()
+                                         .map(harm -> new Harm(harm.level(), harm.detail()))
                                          .toList(),
-                                     character.healingClock(),
-                                     character.armours().stream()
-                                         .map(armour -> ArmourResponse.valueOf(armour.name()))
+                             character.healingClock(),
+                             character.armours().stream()
+                                         .map(armour -> Armour.valueOf(armour.name()))
                                          .toList());
     }
 
-    public CharacterPO toCharacterPO(SaveCharacterRequest character) {
+    public CharacterPO toCharacterPO(Character character) {
         return new CharacterPO(character.id(),
                                character.owningUserId(),
                                character.name(),

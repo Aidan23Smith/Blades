@@ -4,8 +4,7 @@ import com.blades.converter.CharacterConverter;
 import com.blades.dao.CharacterDao;
 import com.blades.dao.CrewDao;
 import com.blades.data.crew.CrewPO;
-import com.blades.model.requests.character.SaveCharacterRequest;
-import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.character.Character;
 import com.blades.port.out.CharacterOutService;
 
 import org.springframework.stereotype.Service;
@@ -24,29 +23,29 @@ public class CharacterOutServiceImpl implements CharacterOutService {
     private final CharacterConverter characterConverter;
 
     @Override
-    public void saveCharacter(SaveCharacterRequest saveCharacterRequest) {
-        characterDao.save(characterConverter.toCharacterPO(saveCharacterRequest));
-        saveCharacterRequest.crewId().ifPresent(crewId ->
-                                                    addCharacterToCrew(crewId, saveCharacterRequest.id()));
+    public void saveCharacter(Character character) {
+        characterDao.save(characterConverter.toCharacterPO(character));
+        character.crewId().ifPresent(crewId ->
+                                                    addCharacterToCrew(crewId, character.id()));
     }
 
     @Override
-    public List<CharacterResponse> getCharacters(UUID userId) {
+    public List<Character> getCharacters(UUID userId) {
         return characterConverter.toCharacterResponses(characterDao.findByOwningUserId(userId));
     }
 
     @Override
-    public List<CharacterResponse> getAllCharacters() {
+    public List<Character> getAllCharacters() {
         return characterConverter.toCharacterResponses(characterDao.findAll());
     }
 
     @Override
-    public CharacterResponse getCharacter(UUID userId, UUID id) {
+    public Character getCharacter(UUID userId, UUID id) {
         return characterConverter.toCharacterResponse(characterDao.findByOwningUserIdAndId(userId, id));
     }
 
     @Override
-    public CharacterResponse getCharacter(UUID id) {
+    public Character getCharacter(UUID id) {
         return characterConverter.toCharacterResponse(characterDao.findById(id).orElseThrow(() -> new RuntimeException("Missing character with id: " + id)));
     }
 

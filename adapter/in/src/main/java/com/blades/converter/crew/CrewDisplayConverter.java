@@ -2,8 +2,8 @@ package com.blades.converter.crew;
 
 import com.blades.data.crew.dto.CharacterIdDto;
 import com.blades.data.crew.dto.CrewDto;
-import com.blades.model.response.character.CharacterResponse;
-import com.blades.model.response.crew.CrewResponse;
+import com.blades.model.character.Character;
+import com.blades.model.crew.Crew;
 import com.blades.port.in.CharacterInService;
 
 import org.springframework.stereotype.Service;
@@ -21,11 +21,11 @@ public class CrewDisplayConverter {
 
     private final CharacterInService characterInService;
 
-    public List<CrewDto> toCrewDtos(List<CrewResponse> crews) {
+    public List<CrewDto> toCrewDtos(List<Crew> crews) {
         return crews.stream().map(this::toCrewDto).toList();
     }
 
-    public CrewDto toCrewDto(CrewResponse crew) {
+    public CrewDto toCrewDto(Crew crew) {
         return new CrewDto(crew.crewId(),
                                 crew.crewName(),
                                 toCharacterNames(crew.characterIds()),
@@ -33,11 +33,11 @@ public class CrewDisplayConverter {
                                 crew.lairDetails().orElse(null));
     }
 
-    public CharacterIdDto[] toCharacterIdDto(List<CharacterResponse> characters) {
+    public CharacterIdDto[] toCharacterIdDto(List<Character> characters) {
         return characters.stream().map(this::toCharacterIdDto).toArray(CharacterIdDto[]::new);
     }
 
-    public CharacterIdDto toCharacterIdDto(CharacterResponse character) {
+    public CharacterIdDto toCharacterIdDto(Character character) {
         return new CharacterIdDto(character.name(),
                                   character.id());
     }

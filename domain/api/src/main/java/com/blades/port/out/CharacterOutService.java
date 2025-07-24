@@ -1,22 +1,21 @@
 package com.blades.port.out;
 
-import com.blades.model.requests.character.SaveCharacterRequest;
-import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.character.Character;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CharacterOutService {
 
-    void saveCharacter(SaveCharacterRequest saveCharacterRequest);
+    void saveCharacter(Character character);
 
-    List<CharacterResponse> getCharacters(UUID userId);
+    List<Character> getCharacters(UUID userId);
 
-    List<CharacterResponse> getAllCharacters();
+    List<Character> getAllCharacters();
 
-    CharacterResponse getCharacter(UUID userId, UUID id);
+    Character getCharacter(UUID userId, UUID id);
 
-    CharacterResponse getCharacter(UUID id);
+    Character getCharacter(UUID id);
 
     void deleteCharacter(UUID userId, UUID id);
 

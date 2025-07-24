@@ -1,6 +1,6 @@
 package com.blades.port.in;
 
-import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.character.Character;
 import com.blades.model.requests.character.CreateCharacterRequest;
 import com.blades.model.requests.character.update.UpdateCharacterRequest;
 
@@ -13,11 +13,11 @@ public interface CharacterInService {
 
   void updateCharacter(UpdateCharacterRequest updateCharacterRequest);
 
-  List<CharacterResponse> getCharacters(UUID userId);
+  List<Character> getCharacters(UUID userId);
 
-  List<CharacterResponse> getAllCharacters();
+  List<Character> getAllCharacters();
 
-  CharacterResponse getCharacter(UUID userId, UUID id);
+  Character getCharacter(UUID userId, UUID id);
 
   void deleteCharacter(UUID userId, UUID id);
 

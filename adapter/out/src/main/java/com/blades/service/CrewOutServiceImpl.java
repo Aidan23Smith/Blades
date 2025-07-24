@@ -2,8 +2,7 @@ package com.blades.service;
 
 import com.blades.converter.CrewConverter;
 import com.blades.dao.CrewDao;
-import com.blades.model.requests.crew.SaveCrewRequest;
-import com.blades.model.response.crew.CrewResponse;
+import com.blades.model.crew.Crew;
 import com.blades.port.out.CrewOutService;
 
 import org.springframework.stereotype.Service;
@@ -21,17 +20,17 @@ public class CrewOutServiceImpl implements CrewOutService {
     private final CrewConverter characterConverter;
 
     @Override
-    public void saveCrew(SaveCrewRequest saveCrewRequest) {
-        crewDao.save(characterConverter.toCrewPO(saveCrewRequest));
+    public void saveCrew(Crew crew) {
+        crewDao.save(characterConverter.toCrewPO(crew));
     }
 
     @Override
-    public List<CrewResponse> getCrews() {
+    public List<Crew> getCrews() {
         return characterConverter.toCrewResponses(crewDao.findAll());
     }
 
     @Override
-    public CrewResponse getCrew(UUID crewId) {
+    public Crew getCrew(UUID crewId) {
         return characterConverter.toCrewResponse(crewDao.findByCrewId(crewId));
     }
 

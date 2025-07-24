@@ -3,8 +3,7 @@ package com.blades.service;
 import com.blades.converter.CharacterConverter;
 import com.blades.dao.CharacterDao;
 import com.blades.data.character.CharacterPO;
-import com.blades.model.requests.character.SaveCharacterRequest;
-import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.character.Character;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,11 +35,11 @@ class CharacterOutServiceImplTest {
 
     @Test
     void saveCharacter() {
-        SaveCharacterRequest saveCharacterRequest = mock(SaveCharacterRequest.class);
+        Character character = mock(Character.class);
         CharacterPO characterPO = mock(CharacterPO.class);
-        when(characterConverter.toCharacterPO(saveCharacterRequest)).thenReturn(characterPO);
+        when(characterConverter.toCharacterPO(character)).thenReturn(characterPO);
 
-        underTest.saveCharacter(saveCharacterRequest);
+        underTest.saveCharacter(character);
 
         verify(characterDao).save(characterPO);
     }
@@ -48,11 +47,11 @@ class CharacterOutServiceImplTest {
     @Test
     void getCharacters() {
         List<CharacterPO> characterPOs = mock(List.class);
-        List<CharacterResponse> expected = mock(List.class);
+        List<Character> expected = mock(List.class);
         when(characterDao.findByOwningUserId(USER_ID)).thenReturn(characterPOs);
         when(characterConverter.toCharacterResponses(characterPOs)).thenReturn(expected);
 
-        List<CharacterResponse> actual = underTest.getCharacters(USER_ID);
+        List<Character> actual = underTest.getCharacters(USER_ID);
 
         assertEquals(expected, actual);
     }
@@ -60,11 +59,11 @@ class CharacterOutServiceImplTest {
     @Test
     void getCharacter() {
         CharacterPO characterPO = mock(CharacterPO.class);
-        CharacterResponse expected = mock(CharacterResponse.class);
+        Character expected = mock(Character.class);
         when(characterDao.findByOwningUserIdAndId(USER_ID, CHARACTER_ID)).thenReturn(characterPO);
         when(characterConverter.toCharacterResponse(characterPO)).thenReturn(expected);
 
-        CharacterResponse actual = underTest.getCharacter(USER_ID, CHARACTER_ID);
+        Character actual = underTest.getCharacter(USER_ID, CHARACTER_ID);
 
         assertEquals(expected, actual);
     }

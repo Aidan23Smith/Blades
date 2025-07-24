@@ -1,12 +1,10 @@
 package com.blades.usecase;
 
 import com.blades.model.requests.crew.CreateCrewRequest;
-import com.blades.model.requests.crew.SaveCrewRequest;
 import com.blades.model.requests.crew.update.UpdateCrewRequest;
-import com.blades.model.response.crew.CrewResponse;
+import com.blades.model.crew.Crew;
 import com.blades.port.in.CrewInService;
 import com.blades.port.out.CrewOutService;
-import com.blades.usecase.converter.SaveCrewConverter;
 
 import org.springframework.stereotype.Service;
 
@@ -20,19 +18,20 @@ import lombok.AllArgsConstructor;
 public class CrewInServiceImpl implements CrewInService {
 
     private final CrewOutService crewOutService;
-    private final SaveCrewConverter crewConverter;
 
     @Override
     public void createCrew(CreateCrewRequest crew) {
-        crewOutService.saveCrew(crewConverter.toSaveCrewRequest(crew));
+        crewOutService.saveCrew(Crew.builder()
+                                    .crewId(UUID.randomUUID())
+                                    .crewName(crew.crewName())
+                                    .build());
     }
 
     @Override
     public void updateCrew(UpdateCrewRequest updateCrewRequest) {
-        CrewResponse currentCrew = crewOutService.getCrew(updateCrewRequest.crewId());
+        Crew currentCrew = crewOutService.getCrew(updateCrewRequest.crewId());
 
-        SaveCrewRequest.SaveCrewRequestBuilder updatedCrew = crewConverter
-            .toSaveCrewRequest(currentCrew)
+        Crew.CrewBuilder updatedCrew = currentCrew
             .toBuilder();
 
         switch (updateCrewRequest.crewPartRequest()) {
@@ -50,12 +49,12 @@ public class CrewInServiceImpl implements CrewInService {
     }
 
     @Override
-    public List<CrewResponse> getCrews() {
+    public List<Crew> getCrews() {
         return crewOutService.getCrews();
     }
 
     @Override
-    public CrewResponse getCrew(UUID crewId) {
+    public Crew getCrew(UUID crewId) {
         return crewOutService.getCrew(crewId);
     }
 
@@ -73,11 +72,11 @@ public class CrewInServiceImpl implements CrewInService {
                     .filter(id -> !id.equals(characterId))
                     .toList();
 
-                CrewResponse updatedCrew = crew.toBuilder()
+                Crew updatedCrew = crew.toBuilder()
                     .characterIds(updatedCharacterIds)
                     .build();
 
-                crewOutService.saveCrew(crewConverter.toSaveCrewRequest(updatedCrew));
+                crewOutService.saveCrew(updatedCrew);
             });
     }
 

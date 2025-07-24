@@ -1,4 +1,4 @@
-package com.blades.model.requests.character;
+package com.blades.model.character;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,44 +6,42 @@ import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Singular;
 import lombok.Value;
 import lombok.experimental.Accessors;
 
-@Value
 @Builder(toBuilder = true)
-@AllArgsConstructor
-@Getter
+@Value
 @Accessors(fluent = true)
-public class SaveCharacterRequest {
+@AllArgsConstructor
+public class Character {
 
     UUID id;
     UUID owningUserId;
     String name;
     String alias;
-    CharacterTypeRequest type;
+    CharacterType type;
     UUID crewId;
     String look;
-    CharacterHeritageRequest heritage;
-    CharacterBackgroundRequest background;
+    CharacterHeritage heritage;
+    CharacterBackground background;
     String backgroundDetails;
-    CharacterViceRequest vice;
+    CharacterVice vice;
     String viceDetails;
     int stress;
     @Singular
-    List<TraumaRequest> traumas;
+    List<Trauma> traumas;
     @Singular
-    List<SaveHarmRequest> harms;
+    List<Harm> harms;
     int healingClock;
     @Singular
-    List<ArmourRequest> armours;
+    List<Armour> armours;
 
     public Optional<String> alias() {
         return Optional.ofNullable(alias);
     }
 
-    public Optional<CharacterTypeRequest> type() {
+    public Optional<CharacterType> type() {
         return Optional.ofNullable(type);
     }
 
@@ -55,11 +53,11 @@ public class SaveCharacterRequest {
         return Optional.ofNullable(look);
     }
 
-    public Optional<CharacterHeritageRequest> heritage() {
+    public Optional<CharacterHeritage> heritage() {
         return Optional.ofNullable(heritage);
     }
 
-    public Optional<CharacterBackgroundRequest> background() {
+    public Optional<CharacterBackground> background() {
         return Optional.ofNullable(background);
     }
 
@@ -67,11 +65,12 @@ public class SaveCharacterRequest {
         return Optional.ofNullable(backgroundDetails);
     }
 
-    public Optional<CharacterViceRequest> vice() {
+    public Optional<CharacterVice> vice() {
         return Optional.ofNullable(vice);
     }
 
     public Optional<String> viceDetails() {
         return Optional.ofNullable(viceDetails);
     }
+
 }

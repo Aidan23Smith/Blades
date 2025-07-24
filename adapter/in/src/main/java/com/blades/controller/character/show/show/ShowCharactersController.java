@@ -3,7 +3,7 @@ package com.blades.controller.character.show.show;
 import com.blades.converter.character.CharacterDisplayConverter;
 import com.blades.frontend.service.PageService;
 import com.blades.model.CustomUser;
-import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.character.Character;
 import com.blades.port.in.CharacterInService;
 
 import org.springframework.http.MediaType;
@@ -28,8 +28,8 @@ public class ShowCharactersController {
 
     @GetMapping("/show-characters")
     public ModelAndView showCharacter(Authentication authentication) {
-        List<CharacterResponse> characterResponses = characterInService.getCharacters(((CustomUser) authentication.getPrincipal()).getUserID());
-        return pageService.createPage(new ShowCharactersPage(characterDisplayConverter.toCharacterDtos(characterResponses)));
+        List<Character> characterRespons = characterInService.getCharacters(((CustomUser) authentication.getPrincipal()).getUserID());
+        return pageService.createPage(new ShowCharactersPage(characterDisplayConverter.toCharacterDtos(characterRespons)));
     }
 
 }

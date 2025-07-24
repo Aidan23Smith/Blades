@@ -5,7 +5,7 @@ import com.blades.data.character.form.TraumaForm;
 import com.blades.data.error.ErrorDto;
 import com.blades.frontend.page.question.QuestionPage;
 import com.blades.frontend.page.question.RadioButton;
-import com.blades.model.response.character.TraumaResponse;
+import com.blades.model.character.Trauma;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +18,7 @@ public final class TraumaPage extends QuestionPage {
 
     TraumaPage(TraumaForm traumaForm,
                String characterName,
-               List<TraumaResponse> previousTraumas,
+               List<Trauma> previousTraumas,
                UUID characterId,
                String token,
                Set<ErrorDto> errors) {

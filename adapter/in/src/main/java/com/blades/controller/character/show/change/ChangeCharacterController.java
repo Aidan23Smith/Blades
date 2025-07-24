@@ -9,7 +9,7 @@ import com.blades.frontend.service.PageService;
 import com.blades.model.requests.character.CharacterPartRequest;
 import com.blades.model.requests.character.update.UpdateCharacterRequest;
 import com.blades.model.requests.character.update.elements.CharacterUpdateElement;
-import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.character.Character;
 import com.blades.port.in.CharacterInService;
 import com.blades.port.in.CrewInService;
 
@@ -50,12 +50,12 @@ public class ChangeCharacterController {
                                       @PathVariable UUID userId,
                                       @PathVariable UUID id,
                                       CsrfToken token) {
-        CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
-        CharacterChangeForm characterChangeForm = getPreviousAnswer(changePart, characterResponse);
+        Character character = characterInService.getCharacter(userId, id);
+        CharacterChangeForm characterChangeForm = getPreviousAnswer(changePart, character);
         return pageService.createPage(new ChangeCharacterPage(changePart,
                                                               characterChangeForm,
                                                               characterDisplayConverter.toCrewIdDto(crewInService.getCrews()),
-                                                              characterResponse.name(),
+                                                              character.name(),
                                                               userId,
                                                               id,
                                                               Collections.emptySet(),
@@ -71,11 +71,11 @@ public class ChangeCharacterController {
                                         HttpServletResponse response,
                                         CsrfToken token) throws IOException {
         if (bindingResult.hasErrors()) {
-            CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
+            Character character = characterInService.getCharacter(userId, id);
             return pageService.createPage(new ChangeCharacterPage(changePart,
                                                                   characterChangeForm,
                                                                   characterDisplayConverter.toCrewIdDto(crewInService.getCrews()),
-                                                                  characterResponse.name(),
+                                                                  character.name(),
                                                                   userId,
                                                                   id,
                                                                   errorConverter.toErrorDto(bindingResult),
@@ -94,19 +94,19 @@ public class ChangeCharacterController {
         return null;
     }
 
-    private CharacterChangeForm getPreviousAnswer(CharacterPartDto changePart, CharacterResponse characterResponse) {
+    private CharacterChangeForm getPreviousAnswer(CharacterPartDto changePart, Character character) {
         return new CharacterChangeForm(
             switch (changePart) {
-                case NAME -> List.of(characterResponse.name());
-                case ALIAS -> characterResponse.alias().map(List::of).orElse(Collections.emptyList());
-                case TYPE -> characterResponse.type().map(Enum::name).map(List::of).orElse(Collections.emptyList());
-                case CREW_NAME -> characterResponse.crewId().isEmpty() ? Collections.emptyList() : characterResponse.crewId().stream().map(UUID::toString).toList();
-                case LOOK -> characterResponse.look().map(List::of).orElse(Collections.emptyList());
-                case HERITAGE -> characterResponse.heritage().map(Enum::name).map(List::of).orElse(Collections.emptyList());
-                case BACKGROUND -> characterResponse.background().map(Enum::name).map(List::of).orElse(Collections.emptyList());
-                case BACKGROUND_DETAILS -> characterResponse.backgroundDetails().map(List::of).orElse(Collections.emptyList());
-                case VICE -> characterResponse.vice().map(Enum::name).map(List::of).orElse(Collections.emptyList());
-                case VICE_DETAILS -> characterResponse.viceDetails().map(List::of).orElse(Collections.emptyList());
+                case NAME -> List.of(character.name());
+                case ALIAS -> character.alias().map(List::of).orElse(Collections.emptyList());
+                case TYPE -> character.type().map(Enum::name).map(List::of).orElse(Collections.emptyList());
+                case CREW_NAME -> character.crewId().isEmpty() ? Collections.emptyList() : character.crewId().stream().map(UUID::toString).toList();
+                case LOOK -> character.look().map(List::of).orElse(Collections.emptyList());
+                case HERITAGE -> character.heritage().map(Enum::name).map(List::of).orElse(Collections.emptyList());
+                case BACKGROUND -> character.background().map(Enum::name).map(List::of).orElse(Collections.emptyList());
+                case BACKGROUND_DETAILS -> character.backgroundDetails().map(List::of).orElse(Collections.emptyList());
+                case VICE -> character.vice().map(Enum::name).map(List::of).orElse(Collections.emptyList());
+                case VICE_DETAILS -> character.viceDetails().map(List::of).orElse(Collections.emptyList());
             });
     }
 }

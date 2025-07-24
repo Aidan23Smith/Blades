@@ -10,7 +10,7 @@
 //import com.blades.frontend.page.question.QuestionPage;
 //import com.blades.frontend.service.PageService;
 //import com.blades.model.CustomUser;
-//import com.blades.model.response.character.CharacterResponse;
+//import com.blades.model.response.character.Character;
 //import com.blades.port.in.CharacterInService;
 //
 //import org.junit.jupiter.api.Test;
@@ -85,7 +85,7 @@
 //    @Test
 //    void showCharacter() {
 //        List<CharacterDto> characters = mock(List.class);
-//        List<CharacterResponse> characterResponses = mock(List.class);
+//        List<Character> characterResponses = mock(List.class);
 //        when(authentication.getPrincipal()).thenReturn(customUser);
 //        when(customUser.getUserID()).thenReturn(userId);
 //        when(characterInService.getCharacters(userId)).thenReturn(characterResponses);

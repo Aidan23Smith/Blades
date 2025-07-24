@@ -1,4 +1,4 @@
-package com.blades.model.requests.crew;
+package com.blades.model.crew;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,16 +6,14 @@ import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Value;
 import lombok.experimental.Accessors;
 
-@Value
 @Builder(toBuilder = true)
-@AllArgsConstructor
-@Getter
+@Value
 @Accessors(fluent = true)
-public class SaveCrewRequest {
+@AllArgsConstructor
+public class Crew {
 
     UUID crewId;
     String crewName;

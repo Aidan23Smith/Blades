@@ -1,6 +1,6 @@
-package com.blades.model.requests.character;
+package com.blades.model.character;
 
-public enum CharacterViceRequest {
+public enum CharacterVice {
 
     FAITH,
     GAMBLING,

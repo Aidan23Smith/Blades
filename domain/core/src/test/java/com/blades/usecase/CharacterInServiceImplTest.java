@@ -1,13 +1,11 @@
 package com.blades.usecase;
 
+import com.blades.model.character.Character;
 import com.blades.model.requests.character.CreateCharacterRequest;
-import com.blades.model.requests.character.SaveCharacterRequest;
 import com.blades.model.requests.character.update.elements.CharacterUpdateElement;
 import com.blades.model.requests.character.update.elements.CharacterUpdateString;
 import com.blades.model.requests.character.update.elements.CharacterUpdateUUID;
-import com.blades.model.response.character.CharacterResponse;
 import com.blades.port.out.CharacterOutService;
-import com.blades.usecase.converter.SaveCharacterConverter;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,8 +39,6 @@ class CharacterInServiceImplTest {
 
     @Mock
     private CharacterOutService characterOutService;
-    @Mock
-    private SaveCharacterConverter characterConverter;
 
     @InjectMocks
     private CharacterInServiceImpl underTest;
@@ -50,12 +46,11 @@ class CharacterInServiceImplTest {
     @Test
     void createCharacter() {
         CreateCharacterRequest createCharacterRequest = mock(CreateCharacterRequest.class);
-        SaveCharacterRequest saveCharacterRequest = mock(SaveCharacterRequest.class);
-        when(characterConverter.toSaveCharacterRequest(createCharacterRequest)).thenReturn(saveCharacterRequest);
+        Character character = mock(Character.class);
 
         underTest.createCharacter(createCharacterRequest);
 
-        verify(characterOutService).saveCharacter(saveCharacterRequest);
+        verify(characterOutService).saveCharacter(character);
     }
 //todo
 //    @Nested
@@ -65,16 +60,16 @@ class CharacterInServiceImplTest {
 //                                                                                              CHARACTER_ID,
 //                                                                                              CHARACTER_NAME.getString(),
 //                                                                                              CHARACTER_ALIAS.getString(),
-//                                                                                              CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                                                              CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                                                              CREW_ID.getUUID(),
 //                                                                                              CHARACTER_LOOK.getString(),
-//                                                                                              CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                                                              CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                                                              CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                                                              CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                                                              CHARACTER_BACKGROUND_DETAILS.getString(),
-//                                                                                              CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                                                              CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                                                              CHARACTER_VICE_DETAILS.getString());
 //
-//        CharacterResponse characterResponse = mock(CharacterResponse.class);
+//        Character characterResponse = mock(Character.class);
 //
 //        @BeforeEach
 //        void setUp() {
@@ -88,13 +83,13 @@ class CharacterInServiceImplTest {
 //                                                     CHARACTER_ID,
 //                                                     null,
 //                                                     CHARACTER_ALIAS.getString(),
-//                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                     CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                     CREW_ID.getUUID(),
 //                                                     CHARACTER_LOOK.getString(),
-//                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
-//                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                     CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                     CHARACTER_VICE_DETAILS.getString()));
 //
 //            UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
@@ -114,13 +109,13 @@ class CharacterInServiceImplTest {
 //                                                     CHARACTER_ID,
 //                                                     CHARACTER_NAME.getString(),
 //                                                     null,
-//                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                     CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                     CREW_ID.getUUID(),
 //                                                     CHARACTER_LOOK.getString(),
-//                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
-//                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                     CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                     CHARACTER_VICE_DETAILS.getString()));
 //
 //            UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
@@ -143,10 +138,10 @@ class CharacterInServiceImplTest {
 //                                                     null,
 //                                                     CREW_ID.getUUID(),
 //                                                     CHARACTER_LOOK.getString(),
-//                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
-//                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                     CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                     CHARACTER_VICE_DETAILS.getString()));
 //
 //            UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
@@ -166,13 +161,13 @@ class CharacterInServiceImplTest {
 //                                                     CHARACTER_ID,
 //                                                     CHARACTER_NAME.getString(),
 //                                                     CHARACTER_ALIAS.getString(),
-//                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                     CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                     null,
 //                                                     CHARACTER_LOOK.getString(),
-//                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
-//                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                     CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                     CHARACTER_VICE_DETAILS.getString()));
 //
 //            UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
@@ -192,13 +187,13 @@ class CharacterInServiceImplTest {
 //                                                     CHARACTER_ID,
 //                                                     CHARACTER_NAME.getString(),
 //                                                     CHARACTER_ALIAS.getString(),
-//                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                     CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                     CREW_ID.getUUID(),
 //                                                     null,
-//                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
-//                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                     CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                     CHARACTER_VICE_DETAILS.getString()));
 //
 //            UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
@@ -218,13 +213,13 @@ class CharacterInServiceImplTest {
 //                                                     CHARACTER_ID,
 //                                                     CHARACTER_NAME.getString(),
 //                                                     CHARACTER_ALIAS.getString(),
-//                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                     CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                     CREW_ID.getUUID(),
 //                                                     CHARACTER_LOOK.getString(),
 //                                                     null,
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
-//                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                     CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                     CHARACTER_VICE_DETAILS.getString()));
 //
 //            UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
@@ -244,13 +239,13 @@ class CharacterInServiceImplTest {
 //                                                     CHARACTER_ID,
 //                                                     CHARACTER_NAME.getString(),
 //                                                     CHARACTER_ALIAS.getString(),
-//                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                     CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                     CREW_ID.getUUID(),
 //                                                     CHARACTER_LOOK.getString(),
-//                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     null,
-//                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                     CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                     CHARACTER_VICE_DETAILS.getString()));
 //
 //            UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
@@ -270,11 +265,11 @@ class CharacterInServiceImplTest {
 //                                                     CHARACTER_ID,
 //                                                     CHARACTER_NAME.getString(),
 //                                                     CHARACTER_ALIAS.getString(),
-//                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                     CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                     CREW_ID.getUUID(),
 //                                                     CHARACTER_LOOK.getString(),
-//                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
 //                                                     null,
 //                                                     CHARACTER_VICE_DETAILS.getString()));
@@ -296,13 +291,13 @@ class CharacterInServiceImplTest {
 //                                                     CHARACTER_ID,
 //                                                     CHARACTER_NAME.getString(),
 //                                                     CHARACTER_ALIAS.getString(),
-//                                                     CharacterTypeRequest.valueOf(CHARACTER_TYPE_STRING.getString()),
+//                                                     CharacterType.valueOf(CHARACTER_TYPE_STRING.getString()),
 //                                                     CREW_ID.getUUID(),
 //                                                     CHARACTER_LOOK.getString(),
-//                                                     CharacterHeritageRequest.valueOf(CHARACTER_HERITAGE_STRING.getString()),
-//                                                     CharacterBackgroundRequest.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
+//                                                     CharacterHeritage.valueOf(CHARACTER_HERITAGE_STRING.getString()),
+//                                                     CharacterBackground.valueOf(CHARACTER_BACKGROUND_STRING.getString()),
 //                                                     CHARACTER_BACKGROUND_DETAILS.getString(),
-//                                                     CharacterViceRequest.valueOf(CHARACTER_VICE_STRING.getString()),
+//                                                     CharacterVice.valueOf(CHARACTER_VICE_STRING.getString()),
 //                                                     CHARACTER_VICE_DETAILS.getString()));
 //
 //            UpdateCharacterRequest updateCharacterRequest = new UpdateCharacterRequest(USER_ID,
@@ -319,20 +314,20 @@ class CharacterInServiceImplTest {
 
     @Test
     void getCharacters() {
-        List<CharacterResponse> expected = mock(List.class);
+        List<Character> expected = mock(List.class);
         when(characterOutService.getCharacters(USER_ID)).thenReturn(expected);
 
-        List<CharacterResponse> actual = underTest.getCharacters(USER_ID);
+        List<Character> actual = underTest.getCharacters(USER_ID);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void getCharacter() {
-        CharacterResponse expected = mock(CharacterResponse.class);
+        Character expected = mock(Character.class);
         when(characterOutService.getCharacter(USER_ID, CHARACTER_ID)).thenReturn(expected);
 
-        CharacterResponse actual = underTest.getCharacter(USER_ID, CHARACTER_ID);
+        Character actual = underTest.getCharacter(USER_ID, CHARACTER_ID);
 
         assertEquals(expected, actual);
     }

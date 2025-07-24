@@ -1,7 +1,7 @@
 package com.blades.controller.character.show.delete;
 
 import com.blades.frontend.service.PageService;
-import com.blades.model.response.character.CharacterResponse;
+import com.blades.model.character.Character;
 import com.blades.port.in.CharacterInService;
 import com.blades.port.in.CrewInService;
 
@@ -33,8 +33,8 @@ public class DeleteCharacterController {
     public ModelAndView confirmDelete(@PathVariable UUID userId,
                                       @PathVariable UUID id,
                                       CsrfToken token) {
-        CharacterResponse characterResponse = characterInService.getCharacter(userId, id);
-        return pageService.createPage(new DeleteCharacterPage(characterResponse.name(),
+        Character character = characterInService.getCharacter(userId, id);
+        return pageService.createPage(new DeleteCharacterPage(character.name(),
                                                               userId,
                                                               id,
                                                               token.getToken()));

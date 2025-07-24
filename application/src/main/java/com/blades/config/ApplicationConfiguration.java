@@ -21,7 +21,7 @@ public class ApplicationConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/", "/signup", "/stylesheet.css", "/fonts/*", "/images/*").permitAll()
+                .requestMatchers("/", "/signup", "/stylesheet.css", "/script", "/fonts/*", "/images/*").permitAll()
                 .requestMatchers("/admin").not().hasRole("USER")
                 .anyRequest().authenticated()
             )

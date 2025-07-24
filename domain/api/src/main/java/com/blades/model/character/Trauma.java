@@ -1,6 +1,6 @@
-package com.blades.model.requests.character;
+package com.blades.model.character;
 
-public enum TraumaRequest {
+public enum Trauma {
 
     COLD,
     HAUNTED,

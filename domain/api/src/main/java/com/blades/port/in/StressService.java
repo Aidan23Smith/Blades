@@ -1,6 +1,6 @@
 package com.blades.port.in;
 
-import com.blades.model.requests.character.TraumaRequest;
+import com.blades.model.character.Trauma;
 
 import java.util.UUID;
 
@@ -12,6 +12,6 @@ public interface StressService {
 
   boolean isTooStressed(UUID userId, UUID id);
 
-  void setNewTrauma(UUID userId, UUID id, TraumaRequest traumaRequest);
+  void setNewTrauma(UUID userId, UUID id, Trauma trauma);
 
 }

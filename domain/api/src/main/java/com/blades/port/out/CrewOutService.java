@@ -1,18 +1,17 @@
 package com.blades.port.out;
 
-import com.blades.model.requests.crew.SaveCrewRequest;
-import com.blades.model.response.crew.CrewResponse;
+import com.blades.model.crew.Crew;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CrewOutService {
 
-    void saveCrew(SaveCrewRequest saveCrewRequest);
+    void saveCrew(Crew crew);
 
-    List<CrewResponse> getCrews();
+    List<Crew> getCrews();
 
-    CrewResponse getCrew(UUID crewId);
+    Crew getCrew(UUID crewId);
 
     void deleteCrew(UUID crewId);
 

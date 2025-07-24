@@ -68,32 +68,32 @@ class CharacterConverterTest {
 //                                                               BACKGROUND_DETAILS_2,
 //                                                               CharacterVicePO.FAITH,
 //                                                               VICE_DETAILS_2));
-//        List<CharacterResponse> expected = List.of(new CharacterResponse(CHARACTER_ID_1,
+//        List<Character> expected = List.of(new Character(CHARACTER_ID_1,
 //                                                                         USER_ID_1,
 //                                                                         CHARACTER_NAME_1,
 //                                                                         CHARACTER_ALIAS_1,
-//                                                                         CharacterTypeResponse.LURK,
+//                                                                         CharacterType.LURK,
 //                                                                         CREW_ID_1,
 //                                                                         LOOK_1,
-//                                                                         CharacterHeritageResponse.AKROS,
-//                                                                         CharacterBackgroundResponse.ACADEMIC,
+//                                                                         CharacterHeritage.AKROS,
+//                                                                         CharacterBackground.ACADEMIC,
 //                                                                         BACKGROUND_DETAILS_1,
-//                                                                         CharacterViceResponse.OBLIGATION,
+//                                                                         CharacterVice.OBLIGATION,
 //                                                                         VICE_DETAILS_1),
-//                                                   new CharacterResponse(CHARACTER_ID_2,
+//                                                   new Character(CHARACTER_ID_2,
 //                                                                         USER_ID_2,
 //                                                                         CHARACTER_NAME_2,
 //                                                                         CHARACTER_ALIAS_2,
-//                                                                         CharacterTypeResponse.LURK,
+//                                                                         CharacterType.LURK,
 //                                                                         CREW_ID_2,
 //                                                                         LOOK_2,
-//                                                                         CharacterHeritageResponse.IRUVIA,
-//                                                                         CharacterBackgroundResponse.LABOR,
+//                                                                         CharacterHeritage.IRUVIA,
+//                                                                         CharacterBackground.LABOR,
 //                                                                         BACKGROUND_DETAILS_2,
-//                                                                         CharacterViceResponse.FAITH,
+//                                                                         CharacterVice.FAITH,
 //                                                                         VICE_DETAILS_2));
 //
-//        List<CharacterResponse> actual = underTest.toCharacterResponses(characters);
+//        List<Character> actual = underTest.toCharacterResponses(characters);
 //
 //        assertEquals(expected, actual);
 //    }
@@ -119,20 +119,20 @@ class CharacterConverterTest {
 //                                                  BACKGROUND_DETAILS_1,
 //                                                  CharacterVicePO.OBLIGATION,
 //                                                  VICE_DETAILS_1);
-//        CharacterResponse expected = new CharacterResponse(CHARACTER_ID_1,
+//        Character expected = new Character(CHARACTER_ID_1,
 //                                                           USER_ID_1,
 //                                                           CHARACTER_NAME_1,
 //                                                           CHARACTER_ALIAS_1,
-//                                                           CharacterTypeResponse.LURK,
+//                                                           CharacterType.LURK,
 //                                                           CREW_ID_1,
 //                                                           LOOK_1,
-//                                                           CharacterHeritageResponse.AKROS,
-//                                                           CharacterBackgroundResponse.ACADEMIC,
+//                                                           CharacterHeritage.AKROS,
+//                                                           CharacterBackground.ACADEMIC,
 //                                                           BACKGROUND_DETAILS_1,
-//                                                           CharacterViceResponse.OBLIGATION,
+//                                                           CharacterVice.OBLIGATION,
 //                                                           VICE_DETAILS_1);
 //
-//        CharacterResponse actual = underTest.toCharacterResponse(characterPO);
+//        Character actual = underTest.toCharacterResponse(characterPO);
 //
 //        assertEquals(expected, actual);
 //    }
@@ -143,13 +143,13 @@ class CharacterConverterTest {
 //                                                                             USER_ID_1,
 //                                                                             CHARACTER_NAME_1,
 //                                                                             CHARACTER_ALIAS_1,
-//                                                                             CharacterTypeRequest.LURK,
+//                                                                             CharacterType.LURK,
 //                                                                             CREW_ID_1,
 //                                                                             LOOK_1,
-//                                                                             CharacterHeritageRequest.AKROS,
-//                                                                             CharacterBackgroundRequest.ACADEMIC,
+//                                                                             CharacterHeritage.AKROS,
+//                                                                             CharacterBackground.ACADEMIC,
 //                                                                             BACKGROUND_DETAILS_1,
-//                                                                             CharacterViceRequest.OBLIGATION,
+//                                                                             CharacterVice.OBLIGATION,
 //                                                                             VICE_DETAILS_1);
 //
 //        CharacterPO expected = new CharacterPO(CHARACTER_ID_1,

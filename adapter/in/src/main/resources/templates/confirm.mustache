@@ -1,6 +1,6 @@
 {{<layouts/base}}
   {{$page}}
-    {{#characterResponse}}
+    {{#character}}
       <h1 class="govuk-heading-l">Are you sure you want to delete {{name}}?</h1>
       <form action="/delete/{{owningUserId}}/{{id}}" method="post">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
@@ -11,6 +11,6 @@
           </button>
         </div>
       </form>
-    {{/characterResponse}}
+    {{/character}}
   {{/page}}
 {{/layouts/base}}
